@@ -5,8 +5,8 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <?php include 'components/header.php'; ?>
+    <?php include '../components/header.php'; ?>
     <p>produktübersichtseite</p>
-    <?php include 'components/footer.php'; ?>
+    <?php include '../components/footer.php'; ?>
   </body>
 </html>
