@@ -16,9 +16,9 @@
             <ul>
                 <li><a href="../pages/index.php">Startseite</a></li>
                 <li><a href="../pages/product-list.php">Fahrzeuge</a></li>
-                <li><a href="../pages/index.php">Unsere Services</a></li>
-                <li><a href="../pages/index.php">Über uns</a></li>
-                <li><a href="../pages/index.php">Kontakt</a></li>
+                <li><a href="../pages/terms.php">AGB's</a></li>
+                <li><a href="../pages/imprint.php">Impressum</a></li>
+                <li><a href="../pages/privacy-policy.php">Datenschutzbestimmungen</a></li>
             </ul>
         </div>
 
@@ -37,7 +37,7 @@
         <div class="footer-section">
             <h3>Newsletter</h3>
             <p>Erhalte die neuesten Angebote und Updates direkt in deinen Posteingang.</p>
-            <form action="/subscribe" method="post">
+            <form method="post">
                 <input type="email" name="email" placeholder="Deine E-Mail-Adresse" required>
                 <button type="submit">Abonnieren</button>
             </form>
@@ -45,7 +45,7 @@
     </div>
 
     <div class="footer-bottom">
-        <p>&copy; 2025 Autovermietung GmbH. Alle Rechte vorbehalten.</p>
+        <p>&copy; 2025 Sigmacars GmbH. Alle Rechte vorbehalten.</p>
     </div>
 </footer>
 

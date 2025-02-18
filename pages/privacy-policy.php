@@ -6,7 +6,7 @@
   </head>
   <body>
     <?php include '../components/header.php'; ?>
-    <p>meine buchungen</p>
+    <p>Datenschutzbestimmungen</p>
     <?php include '../components/footer.php'; ?>
   </body>
 </html>
