@@ -37,10 +37,16 @@
         <div class="footer-section">
             <h3>Newsletter</h3>
             <p>Erhalte die neuesten Angebote und Updates direkt in deinen Posteingang.</p>
-            <form method="post">
-                <input type="email" name="email" placeholder="Deine E-Mail-Adresse" required>
+            <form onsubmit="clearInput(); return false;">
+                <input type="email" id="emailInput" placeholder="Deine E-Mail-Adresse" required>
                 <button type="submit">Abonnieren</button>
             </form>
+
+            <script>
+                function clearInput() {
+                    document.getElementById("emailInput").value = ""; // Leert das Feld
+                }
+            </script>
         </div>
     </div>
 

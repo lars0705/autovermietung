@@ -9,7 +9,7 @@
   <body>
     <?php include '../components/header.php'; ?>
     <!-- Filter-Fenster -->
-    <div id="filter-container">
+    <div class="filter-container">
         <form class="filter-form" action="pages/produktuebersicht.php" method="GET">
             <label for="location">Standort:</label>
             <input type="text" id="location" name="location" placeholder="Ort eingeben...">
