@@ -7,21 +7,35 @@
 body {
   margin: 0;
   padding: 0;
+  background-image: url("../assets/images/hintergrund.png");
+  background-size: cover;
+  background-position: center;
 }
 /* Startseite */
+.main-content {
+  min-height: 200vh;
+  padding: 20px;
+}
 /* CSS für das Filter-Fenster */
 .filter-container {
-  position: relative;
+  position: sticky;
   top: 150px; /* Anfangs mit Abstand zum Header */
-  left: 50%;
-  transform: translateX(-50%);
+  left: 10%;
   width: 80%;
-  background: white;
+  background: #131313;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   z-index: 10;
+}
+
+.filter-container.sticky {
+  top: 80px;
+  width: 100%;
+  margin: 0 0;
+  border-radius: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .filter-form {
@@ -53,16 +67,6 @@ body {
   background-color: #333;
 }
 
-/* Dynamisches Verhalten beim Scrollen */
-.fixed-filter {
-  position: fixed;
-  top: 60px; /* Direkt unter dem Header */
-  left: 0;
-  width: 100%;
-  border-radius: 0;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-  z-index: 10;
-}
 
 /* CSS-Anpassungen für den Header */
 .header {
