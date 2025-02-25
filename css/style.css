@@ -4,30 +4,35 @@
   box-sizing: border-box;
 }
 
+/* Allgemeine Stile */
 body {
   margin: 0;
   padding: 0;
-  background-image: url("../assets/images/hintergrund.png");
+  background-image: url("../assets/images/hintergrund.jpg");
   background-size: cover;
   background-position: center;
 }
-/* Startseite */
+
+/* Hauptbereich */
 .main-content {
   min-height: 200vh;
   padding: 20px;
 }
-/* CSS für das Filter-Fenster */
+
+/* Filter-Container */
 .filter-container {
   position: sticky;
-  top: 150px; /* Anfangs mit Abstand zum Header */
+  top: 100px;
   left: 10%;
   width: 80%;
   background: #131313;
-  padding: 20px;
+  padding: 15px 20px;
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-family: "Inter", sans-serif;
 }
 
 .filter-container.sticky {
@@ -36,36 +41,87 @@ body {
   margin: 0 0;
   border-radius: 10px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  font-family: "Inter", sans-serif;
 }
 
+/* Filter-Formular */
 .filter-form {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 15px;
+  width: 100%;
 }
 
-.filter-form input, 
+/* Filter-Gruppen */
+.filter-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-group label {
+  color: white;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+/* Eingabefelder und Dropdowns */
+.filter-form input,
 .filter-form select {
   padding: 10px;
+  background: transparent;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
+  color: white;
+  width: 200px;
+  cursor: pointer;
 }
 
+.filter-form select {
+  font-size: 16px;
+  width: 200px;
+  padding: 8px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: url("../assets/images/stecknadel.png") no-repeat right center;
+  background-size: 40px;
+}
+
+.filter-form input {
+  font-size: 16px;
+  width: 200px;
+  padding: 8px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: url("../assets/images/kalender.png") no-repeat right 5px center;
+  background-size: 30px;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+/* Button */
 .filter-form .button {
   padding: 10px 20px;
-  background-color: #131313;
-  color: white;
-  border: none;
-  border-radius: 5px;
+  background-color: transparent;
+  color: red;
+  border: 1px solid red;
+  border-radius: 20px;
   cursor: pointer;
   transition: 0.3s ease-in-out;
+  margin-top: 21px;
 }
 
 .filter-form .button:hover {
-  background-color: #333;
+  background-color: red;
+  color: white;
 }
+
+
 
 
 /* CSS-Anpassungen für den Header */
