@@ -1,13 +1,8 @@
 <!DOCTYPE html>
 <html>
-<?php include '../components/header.php'; ?>
-<?php include '../components/filterform_list.php'; ?>
   <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../css/style.css" />
-    
-
-    <!-- Main -->
     <title>Fahrzeugübersicht</title>
     <style>
         body {
@@ -41,18 +36,16 @@
     </style>
 </head>
 <body>
-
-
-<h2>Fahrzeugübersicht</h2>
+  <h2>Fahrzeugübersicht</h2>
 
 <!-- Container für Fahrzeuge -->
 <div class="container" id="carContainer">
     <!-- Muster-Frame -->
-    <div class="car-frame frame-template" id="frameTemplate">
-        <h3 class="car-title">Titel</h3>
-        <p class="car-info">Details</p>
-        <p class="car-price">Preis</p>
-        <img class="car-img" src="" alt="Auto">
+    <div class="car_frame frame_template" id="frameTemplate">
+        <h3 class="car_title">Titel</h3>
+        <p class="car_info">Details</p>
+        <p class="car_price">Preis</p>
+        <img class="car_img" src="" alt="Auto">
     </div>
 </div>
 
@@ -71,16 +64,16 @@
                 cars.forEach(car => {
                     let frame = template.cloneNode(true);
                     frame.style.display = "block";
-                    frame.classList.remove("frame-template");
+                    frame.classList.remove("frame_template");
 
-                    frame.querySelector(".car-title").innerText = car.vendor_name + " " + car.name;
-                    frame.querySelector(".car-info").innerText = `Sitze: ${car.seats} | Türen: ${car.doors}`;
-                    frame.querySelector(".car-price").innerText = `Preis: ${car.price}€ pro Tag`;
+                    frame.querySelector(".car_title").innerText = car.vendor_name + " " + car.name;
+                    frame.querySelector(".car_info").innerText = `Sitze: ${car.seats} | Türen: ${car.doors}`;
+                    frame.querySelector(".car_price").innerText = `Preis: ${car.price}€ pro Tag`;
 
                     if (car.img_file_name) {
-                        frame.querySelector(".car-img").src = "../images/" + car.img_file_name;
+                        frame.querySelector(".car_img").src = "../images/" + car.img_file_name;
                     } else {
-                        frame.querySelector(".car-img").style.display = "none";
+                        frame.querySelector(".car_img").style.display = "none";
                     }
 
                     container.appendChild(frame);
@@ -98,11 +91,9 @@
     // Initiale Ladung der Fahrzeuge beim Seitenstart
     loadFilteredCars();
 </script>
-
-<!-- Main Ende -->
-
-
-    </main>
+    
+    <?php include '../components/header.php'; ?>
+    <?php include '../components/filterform_list.php'; ?>
     <?php include '../components/load_database.php'; ?>
     <?php include '../components/footer.php'; ?>
   </body>
