@@ -6,6 +6,11 @@
     <title>Fahrzeugübersicht</title>
 </head>
 <body>
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+?>
+
   <?php include '../components/header.php'; ?>
   <?php include '../components/filterform_list.php'; ?>
   <h2>Fahrzeugübersicht</h2> 

@@ -8,43 +8,8 @@
   <body>
     <?php include '../components/header.php'; ?>
      <main class="main_content">
-        <div class="filter_container">
-        <form class="filter_form" action="product_list.php" method="GET">
-            <div class="filter_group">
-                <label for="location">Standorte</label>
-                <select id="location" name="location">
-                    <option value="berlin">Berlin</option>
-                    <option value="bielefeld">Bielefeld</option>
-                    <option value="bochum">Bochum</option>
-                    <option value="bremen">Bremen</option>
-                    <option value="dortmund">Dortmund</option>
-                    <option value="dresden">Dresden</option>
-                    <option value="freiburg">Freiburg</option>
-                    <option value="hamburg" selected>Hamburg</option>
-                    <option value="köln">Köln</option>
-                    <option value="leipzig">Leipzig</option>
-                    <option value="münchen">München</option>
-                    <option value="nürnberg">Nürnberg</option>
-                    <option value="paderborn">Paderborn</option>
-                    <option value="rostock">Rostock</option>
-                </select>
-            </div>
-
-            <div class="filter_group">
-                <label for="pickup_date">Abholdatum</label>
-                <input type="date" id="pickup_date" name="pickup_date">
-            </div>
-
-            <div class="filter_group">
-                <label for="return_date">Rückgabedatum</label>
-                <input type="date" id="return_date" name="return_date">
-            </div>
-
-            <button type="submit" class="button">Fahrzeuge anzeigen</button>
-        </form>
-    </div>
-
-
+      
+     <?php include '../components/filterform_index.php'; ?> 
       <!-- Platzhalter für den weiteren Inhalt -->
       <div class="content_section">
           <p>Hier kommen die anderen drei Abschnitte hin...</p>
