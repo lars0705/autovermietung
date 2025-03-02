@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../css/style.css" />
-    <title>Fahrzeugübersicht</title>
+    <title>Sigmacars | Fahrzeugübersicht</title>
 </head>
 <body>
   <?php include '../components/header.php'; ?>

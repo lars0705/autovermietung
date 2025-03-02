@@ -22,7 +22,7 @@
         <label for="return_date">Rückgabedatum</label>
         <input type="date" id="return_date" name="return_date" value="<?php echo isset($_GET['return_date']) ? $_GET['return_date'] : ''; ?>">
         </div>
-        <button type="submit" id="submit_button" class="submit_button" disabled>Fahrzeuge anzeigen</button>
+        <button type="submit" class="submit_button" disabled>Fahrzeuge anzeigen</button>
     </form> 
 </div>
 
@@ -55,6 +55,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     pickupDate.addEventListener("input", checkDates);
     returnDate.addEventListener("input", checkDates);
+
+    if (pickupDate.value && returnDate.value) {
+        checkDates();
+    }
 });
 
 </script>

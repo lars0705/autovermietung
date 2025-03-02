@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 // Verbindung zur Datenbank
 $host = "localhost";
@@ -19,6 +20,26 @@ $result = $conn->query($sql);
 $car = $result->fetch_assoc();
 
 $conn->close();
+=======
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <title>Sigmacars | Fahrzeugdetails</title>
+  </head>
+  <body>
+    <?php include '../components/header.php'; ?>
+    <?php
+// Fahrzeugdaten aus URL abrufen
+$id = isset($_GET['id']) ? htmlspecialchars($_GET['id']) : "Unbekannt";
+$name = isset($_GET['name']) ? htmlspecialchars($_GET['name']) : "Unbekannt";
+$vendor = isset($_GET['vendor']) ? htmlspecialchars($_GET['vendor']) : "Unbekannt";
+$seats = isset($_GET['seats']) ? htmlspecialchars($_GET['seats']) : "Unbekannt";
+$doors = isset($_GET['doors']) ? htmlspecialchars($_GET['doors']) : "Unbekannt";
+$price = isset($_GET['price']) ? htmlspecialchars($_GET['price']) : "Unbekannt";
+$image = isset($_GET['image']) ? htmlspecialchars($_GET['image']) : "";
+>>>>>>> 443b898ab59dce8bcbd8b7bb93d66b6274d1e538
 ?>
 
 <!DOCTYPE html>
