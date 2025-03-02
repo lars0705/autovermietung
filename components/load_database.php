@@ -1,7 +1,6 @@
 <?php
 // Verhindert unerwünschte Ausgabe vor dem JSON-Header
 ob_start();
-header('Content-Type: application/json');
 
 // Datenbankverbindung
 $host = "localhost";
@@ -13,7 +12,7 @@ $conn = new mysqli($host, $user, $pass, $dbname);
 
 if ($conn->connect_error) {
     ob_end_clean();
-    die(json_encode(["error" => "Verbindung fehlgeschlagen: " . $conn->connect_error]));
+    die("Verbindung fehlgeschlagen: " . $conn->connect_error);
 }
 
 // Filterwerte abrufen
@@ -46,8 +45,65 @@ if ($result->num_rows > 0) {
 }
 
 $conn->close();
-
-// Stellt sicher, dass nichts außer JSON gesendet wird
 ob_end_clean();
-echo json_encode($cars);
 ?>
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Fahrzeugübersicht</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+        .car-frame {
+            width: 300px;
+            padding: 15px;
+            background-color: #222;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+        img {
+            width: 100%;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Fahrzeugübersicht</h2>
+
+<div class="container">
+    <?php if (!empty($cars)): ?>
+        <?php foreach ($cars as $car): ?>
+            <div class="car-frame">
+                <h3><?php echo htmlspecialchars($car["vendor_name"]) . " " . htmlspecialchars($car["name"]); ?></h3>
+                <p>Sitze: <?php echo htmlspecialchars($car["seats"]); ?> | Türen: <?php echo htmlspecialchars($car["doors"]); ?></p>
+                <p>Preis: <?php echo htmlspecialchars($car["price"]); ?>€ pro Tag</p>
+                <?php if (!empty($car["img_file_name"])): ?>
+                    <img src="../images/<?php echo htmlspecialchars($car["img_file_name"]); ?>" alt="Auto">
+                <?php else: ?>
+                    <p>[Kein Bild verfügbar]</p>
+                <?php endif; ?>
+            </div>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <p>Keine Fahrzeuge gefunden.</p>
+    <?php endif; ?>
+</div>
+
+</body>
+</html>
+
