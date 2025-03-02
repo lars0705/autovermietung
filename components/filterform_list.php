@@ -130,16 +130,3 @@
       <button type="submit" class="button">Filter anwenden</button>
   </form>
 </div>
-    
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const priceSlider = document.getElementById("max_price");
-    const priceValue = document.getElementById("price_value");
-
-    priceValue.textContent = priceSlider.value;
-
-    priceSlider.addEventListener("input", function () {
-        priceValue.textContent = this.value;
-    });
-});
-</script>
