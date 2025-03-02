@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <?php include '../components/header.php'; ?>
+<?php include '../components/filterform_list.php'; ?>
   <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../css/style.css" />
