@@ -53,6 +53,7 @@ ob_end_clean();
 <head>
     <meta charset="UTF-8">
     <title>Fahrzeugübersicht</title>
+    <link rel="stylesheet" href="../css/style.css"> <!-- Externe CSS-Datei -->
 </head>
 <body>
     <div class="product_card_container">
@@ -66,16 +67,32 @@ ob_end_clean();
                 doors=<?php echo urlencode($car['doors']); ?>&
                 price=<?php echo urlencode($car['price']); ?>&
                 image=<?php echo urlencode($car['img_file_name']); ?>"
-               class="car-link">
-                <div class="car-frame">
-                    <h3><?php echo htmlspecialchars($car["vendor_name"]) . " " . htmlspecialchars($car["name"]); ?></h3>
-                    <p>Sitze: <?php echo htmlspecialchars($car["seats"]); ?> | Türen: <?php echo htmlspecialchars($car["doors"]); ?></p>
-                    <p>Preis: <?php echo htmlspecialchars($car["price"]); ?>€ pro Tag</p>
-                    <?php if (!empty($car["img_file_name"])): ?>
-                        <img src="../images/<?php echo htmlspecialchars($car["img_file_name"]); ?>" alt="Auto">
-                    <?php else: ?>
-                        <p>[Kein Bild verfügbar]</p>
-                    <?php endif; ?>
+               class="car_link">
+                <div class="car_frame">
+                    <div class="car_image">
+                        <?php if (!empty($car["img_file_name"])): ?>
+                            <img src="../images/<?php echo htmlspecialchars($car["img_file_name"]); ?>" alt="Auto">
+                        <?php else: ?>
+                            <p>[Kein Bild verfügbar]</p>
+                        <?php endif; ?>
+                    </div>
+                    <div class="car_info">
+                        <h3><?php echo htmlspecialchars($car["vendor_name"]) . " " . htmlspecialchars($car["name"]); ?></h3>
+                        <div class="car_details">
+                            <p><strong>Type:</strong> <?php echo htmlspecialchars($car["type"]); ?></p>
+                            <p><strong>Getriebe:</strong> <?php echo htmlspecialchars($car["gear"]); ?></p>
+                        </div>
+                        <div class="car_details">
+                            <p><strong>Anzahl Sitze:</strong> <?php echo htmlspecialchars($car["seats"]); ?></p>
+                            <p><strong>Anzahl Türen:</strong> <?php echo htmlspecialchars($car["doors"]); ?></p>
+                        </div>
+                        <div class="car_details">
+                            <p><strong>Klimaanlage:</strong> <?php echo ($car["air_condition"] == 1) ? "Ja" : "Nein"; ?></p>
+                            <p><strong>GPS:</strong> <?php echo ($car["gps"] == 1) ? "Ja" : "Nein"; ?></p>
+                        </div>
+                        <p class="car_price"><strong><?php echo htmlspecialchars($car["price"]); ?>€ / Tag</strong></p>
+                        <button class="book_button">Jetzt buchen</button>
+                    </div>
                 </div>
             </a>
         <?php endforeach; ?>
@@ -83,13 +100,5 @@ ob_end_clean();
         <p>Keine Fahrzeuge gefunden.</p>
     <?php endif; ?>
 </div>
-
-<style>
-    .car-link {
-        text-decoration: none;
-        color: inherit;
-    }
-</style>
 </body>
 </html>
-
