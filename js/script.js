@@ -10,10 +10,4 @@ document.addEventListener("DOMContentLoaded", function() {
             filter.classList.remove("sticky");
         }
     });
-
-//damit im Filterfenster das aktuelle Datum angezeigt wird
-    let today = new Date().toISOString().split("T")[0]; // Heutiges Datum im Format YYYY-MM-DD
-
-    document.getElementById("pickup-date").value = today; // Setzt das heutige Datum
-    document.getElementById("return-date").value = today; // Standardmäßig auch heute
 });

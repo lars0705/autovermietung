@@ -10,7 +10,7 @@
     <!-- Filter-Fenster -->
      <main class="main-content">
         <div class="filter-container">
-        <form class="filter-form" action="pages/produktuebersicht.php" method="GET">
+        <form class="filter-form" action="product-list.php" method="GET">
             <div class="filter-group">
                 <label for="location">Standorte</label>
                 <select id="location" name="location">
