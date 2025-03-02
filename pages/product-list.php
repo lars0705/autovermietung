@@ -146,4 +146,5 @@
   </body>
 </html>
 
+
 <?php include '../components/load_database.php'; ?>
