@@ -22,6 +22,85 @@
       <label for="return_date">Rückgabedatum</label>
       <input type="date" id="return_date" name="return_date" value="<?php echo isset($_GET['return_date']) ? $_GET['return_date'] : ''; ?>">
     </div>
+    
+    <div class="filter_group">
+        <label for="brand">Marke</label>
+        <select id="brand" name="brand">
+          <option value="" selected hidden>Beliebig</option>
+          <option value="bmw">BMW</option>
+          <option value="mercedes_benz">Mercedes-Benz</option>
+          <option value="mercedes_benz_amg">Mercedes-Benz AMG</option>
+          <option value="audi">Audi</option>
+          <option value="volkswagen">Volkswagen</option>
+          <option value="jaguar">Jaguar</option>
+          <option value="range_rover">Range Rover</option>
+          <option value="maserati">Maserati</option>
+          <option value="opel">Opel</option>
+          <option value="ford">Ford</option>
+          <option value="skoda">Skoda</option>
+        </select>
+      </div>
+
+      <div class="filter_group">
+          <label for="drivetrain">Antrieb</label>
+          <select id="drivetrain" name="drivetrain">
+            <option value="" selected hidden>Beliebig</option>
+            <option value="verbrenner">Verbrenner</option>
+            <option value="elektro">Elektro</option>
+          </select>
+      </div>
+
+      <div class="filter_group">
+          <label for="transmission">Getriebe</label>
+          <select id="transmission" name="transmission">
+            <option value="" selected hidden>Beliebig</option>
+            <option value="automatik">Automatik</option>
+            <option value="schaltung">Schaltung</option>
+          </select>
+      </div>
+
+      <div class="filter_group">
+          <label for="seats">Sitzplätze</label>
+          <select id="seats" name="seats">
+            <option value="" selected hidden>Beliebig</option>
+            <option value="2">2</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+          </select>
+      </div>
+
+      <div class="filter_group">
+        <label for="doors">Türen</label>
+        <select id="doors" name="doors">
+          <option value="" selected hidden>Beliebig</option>
+          <option value="2">2</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+      
+      <div class="filter_group">
+        <label for="min_age">Mindestalter</label>
+        <select id="min_age" name="min_age">
+          <option value="" selected hidden>Beliebig</option>
+          <option value="18">18</option>
+          <option value="21">21</option>
+          <option value="25">25</option>
+        </select>
+      </div>
+
+      <div class="filter_group">
+        <label for="ac">Klimaanlage</label>
+        <input type="checkbox" id="ac" name="ac" value="true">
+      </div>
+
+      <div class="filter_group">
+        <label for="gps">GPS</label>
+        <input type="checkbox" id="gps" name="gps" value="true">
+      </div>
 
     <div class="filter_group">
       <label for="category">Fahrzeugkategorie</label>

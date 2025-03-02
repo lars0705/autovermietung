@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 
-/* Allgemeine Stile */
+          /* Allgemeine Stile */
 body {
   margin: 0;
   padding: 0;
@@ -12,6 +12,23 @@ body {
   background-size: cover;
   background-position: center;
   color: #fff;
+}
+
+          /* Produktkacheln */
+.product_card_container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.product_card {
+  width: 300px;
+  padding: 15px;
+  background-color: #222;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  text-align: center;
 }
 
 /* Hauptbereich */
