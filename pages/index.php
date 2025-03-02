@@ -7,11 +7,10 @@
   </head>
   <body>
     <?php include '../components/header.php'; ?>
-    <!-- Filter-Fenster -->
-     <main class="main-content">
-        <div class="filter-container">
-        <form class="filter-form" action="product-list.php" method="GET">
-            <div class="filter-group">
+     <main class="main_content">
+        <div class="filter_container">
+        <form class="filter_form" action="product_list.php" method="GET">
+            <div class="filter_group">
                 <label for="location">Standorte</label>
                 <select id="location" name="location">
                     <option value="berlin">Berlin</option>
@@ -31,14 +30,14 @@
                 </select>
             </div>
 
-            <div class="filter-group">
-                <label for="pickup-date">Abholdatum</label>
-                <input type="date" id="pickup-date" name="pickup-date">
+            <div class="filter_group">
+                <label for="pickup_date">Abholdatum</label>
+                <input type="date" id="pickup_date" name="pickup_date">
             </div>
 
-            <div class="filter-group">
-                <label for="return-date">Rückgabedatum</label>
-                <input type="date" id="return-date" name="return-date">
+            <div class="filter_group">
+                <label for="return_date">Rückgabedatum</label>
+                <input type="date" id="return_date" name="return_date">
             </div>
 
             <button type="submit" class="button">Fahrzeuge anzeigen</button>
@@ -47,7 +46,7 @@
 
 
       <!-- Platzhalter für den weiteren Inhalt -->
-      <div class="content-section">
+      <div class="content_section">
           <p>Hier kommen die anderen drei Abschnitte hin...</p>
           <div style="height: 1500px;"></div> <!-- Zum Testen des Scrollens -->
       </div>
