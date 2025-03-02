@@ -112,14 +112,14 @@ body {
 
 /* Fade-In Effekt */
 .fade-in {
-  opacity: 0;
+  opacity: 0.5;
   transform: translateY(20px);
-  animation: fadeInUp 0.8s ease-out forwards;
+  animation: fadeInUp 0.08s ease-out forwards;
 }
 
 @keyframes fadeInUp {
   from {
-      opacity: 0;
+      opacity: 0.5;
       transform: translateY(20px);
   }
   to {

@@ -72,11 +72,11 @@ ob_end_clean();
                     <div class="car_frame">
                         <div class="car_image">
                         <?php 
-                        $imagePath = "../images/" . $car["img_file_name"];
+                        $imagePath = "../assets/images/" . $car["img_file_name"];
                         if (!empty($car["img_file_name"]) && file_exists($imagePath)): ?>
                             <img src="<?php echo htmlspecialchars($imagePath); ?>">
                         <?php else: ?>
-                            <img src="...\images\Placeholder_car.png">
+                            <img src="../assets/images/Placeholder_car.png">
                         <?php endif; ?>
                         </div>
                         <div class="car_info">

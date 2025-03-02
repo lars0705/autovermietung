@@ -1,0 +1,333 @@
+@import url('fonts.css');
+
+* {
+  box-sizing: border-box;
+}
+
+          /* Allgemeine Stile */
+body {
+  margin: 0;
+  padding: 0;
+  background-image: url("../assets/images/hintergrund.jpg");
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  font-family: "Inter", sans-serif;
+}
+
+/* Hauptcontainer */
+.product_detail_container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+/* Oberer Bereich mit Fahrzeugbild & Preis */
+.top_section {
+  text-align: center;
+}
+
+.car_image_large {
+  width: 100%;
+  max-width: 600px;
+  border-radius: 10px;
+}
+
+.car_price_large {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.km_info {
+  font-size: 16px;
+  color: #aaa;
+}
+
+.book_button {
+  background-color: transparent;
+  border: 2px solid white;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.book_button:hover {
+  background-color: white;
+  color: black;
+}
+
+/* Abhol- & Rückgabedatum */
+.rental_info {
+  background: linear-gradient(135deg, #1c1c1e, #2a2a2c);
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.rental_info input {
+  padding: 8px;
+  border-radius: 5px;
+  border: none;
+  background: #1c1c1e;
+  color: white;
+}
+
+.price_summary {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.small_text {
+  font-size: 14px;
+  color: #aaa;
+}
+
+/* Extras */
+.extras_section {
+  background: linear-gradient(135deg, #1c1c1e, #2a2a2c);
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.extras_options {
+  display: flex;
+  justify-content: space-between;
+}
+
+.extra_item {
+  padding: 10px;
+  border: 2px solid white;
+  border-radius: 10px;
+  text-align: center;
+  width: 48%;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.extra_item:hover,
+.extra_item.active {
+  background-color: white;
+  color: black;
+}
+
+.dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background-color: white;
+  border-radius: 50%;
+  margin-top: 5px;
+}
+
+.dot.red {
+  background-color: red;
+}
+
+/* Technische Daten & Ausstattung */
+.details_section {
+  background-color: #1c1c1e;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 15px;
+}
+
+.details_grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* Produktkacheln (Frames) */
+.product_card_container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.car_link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  width: 45%;
+  max-width: 600px;
+  min-width: 400px;
+}
+
+/* Fahrzeug-Frame mit verbessertem Farbverlauf */
+.car_frame {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #050505, #272727, #050505); /* Dunkel → Hell → Dunkel */
+  border-radius: 15px;
+  padding: 20px;
+  transition: transform 0.3s ease-in-out, border 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  position: relative;
+  border: 3px solid transparent;
+}
+
+/* Hover-Effekt: Weiße Umrandung mit Abstand */
+.car_frame:hover {
+  transform: scale(1.02);
+  border: 3px solid white; /* Weiße Umrandung */
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); /* Optional: Leichter Glow */
+}
+
+.car_image {
+  flex: 1;
+  padding-right: 20px;
+}
+
+.car_image img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.car_info {
+  flex: 2;
+  color: #fff;
+}
+
+.car_info h3 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.car_details {
+  display: flex;
+  justify-content: space-between;
+}
+
+.car_price {
+  font-size: 22px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.book_button {
+  background-color: transparent;
+  border: 2px solid white;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.book_button:hover {
+  background-color: white;
+  color: black;
+}
+
+/* Fade-In Effekt */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+      opacity: 0;
+      transform: translateY(20px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+/* Responsive Anpassung für kleinere Bildschirme */
+@media (max-width: 900px) {
+  .product_card_container {
+      flex-direction: column;
+      align-items: center;
+  }
+  .car_link {
+      width: 90%;
+  }
+}
+
+/* Responsive Anpassungen */
+@media (max-width: 600px) {
+  .details_grid {
+      grid-template-columns: 1fr;
+  }
+  .extras_options {
+      flex-direction: column;
+      gap: 10px;
+  }
+}
+
+/* Allgemeine Stile */
+.product_detail_container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 30px;
+}
+
+/* Größere Abstände zwischen Frames */
+.details_section,
+.rental_info,
+.extras_section {
+  margin-bottom: 30px;
+  padding: 20px;
+}
+
+/* Fahrzeugbild */
+.car_image_large {
+  width: 100%;
+  max-width: 700px;
+  border-radius: 10px;
+}
+
+/* Technische Daten */
+.details_grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* Zurück-Button */
+.back_button {
+  background-color: transparent;
+  border: 2px solid white;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  display: block;
+  margin: 30px auto;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.back_button:hover {
+  background-color: white;
+  color: black;
+}
+
+/* Größere Abstände zwischen Frames */
+.details_section,
+.rental_info {
+    margin-bottom: 40px;
+    padding: 25px;
+}
+
+/* Fading für Frames */
+.car_frame {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* Fade-In-Effekt aktivieren */
+.car_frame.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
