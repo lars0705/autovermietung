@@ -56,9 +56,18 @@ ob_end_clean();
 </head>
 <body>
     <div class="product_card_container">
-        <?php if (!empty($cars)): ?>
-            <?php foreach ($cars as $car): ?>
-                <div class="product_card">
+    <?php if (!empty($cars)): ?>
+        <?php foreach ($cars as $car): ?>
+            <a href="product_detail.php?
+                id=<?php echo urlencode($car['type_id']); ?>&
+                name=<?php echo urlencode($car['name']); ?>&
+                vendor=<?php echo urlencode($car['vendor_name']); ?>&
+                seats=<?php echo urlencode($car['seats']); ?>&
+                doors=<?php echo urlencode($car['doors']); ?>&
+                price=<?php echo urlencode($car['price']); ?>&
+                image=<?php echo urlencode($car['img_file_name']); ?>"
+               class="car-link">
+                <div class="car-frame">
                     <h3><?php echo htmlspecialchars($car["vendor_name"]) . " " . htmlspecialchars($car["name"]); ?></h3>
                     <p>Sitze: <?php echo htmlspecialchars($car["seats"]); ?> | Türen: <?php echo htmlspecialchars($car["doors"]); ?></p>
                     <p>Preis: <?php echo htmlspecialchars($car["price"]); ?>€ pro Tag</p>
@@ -68,11 +77,19 @@ ob_end_clean();
                         <p>[Kein Bild verfügbar]</p>
                     <?php endif; ?>
                 </div>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <p>Keine Fahrzeuge gefunden.</p>
-        <?php endif; ?>
-    </div>
+            </a>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <p>Keine Fahrzeuge gefunden.</p>
+    <?php endif; ?>
+</div>
+
+<style>
+    .car-link {
+        text-decoration: none;
+        color: inherit;
+    }
+</style>
 </body>
 </html>
 
