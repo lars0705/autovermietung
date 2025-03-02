@@ -142,9 +142,10 @@
     </div>
 
     </main>
+    <?php include '../components/load_database.php'; ?>
     <?php include '../components/footer.php'; ?>
   </body>
 </html>
 
 
-<?php include '../components/load_database.php'; ?>
+
