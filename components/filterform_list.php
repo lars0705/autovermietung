@@ -28,7 +28,7 @@
       <select id="category" name="category">
       <option value="" <?php echo (!isset($_GET['category']) || $_GET['category'] == '') ? 'selected' : ''; ?>>Beliebig</option>
         <?php
-        $categories = ["limousine", "suv", "cabrio", "coupe", "kombi", "van"];
+        $categories = ["limousine", "suv", "cabrio", "coupé", "kombi", "mehrsitzer"];
         foreach ($categories as $cat) {
           $selected = isset($_GET['category']) && $_GET['category'] == $cat ? 'selected' : '';
           echo "<option value='$cat' $selected>" . ucfirst($cat) . "</option>";
@@ -44,12 +44,12 @@
         <?php
         $brands = [
             "bmw" => "BMW",
-            "mercedes_benz" => "Mercedes-Benz",
-            "mercedes_benz_amg" => "Mercedes-Benz AMG",
+            "mercedes-benz" => "Mercedes-Benz",
+            "mercedes-amg" => "Mercedes-Benz AMG",
             "audi" => "Audi",
-            "volkswagen" => "Volkswagen",
+            "vw" => "Volkswagen",
             "jaguar" => "Jaguar",
-            "range_rover" => "Range Rover",
+            "range rover" => "Range Rover",
             "maserati" => "Maserati",
             "opel" => "Opel",
             "ford" => "Ford",
@@ -70,8 +70,8 @@
         <option value="" <?php echo (!isset($_GET['drivetrain']) || $_GET['drivetrain'] == '') ? 'selected' : ''; ?>>Beliebig</option>
         <?php
         $drivetrains = [
-            "verbrenner" => "Verbrenner",
-            "elektro" => "Elektro"
+            "combuster" => "Verbrenner",
+            "electric" => "Elektro"
         ];
         foreach ($drivetrains as $key => $label) {
             $selected = (isset($_GET['drivetrain']) && $_GET['drivetrain'] == $key) ? 'selected' : '';
@@ -87,8 +87,8 @@
         <option value="" <?php echo (!isset($_GET['transmission']) || $_GET['transmission'] == '') ? 'selected' : ''; ?>>Beliebig</option>
         <?php
         $transmissions = [
-            "automatik" => "Automatik",
-            "schaltung" => "Schaltung"
+            "automatic" => "Automatik",
+            "manually" => "Schaltung"
         ];
         foreach ($transmissions as $key => $label) {
             $selected = (isset($_GET['transmission']) && $_GET['transmission'] == $key) ? 'selected' : '';
@@ -151,7 +151,7 @@
     </div>
 
     <div class="filter_group">
-      <label for="max_price">Preisgrenze: <span id="price_value">1000</span> €</label>
+      <label for="max_price">Preisgrenze: <span id="price_value">1000</span> € / Tag</label>
       <input type="range" id="max_price" name="max_price" min="0" max="1000" step="10" value="<?php echo isset($_GET['max_price']) ? $_GET['max_price'] : '1000'; ?>">
     </div>
 
