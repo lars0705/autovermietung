@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../css/style.css" />
+    <title>Sigmacars | Registrierung</title>
   </head>
   <body>
     <?php include '../components/header.php'; ?>

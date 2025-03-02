@@ -15,10 +15,10 @@
             <h3>Navigation</h3>
             <ul>
                 <li><a href="../pages/index.php">Startseite</a></li>
-                <li><a href="../pages/product-list.php">Fahrzeuge</a></li>
+                <li><a href="../pages/product_list.php">Fahrzeuge</a></li>
                 <li><a href="../pages/terms.php">AGB's</a></li>
                 <li><a href="../pages/imprint.php">Impressum</a></li>
-                <li><a href="../pages/privacy-policy.php">Datenschutzbestimmungen</a></li>
+                <li><a href="../pages/privacy_policy.php">Datenschutzbestimmungen</a></li>
             </ul>
         </div>
 
