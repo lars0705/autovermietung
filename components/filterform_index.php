@@ -22,6 +22,39 @@
         <label for="return_date">Rückgabedatum</label>
         <input type="date" id="return_date" name="return_date" value="<?php echo isset($_GET['return_date']) ? $_GET['return_date'] : ''; ?>">
         </div>
-        <button type="submit" class="submit_button">Fahrzeuge anzeigen</button>
+        <button type="submit" id="submit_button" class="submit_button" disabled>Fahrzeuge anzeigen</button>
     </form> 
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const pickupDate = document.getElementById("pickup_date");
+    const returnDate = document.getElementById("return_date");
+    const submitButton = document.querySelector(".submit_button");
+
+    function checkDates() {
+        if (!pickupDate.value || !returnDate.value) {
+            submitButton.setAttribute("disabled", "disabled");
+            returnDate.setCustomValidity("");
+            return;
+        }
+
+        const pickupValue = new Date(pickupDate.value);
+        const returnValue = new Date(returnDate.value);
+
+        if (returnValue > pickupValue) {
+            submitButton.removeAttribute("disabled");
+            returnDate.setCustomValidity("");
+        } else {
+            submitButton.setAttribute("disabled", "disabled");
+            returnDate.setCustomValidity("Das Rückgabedatum muss nach dem Abholdatum liegen.");
+        }
+
+        returnDate.reportValidity();
+    }
+
+    pickupDate.addEventListener("input", checkDates);
+    returnDate.addEventListener("input", checkDates);
+});
+
+</script>
