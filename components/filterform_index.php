@@ -22,6 +22,6 @@
         <label for="return_date">Rückgabedatum</label>
         <input type="date" id="return_date" name="return_date" value="<?php echo isset($_GET['return_date']) ? $_GET['return_date'] : ''; ?>">
         </div>
-        <button type="submit" class="button">Fahrzeuge anzeigen</button>
+        <button type="submit" class="submit_button">Fahrzeuge anzeigen</button>
     </form> 
 </div>

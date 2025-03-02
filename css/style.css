@@ -68,6 +68,7 @@ body {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  justify-items: center;
 }
 
 /* Filter-Gruppen */
@@ -99,6 +100,10 @@ body {
   width: 20px;
   height: 20px;
   cursor: pointer;
+}
+
+.filter_form input[type="range"] {
+  max-width: none;
 }
 
 select option {

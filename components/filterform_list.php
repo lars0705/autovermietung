@@ -22,90 +22,11 @@
       <label for="return_date">Rückgabedatum</label>
       <input type="date" id="return_date" name="return_date" value="<?php echo isset($_GET['return_date']) ? $_GET['return_date'] : ''; ?>">
     </div>
-    
-    <div class="filter_group">
-        <label for="brand">Marke</label>
-        <select id="brand" name="brand">
-          <option value="" selected hidden>Beliebig</option>
-          <option value="bmw">BMW</option>
-          <option value="mercedes_benz">Mercedes-Benz</option>
-          <option value="mercedes_benz_amg">Mercedes-Benz AMG</option>
-          <option value="audi">Audi</option>
-          <option value="volkswagen">Volkswagen</option>
-          <option value="jaguar">Jaguar</option>
-          <option value="range_rover">Range Rover</option>
-          <option value="maserati">Maserati</option>
-          <option value="opel">Opel</option>
-          <option value="ford">Ford</option>
-          <option value="skoda">Skoda</option>
-        </select>
-      </div>
-
-      <div class="filter_group">
-          <label for="drivetrain">Antrieb</label>
-          <select id="drivetrain" name="drivetrain">
-            <option value="" selected hidden>Beliebig</option>
-            <option value="verbrenner">Verbrenner</option>
-            <option value="elektro">Elektro</option>
-          </select>
-      </div>
-
-      <div class="filter_group">
-          <label for="transmission">Getriebe</label>
-          <select id="transmission" name="transmission">
-            <option value="" selected hidden>Beliebig</option>
-            <option value="automatik">Automatik</option>
-            <option value="schaltung">Schaltung</option>
-          </select>
-      </div>
-
-      <div class="filter_group">
-          <label for="seats">Sitzplätze</label>
-          <select id="seats" name="seats">
-            <option value="" selected hidden>Beliebig</option>
-            <option value="2">2</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-          </select>
-      </div>
-
-      <div class="filter_group">
-        <label for="doors">Türen</label>
-        <select id="doors" name="doors">
-          <option value="" selected hidden>Beliebig</option>
-          <option value="2">2</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-        </select>
-      </div>
-      
-      <div class="filter_group">
-        <label for="min_age">Mindestalter</label>
-        <select id="min_age" name="min_age">
-          <option value="" selected hidden>Beliebig</option>
-          <option value="18">18</option>
-          <option value="21">21</option>
-          <option value="25">25</option>
-        </select>
-      </div>
-
-      <div class="filter_group">
-        <label for="ac">Klimaanlage</label>
-        <input type="checkbox" id="ac" name="ac" value="true">
-      </div>
-
-      <div class="filter_group">
-        <label for="gps">GPS</label>
-        <input type="checkbox" id="gps" name="gps" value="true">
-      </div>
 
     <div class="filter_group">
       <label for="category">Fahrzeugkategorie</label>
       <select id="category" name="category">
-        <option value="" hidden>Beliebig</option>
+      <option value="" <?php echo (!isset($_GET['category']) || $_GET['category'] == '') ? 'selected' : ''; ?>>Beliebig</option>
         <?php
         $categories = ["limousine", "suv", "cabrio", "coupe", "kombi", "van"];
         foreach ($categories as $cat) {
@@ -115,10 +36,123 @@
         ?>
       </select>
     </div>
+    
+    <div class="filter_group">
+      <label for="brand">Marke</label>
+      <select id="brand" name="brand">
+        <option value="" <?php echo (!isset($_GET['brand']) || $_GET['brand'] == '') ? 'selected' : ''; ?>>Beliebig</option>
+        <?php
+        $brands = [
+            "bmw" => "BMW",
+            "mercedes_benz" => "Mercedes-Benz",
+            "mercedes_benz_amg" => "Mercedes-Benz AMG",
+            "audi" => "Audi",
+            "volkswagen" => "Volkswagen",
+            "jaguar" => "Jaguar",
+            "range_rover" => "Range Rover",
+            "maserati" => "Maserati",
+            "opel" => "Opel",
+            "ford" => "Ford",
+            "skoda" => "Skoda"
+        ];
+        foreach ($brands as $key => $label) {
+            $selected = (isset($_GET['brand']) && $_GET['brand'] == $key) ? 'selected' : '';
+            echo "<option value='$key' $selected>$label</option>";
+        }
+        ?>
+      </select>
+    </div>
+
 
     <div class="filter_group">
-      <label for="max_price">Preisgrenze: <span id="price_value">0</span> €</label>
-      <input type="range" id="max_price" name="max_price" min="0" max="900" step="10" value="<?php echo isset($_GET['max_price']) ? $_GET['max_price'] : '0'; ?>">
+      <label for="drivetrain">Antrieb</label>
+      <select id="drivetrain" name="drivetrain">
+        <option value="" <?php echo (!isset($_GET['drivetrain']) || $_GET['drivetrain'] == '') ? 'selected' : ''; ?>>Beliebig</option>
+        <?php
+        $drivetrains = [
+            "verbrenner" => "Verbrenner",
+            "elektro" => "Elektro"
+        ];
+        foreach ($drivetrains as $key => $label) {
+            $selected = (isset($_GET['drivetrain']) && $_GET['drivetrain'] == $key) ? 'selected' : '';
+            echo "<option value='$key' $selected>$label</option>";
+        }
+        ?>
+      </select>
+    </div>
+
+    <div class="filter_group">
+      <label for="transmission">Getriebe</label>
+      <select id="transmission" name="transmission">
+        <option value="" <?php echo (!isset($_GET['transmission']) || $_GET['transmission'] == '') ? 'selected' : ''; ?>>Beliebig</option>
+        <?php
+        $transmissions = [
+            "automatik" => "Automatik",
+            "schaltung" => "Schaltung"
+        ];
+        foreach ($transmissions as $key => $label) {
+            $selected = (isset($_GET['transmission']) && $_GET['transmission'] == $key) ? 'selected' : '';
+            echo "<option value='$key' $selected>$label</option>";
+        }
+        ?>
+      </select>
+    </div>
+
+    <div class="filter_group">
+      <label for="seats">Sitzplätze</label>
+      <select id="seats" name="seats">
+        <option value="" <?php echo (!isset($_GET['seats']) || $_GET['seats'] == '') ? 'selected' : ''; ?>>Beliebig</option>
+        <?php
+        $seats = ["2", "4", "5", "7", "8", "9"];
+        foreach ($seats as $seat) {
+            $selected = (isset($_GET['seats']) && $_GET['seats'] == $seat) ? 'selected' : '';
+            echo "<option value='$seat' $selected>$seat</option>";
+        }
+        ?>
+      </select>
+    </div>
+
+    <div class="filter_group">
+      <label for="doors">Türen</label>
+      <select id="doors" name="doors">
+        <option value="" <?php echo (!isset($_GET['doors']) || $_GET['doors'] == '') ? 'selected' : ''; ?>>Beliebig</option>
+        <?php
+        $doors = ["2", "4", "5"];
+        foreach ($doors as $door) {
+            $selected = (isset($_GET['doors']) && $_GET['doors'] == $door) ? 'selected' : '';
+            echo "<option value='$door' $selected>$door</option>";
+        }
+        ?>
+      </select>
+    </div>
+
+    <div class="filter_group">
+      <label for="min_age">Jüngster Fahrer</label>
+      <select id="min_age" name="min_age">
+        <option value="" <?php echo (!isset($_GET['min_age']) || $_GET['min_age'] == '') ? 'selected' : ''; ?>>Beliebig</option>
+        <?php
+        $ages = ["18", "21", "25"];
+        foreach ($ages as $age) {
+            $selected = (isset($_GET['min_age']) && $_GET['min_age'] == $age) ? 'selected' : '';
+            echo "<option value='$age' $selected>$age</option>";
+        }
+        ?>
+      </select>
+    </div>
+
+    <div class="filter_group">
+      <label for="ac">Klimaanlage</label>
+      <input type="checkbox" id="ac" name="ac" value="true" <?php echo isset($_GET['ac']) ? 'checked' : ''; ?>>
+    </div>
+
+    <div class="filter_group">
+      <label for="gps">GPS</label>
+      <input type="checkbox" id="gps" name="gps" value="true" <?php echo isset($_GET['gps']) ? 'checked' : ''; ?>>
+    </div>
+
+    <div class="filter_group">
+      <label for="max_price">Preisgrenze: <span id="price_value">1000</span> €</label>
+      <input type="range" id="max_price" name="max_price" min="0" max="1000" step="10" value="<?php echo isset($_GET['max_price']) ? $_GET['max_price'] : '1000'; ?>">
     </div>
 
     <button type="reset" class="reset_button">Filter zurücksetzen</button>
