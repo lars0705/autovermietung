@@ -26,11 +26,10 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   text-align: center;
 }
-
 .product_card_container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 20px;
   padding: 20px;
 }
@@ -39,22 +38,28 @@ body {
   text-decoration: none;
   color: inherit;
   display: block;
-  width: 90%;
-  max-width: 800px;
+  width: 45%;
+  max-width: 600px;
+  min-width: 400px;
 }
 
+/* Fahrzeug-Frame mit verbessertem Farbverlauf */
 .car_frame {
   display: flex;
   align-items: center;
-  background-color: #0e0e0e;
+  background: linear-gradient(135deg, #050505, #272727, #050505); /* Dunkel → Hell → Dunkel */
   border-radius: 15px;
   padding: 20px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, border 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  position: relative;
+  border: 3px solid transparent;
 }
 
+/* Hover-Effekt: Weiße Umrandung mit Abstand */
 .car_frame:hover {
   transform: scale(1.02);
+  border: 3px solid white; /* Weiße Umrandung */
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); /* Optional: Leichter Glow */
 }
 
 .car_image {
@@ -97,11 +102,41 @@ body {
   font-size: 14px;
   cursor: pointer;
   margin-top: 10px;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
 .book_button:hover {
   background-color: white;
   color: black;
+}
+
+/* Fade-In Effekt */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+      opacity: 0;
+      transform: translateY(20px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+/* Responsive Anpassung für kleinere Bildschirme */
+@media (max-width: 900px) {
+  .product_card_container {
+      flex-direction: column;
+      align-items: center;
+  }
+  .car_link {
+      width: 90%;
+  }
 }
 
 
