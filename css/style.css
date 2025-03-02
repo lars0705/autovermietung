@@ -20,9 +20,9 @@ body {
 .product_card {
   width: 300px;
   padding: 15px;
-  background-color: #222;
+  background-color: #1f1f1f;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   text-align: center;
 }
 
@@ -45,10 +45,10 @@ body {
 .car_frame {
   display: flex;
   align-items: center;
-  background-color: #1a1a1a;
+  background-color: #0e0e0e;
   border-radius: 15px;
   padding: 20px;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease-in-out;
 }
 
