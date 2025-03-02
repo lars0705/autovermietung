@@ -155,8 +155,8 @@
       <input type="range" id="max_price" name="max_price" min="0" max="1000" step="10" value="<?php echo isset($_GET['max_price']) ? $_GET['max_price'] : '1000'; ?>">
     </div>
 
-    <button type="reset" class="reset_button">Filter zurücksetzen</button>
-    <button type="submit" class="submit_button">Filter anwenden</button>
+    <button type="reset" id="reset_button" class="reset_button">Filter zurücksetzen</button>
+    <button type="submit" class="submit_button" disabled>Filter anwenden</button>
   </form>
 </div>
 
@@ -164,9 +164,35 @@
 document.addEventListener("DOMContentLoaded", function () {
     const priceSlider = document.getElementById("max_price");
     const priceValue = document.getElementById("price_value");
-    
-    priceValue.textContent = priceSlider.value;
+    const pickupDate = document.getElementById("pickup_date");
+    const returnDate = document.getElementById("return_date");
+    const submitButton = document.querySelector(".submit_button");
 
+    function checkDates() {
+        if (!pickupDate.value || !returnDate.value) {
+            submitButton.setAttribute("disabled", "disabled");
+            returnDate.setCustomValidity("");
+            return;
+        }
+
+        const pickupValue = new Date(pickupDate.value + "T00:00:00"); // Lokale Zeit erzwingen
+        const returnValue = new Date(returnDate.value + "T00:00:00");
+
+        if (returnValue > pickupValue) {
+            submitButton.removeAttribute("disabled");
+            returnDate.setCustomValidity("");
+        } else {
+            submitButton.setAttribute("disabled", "disabled");
+            returnDate.setCustomValidity("Das Rückgabedatum muss nach dem Abholdatum liegen.");
+        }
+
+        returnDate.reportValidity(); // Zeigt die Fehlermeldung im Browser an
+    }
+
+    pickupDate.addEventListener("input", checkDates);
+    returnDate.addEventListener("input", checkDates);
+
+    priceValue.textContent = priceSlider.value;
     priceSlider.addEventListener("input", function () {
         priceValue.textContent = this.value;
     });

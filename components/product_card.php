@@ -24,8 +24,8 @@ if (!empty($_GET['drivetrain'])) $conditions[] = "drive = '" . $conn->real_escap
 if (!empty($_GET['transmission'])) $conditions[] = "gear = '" . $conn->real_escape_string($_GET['transmission']) . "'";
 if (!empty($_GET['seats'])) $conditions[] = "seats = " . intval($_GET['seats']);
 if (!empty($_GET['doors'])) $conditions[] = "doors = " . intval($_GET['doors']);
-if (!empty($_GET['ac'])) $conditions[] = "air_condition = 1";
-if (!empty($_GET['gps'])) $conditions[] = "gps = 1";
+if (!empty($_GET['ac'])) $conditions[] = "air_condition = true";
+if (!empty($_GET['gps'])) $conditions[] = "gps = true";
 if (!empty($_GET['min_age'])) $conditions[] = "min_age <= " . intval($_GET['min_age']);
 if (!empty($_GET['max_price'])) $conditions[] = "price <= " . intval($_GET['max_price']);
 
