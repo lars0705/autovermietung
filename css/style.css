@@ -14,13 +14,13 @@ body {
 }
 
 /* Hauptbereich */
-.main-content {
+.main_content {
   min-height: 200vh;
   padding: 20px;
 }
 
 /* Filter-Container */
-.filter-container {
+.filter_container {
   position: sticky;
   top: 100px;
   left: 10%;
@@ -32,13 +32,13 @@ body {
   font-family: "Inter", sans-serif;
 }
 
-.filter-container.sticky {
+.filter_container.sticky {
   top: 80px;
   width: 100%;
 }
 
 /* Filter-Formular */
-.filter-form {
+.filter_form {
   gap: 15px;
   width: 100%;
   display: grid;
@@ -46,20 +46,20 @@ body {
 }
 
 /* Filter-Gruppen */
-.filter-group {
+.filter_group {
   display: flex;
   flex-direction: column;
 }
 
-.filter-group label {
+.filter_group label {
   color: white;
   font-size: 14px;
   margin-bottom: 5px;
 }
 
 /* Eingabefelder und Dropdowns */
-.filter-form input,
-.filter-form select {
+.filter_form input,
+.filter_form select {
   padding: 10px;
   background: transparent;
   border: 1px solid #ccc;
@@ -70,7 +70,7 @@ body {
   cursor: pointer;
 }
 
-.filter-form input[type="checkbox"] {
+.filter_form input[type="checkbox"] {
   width: 20px;
   height: 20px;
   cursor: pointer;
@@ -82,7 +82,7 @@ select option {
 }
 
 /* Button */
-.filter-form .button {
+.filter_form .button {
   padding: 10px 20px;
   background-color: transparent;
   color: red;
@@ -93,7 +93,7 @@ select option {
   margin-top: 21px;
 }
 
-.filter-form .button:hover {
+.filter_form .button:hover {
   background-color: red;
   color: white;
 }
@@ -127,7 +127,7 @@ select option {
   margin-right: 10px;
 }
 
-.nav-buttons {
+.nav_buttons {
   display: flex;
   gap: 15px;
 }
@@ -160,64 +160,64 @@ select option {
   border-top: 2px solid #b1b1b1;
 }
 
-.footer-container {
+.footer_container {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 30px;
 }
 
-.footer-section {
+.footer_section {
   flex: 1;
   min-width: 200px;
 }
 
-.footer-section h3 {
+.footer_section h3 {
   font-size: 18px;
   font-weight: bold;
   margin-bottom: 15px;
 }
 
-.footer-section ul {
+.footer_section ul {
   list-style: none;
   padding: 0;
 }
 
-.footer-section ul li {
+.footer_section ul li {
   margin-bottom: 10px;
 }
 
-.footer-section ul li a {
+.footer_section ul li a {
   color: #b1b1b1;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
-.footer-section ul li a:hover {
+.footer_section ul li a:hover {
   color: #fff;
 }
 
-.social-media a {
+.social_media a {
   margin-right: 15px;
 }
 
-.social-media img {
+.social_media img {
   width: 30px;
   height: 30px;
   transition: transform 0.3s ease;
 }
 
-.social-media a:hover img {
+.social_media a:hover img {
   transform: scale(1.1);
 }
 
-.footer-section form {
+.footer_section form {
   display: flex;
   gap: 10px;
   align-items: center;
 }
 
-.footer-section input[type="email"] {
+.footer_section input[type="email"] {
   padding: 10px;
   width: 250px;
   border: 2px solid #b1b1b1;
@@ -226,7 +226,7 @@ select option {
   color: white;
 }
 
-.footer-section button {
+.footer_section button {
   padding: 10px 20px;
   border: 2px solid #b1b1b1;
   background-color: transparent;
@@ -236,11 +236,11 @@ select option {
   transition: background-color 0.3s ease;
 }
 
-.footer-section button:hover {
+.footer_section button:hover {
   background-color: #b1b1b1;
 }
 
-.footer-bottom {
+.footer_bottom {
   text-align: center;
   margin-top: 30px;
   font-size: 14px;

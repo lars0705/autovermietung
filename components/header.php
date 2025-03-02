@@ -8,7 +8,7 @@ $istAngemeldet = isset($_SESSION['user']); // Prüfen, ob der Nutzer angemeldet 
     <div class="logo">
         <img src="../assets/images/sigmacars_logo.png" alt="SigmaCars Logo">
     </div>
-    <nav class="nav-buttons">
+    <nav class="nav_buttons">
       <?php if (!$istAngemeldet): ?>
         <!-- Wenn der Nutzer abgemeldet ist -->
         <a href="../pages/login.php" class="button">Anmelden</a>

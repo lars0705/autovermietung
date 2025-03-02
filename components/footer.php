@@ -1,7 +1,7 @@
 <footer class="footer">
-    <div class="footer-container">
+    <div class="footer_container">
         <!-- Kontaktinformationen -->
-        <div class="footer-section">
+        <div class="footer_section">
             <h3>Kontakt</h3>
             <ul>
                 <li><a href="tel:+1234567890">+1 234 567 890</a></li>
@@ -11,7 +11,7 @@
         </div>
 
         <!-- Schnellnavigation -->
-        <div class="footer-section">
+        <div class="footer_section">
             <h3>Navigation</h3>
             <ul>
                 <li><a href="../pages/index.php">Startseite</a></li>
@@ -23,9 +23,9 @@
         </div>
 
         <!-- Social Media -->
-        <div class="footer-section">
+        <div class="footer_section">
             <h3>Folge uns</h3>
-            <div class="social-media">
+            <div class="social_media">
                 <a href="https://facebook.com" target="_blank"><img src="../assets/images/facebook.png" alt="Facebook"></a>
                 <a href="https://x.com" target="_blank"><img src="../assets/images/x.png" alt="X"></a>
                 <a href="https://instagram.com" target="_blank"><img src="../assets/images/instagram.png" alt="Instagram"></a>
@@ -34,7 +34,7 @@
         </div>
 
         <!-- Newsletter -->
-        <div class="footer-section">
+        <div class="footer_section">
             <h3>Newsletter</h3>
             <p>Erhalte die neuesten Angebote und Updates direkt in deinen Posteingang.</p>
             <form onsubmit="clearInput(); return false;">
@@ -50,7 +50,7 @@
         </div>
     </div>
 
-    <div class="footer-bottom">
+    <div class="footer_bottom">
         <p>&copy; 2025 Sigmacars GmbH. Alle Rechte vorbehalten.</p>
     </div>
 </footer>
