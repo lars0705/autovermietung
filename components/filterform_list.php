@@ -155,8 +155,8 @@
       <input type="range" id="max_price" name="max_price" min="0" max="1000" step="10" value="<?php echo isset($_GET['max_price']) ? $_GET['max_price'] : '1000'; ?>">
     </div>
 
-    <button type="reset" id="reset_button" class="reset_button">Filter zurücksetzen</button>
-    <button type="submit" class="submit_button" disabled>Filter anwenden</button>
+    <button type="button" id="custom_reset" class="reset_button">Filter zurücksetzen</button>
+    <button type="submit" class="submit_button">Filter anwenden</button>
   </form>
 </div>
 
@@ -167,6 +167,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const pickupDate = document.getElementById("pickup_date");
     const returnDate = document.getElementById("return_date");
     const submitButton = document.querySelector(".submit_button");
+    const resetButton = document.getElementById("custom_reset");
+    const filterForm = document.querySelector(".filter_form");
 
     function checkDates() {
         if (!pickupDate.value || !returnDate.value) {
@@ -175,8 +177,8 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        const pickupValue = new Date(pickupDate.value + "T00:00:00"); // Lokale Zeit erzwingen
-        const returnValue = new Date(returnDate.value + "T00:00:00");
+        const pickupValue = new Date(pickupDate.value);
+        const returnValue = new Date(returnDate.value);
 
         if (returnValue > pickupValue) {
             submitButton.removeAttribute("disabled");
@@ -186,15 +188,38 @@ document.addEventListener("DOMContentLoaded", function () {
             returnDate.setCustomValidity("Das Rückgabedatum muss nach dem Abholdatum liegen.");
         }
 
-        returnDate.reportValidity(); // Zeigt die Fehlermeldung im Browser an
+        returnDate.reportValidity();
     }
 
     pickupDate.addEventListener("input", checkDates);
     returnDate.addEventListener("input", checkDates);
 
+    if (pickupDate.value && returnDate.value) {
+        checkDates();
+    }
+
     priceValue.textContent = priceSlider.value;
     priceSlider.addEventListener("input", function () {
         priceValue.textContent = this.value;
     });
+
+    // Custom Reset-Funktion, die Standort und Datum beibehält, aber andere Filter auf 'Beliebig' setzt
+    resetButton.addEventListener("click", function () {
+        const filterFields = filterForm.querySelectorAll("select, input:not([type='date']):not([type='hidden'])");
+        
+        filterFields.forEach(field => {
+            if (field.tagName === "SELECT") {
+                field.value = ""; // Setzt alle Dropdowns auf 'Beliebig'
+            } else if (field.type === "checkbox" || field.type === "radio") {
+                field.checked = false; // Setzt Checkboxen zurück
+            } else if (field.type === "range") {
+                field.value = field.min;
+                priceValue.textContent = field.min; // Aktualisiert Preisgrenze
+            }
+        });
+        
+        filterForm.submit(); // Lädt die Seite neu, um die DB-Abfrage zu aktualisieren
+    });
 });
 </script>
+
