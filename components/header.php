@@ -6,10 +6,9 @@ $istAngemeldet = isset($_SESSION['user']); // Prüfen, ob der Nutzer angemeldet 
 
 <header class="header">
     <div class="logo">
-        <img src="../assets/images/sigmacars_logo.png" alt="SigmaCars Logo" href="../pages/profile.php">
+        <a href="../pages/index.php"><img src="../assets/images/sigmacars_logo.png" alt="SigmaCars Logo"></a>
     </div>
     <nav class="nav_buttons">
-    <a href="../pages/index.php" class="button">Startseite</a>
     <?php if (isset($_SESSION["user_id"]) || isset($_COOKIE["user_id"])): ?>
         <a href="../pages/profile.php" class="button">Profil</a>
         <a href="../pages/bookings.php" class="button">Bestellungen</a>
