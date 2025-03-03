@@ -3,17 +3,7 @@
 ob_start();
 
 // Datenbankverbindung
-$host = "localhost";
-$user = "root";
-$pass = "";
-$dbname = "car_rental_db";
-
-$conn = new mysqli($host, $user, $pass, $dbname);
-
-if ($conn->connect_error) {
-    ob_end_clean();
-    die("Verbindung fehlgeschlagen: " . $conn->connect_error);
-}
+require_once "../components/db_connect.php"; // Separater DB-Connect
 
 // Filterwerte abrufen
 $conditions = [];

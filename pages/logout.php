@@ -1,13 +1,11 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="../css/style.css" />
-    <title>Sigmacars | Abmeldung</title>
-  </head>
-  <body>
-    <?php include '../components/header.php'; ?>
-    <p>abmeldung</p>
-    <?php include '../components/footer.php'; ?>
-  </body>
-</html>
+<?php
+session_start();
+session_destroy();
+
+// Cookies löschen
+setcookie("user_id", "", time() - 3600, "/");
+setcookie("username", "", time() - 3600, "/");
+
+header("Location: login.php");
+exit();
+?>
