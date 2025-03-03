@@ -2,30 +2,84 @@
 // Verhindert unerwünschte Ausgabe vor dem JSON-Header
 ob_start();
 
-// Datenbankverbindung
-require_once "../components/db_connect.php"; // Separater DB-Connect
+require_once "../components/db_connect.php";
+
+// Standard-Sortierung
+$sort_order = $_GET['order'] ?? 'asc'; // Standardmäßig aufsteigend
 
 // Filterwerte abrufen
-$conditions = [];
-if (!empty($_GET['location'])) $conditions[] = "loc_name = '" . $conn->real_escape_string($_GET['location']) . "'";
-if (!empty($_GET['category'])) $conditions[] = "type = '" . $conn->real_escape_string($_GET['category']) . "'";
-if (!empty($_GET['brand'])) $conditions[] = "vendor_name_abbr = '" . $conn->real_escape_string($_GET['brand']) . "'";
-if (!empty($_GET['drivetrain'])) $conditions[] = "drive = '" . $conn->real_escape_string($_GET['drivetrain']) . "'";
-if (!empty($_GET['transmission'])) $conditions[] = "gear = '" . $conn->real_escape_string($_GET['transmission']) . "'";
-if (!empty($_GET['seats'])) $conditions[] = "seats = " . intval($_GET['seats']);
-if (!empty($_GET['doors'])) $conditions[] = "doors = " . intval($_GET['doors']);
-if (!empty($_GET['ac'])) $conditions[] = "air_condition = true";
-if (!empty($_GET['gps'])) $conditions[] = "gps = true";
-if (!empty($_GET['min_age'])) $conditions[] = "min_age <= " . intval($_GET['min_age']);
-if (!empty($_GET['max_price'])) $conditions[] = "price <= " . intval($_GET['max_price']);
+$conditions = ["type_id NOT IN (SELECT car_id FROM bookings WHERE CURDATE() BETWEEN pickup_date AND return_date)"];
 
-// SQL-Query zusammenbauen
+if (!empty($_GET['location'])) {
+    $conditions[] = "loc_name = ?";
+}
+if (!empty($_GET['category'])) {
+    $conditions[] = "type = ?";
+}
+if (!empty($_GET['brand'])) {
+    $conditions[] = "vendor_name_abbr = ?";
+}
+if (!empty($_GET['drivetrain'])) {
+    $conditions[] = "drive = ?";
+}
+if (!empty($_GET['transmission'])) {
+    $conditions[] = "gear = ?";
+}
+if (!empty($_GET['seats'])) {
+    $conditions[] = "seats = ?";
+}
+if (!empty($_GET['doors'])) {
+    $conditions[] = "doors = ?";
+}
+if (!empty($_GET['ac'])) {
+    $conditions[] = "air_condition = true";
+}
+if (!empty($_GET['gps'])) {
+    $conditions[] = "gps = true";
+}
+if (!empty($_GET['min_age'])) {
+    $conditions[] = "min_age <= ?";
+}
+if (!empty($_GET['max_price'])) {
+    $conditions[] = "price <= ?";
+}
+
+// SQL-Abfrage mit sicheren Parametern aufbauen
 $sql = "SELECT * FROM car_rental_data";
 if (!empty($conditions)) {
     $sql .= " WHERE " . implode(" AND ", $conditions);
 }
 
-$result = $conn->query($sql);
+// Nur ein Auto pro Typ anzeigen
+$sql .= " GROUP BY type_id";
+
+// Sortierung nach Preis
+if ($sort_order === 'asc') {
+    $sql .= " ORDER BY price ASC";
+} else {
+    $sql .= " ORDER BY price DESC";
+}
+
+$stmt = $conn->prepare($sql);
+
+// Parameter dynamisch binden
+$params = [];
+if (!empty($_GET['location'])) $params[] = $_GET['location'];
+if (!empty($_GET['category'])) $params[] = $_GET['category'];
+if (!empty($_GET['brand'])) $params[] = $_GET['brand'];
+if (!empty($_GET['drivetrain'])) $params[] = $_GET['drivetrain'];
+if (!empty($_GET['transmission'])) $params[] = $_GET['transmission'];
+if (!empty($_GET['seats'])) $params[] = $_GET['seats'];
+if (!empty($_GET['doors'])) $params[] = $_GET['doors'];
+if (!empty($_GET['min_age'])) $params[] = $_GET['min_age'];
+if (!empty($_GET['max_price'])) $params[] = $_GET['max_price'];
+
+if (!empty($params)) {
+    $stmt->bind_param(str_repeat("s", count($params)), ...$params);
+}
+
+$stmt->execute();
+$result = $stmt->get_result();
 
 $cars = [];
 if ($result->num_rows > 0) {
@@ -34,6 +88,7 @@ if ($result->num_rows > 0) {
     }
 }
 
+$stmt->close();
 $conn->close();
 ob_end_clean();
 ?>
@@ -43,24 +98,25 @@ ob_end_clean();
 <head>
     <meta charset="UTF-8">
     <title>Fahrzeugübersicht</title>
-    <link rel="stylesheet" href="../css/style.css"> <!-- Externe CSS-Datei -->
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <div class="product_card_container">
-        <?php if (!empty($cars)): ?>
-            <?php foreach ($cars as $index => $car): ?>
-                <a href="product_detail.php?
-                    id=<?php echo urlencode($car['type_id']); ?>&
-                    name=<?php echo urlencode($car['name']); ?>&
-                    vendor=<?php echo urlencode($car['vendor_name']); ?>&
-                    seats=<?php echo urlencode($car['seats']); ?>&
-                    doors=<?php echo urlencode($car['doors']); ?>&
-                    price=<?php echo urlencode($car['price']); ?>&
-                    image=<?php echo urlencode($car['img_file_name']); ?>"
-                   class="car_link fade-in"
-                   style="animation-delay: <?php echo ($index * 0.2); ?>s">
-                    <div class="car_frame">
-                        <div class="car_image">
+
+<!-- Sortieroptionen -->
+<div class="sort-container">
+    <label for="sort">Sortieren nach:</label>
+    <select id="sort" onchange="sortCars()">
+        <option value="asc" <?php echo ($sort_order === 'asc') ? 'selected' : ''; ?>>Preis: Aufsteigend</option>
+        <option value="desc" <?php echo ($sort_order === 'desc') ? 'selected' : ''; ?>>Preis: Absteigend</option>
+    </select>
+</div>
+
+<div class="product_card_container">
+    <?php if (!empty($cars)): ?>
+        <?php foreach ($cars as $index => $car): ?>
+            <a href="product_detail.php?id=<?php echo urlencode($car['type_id']); ?>&pickup_date=<?php echo urlencode($_GET['pickup_date'] ?? ''); ?>&return_date=<?php echo urlencode($_GET['return_date'] ?? ''); ?>" class="car_link fade-in" style="animation-delay: <?php echo ($index * 0.2); ?>s">
+                <div class="car_frame">
+                    <div class="car_image">
                         <?php 
                         $imagePath = "../assets/images/" . $car["img_file_name"];
                         if (!empty($car["img_file_name"]) && file_exists($imagePath)): ?>
@@ -68,30 +124,28 @@ ob_end_clean();
                         <?php else: ?>
                             <img src="../assets/images/Placeholder_car.png">
                         <?php endif; ?>
-                        </div>
-                        <div class="car_info">
-                            <h3><?php echo htmlspecialchars($car["vendor_name"]) . " " . htmlspecialchars($car["name"]); ?></h3>
-                            <div class="car_details">
-                                <p><strong>Type:</strong> <?php echo htmlspecialchars($car["type"]); ?></p>
-                                <p><strong>Getriebe:</strong> <?php echo htmlspecialchars($car["gear"]); ?></p>
-                            </div>
-                            <div class="car_details">
-                                <p><strong>Anzahl Sitze:</strong> <?php echo htmlspecialchars($car["seats"]); ?></p>
-                                <p><strong>Anzahl Türen:</strong> <?php echo htmlspecialchars($car["doors"]); ?></p>
-                            </div>
-                            <div class="car_details">
-                                <p><strong>Klimaanlage:</strong> <?php echo ($car["air_condition"] == 1) ? "Ja" : "Nein"; ?></p>
-                                <p><strong>GPS:</strong> <?php echo ($car["gps"] == 1) ? "Ja" : "Nein"; ?></p>
-                            </div>
-                            <p class="car_price"><strong><?php echo htmlspecialchars($car["price"]); ?>€ / Tag</strong></p>
-                            <button class="book_button">Jetzt buchen</button>
-                        </div>
                     </div>
-                </a>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <p>Keine Fahrzeuge gefunden.</p>
-        <?php endif; ?>
-    </div>
+                    <div class="car_info">
+                        <h3><?php echo htmlspecialchars($car["vendor_name"]) . " " . htmlspecialchars($car["name"]); ?></h3>
+                        <p class="car_price"><strong><?php echo htmlspecialchars($car["price"]); ?>€ / Tag</strong></p>
+                        <button class="book_button">Jetzt buchen</button>
+                    </div>
+                </div>
+            </a>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <p>Keine Fahrzeuge verfügbar.</p>
+    <?php endif; ?>
+</div>
+
+<script>
+function sortCars() {
+    let sortOrder = document.getElementById("sort").value;
+    let urlParams = new URLSearchParams(window.location.search);
+    urlParams.set('order', sortOrder);
+    window.location.search = urlParams.toString();
+}
+</script>
+
 </body>
 </html>

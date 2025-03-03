@@ -30,13 +30,16 @@ $conn->close();
 <?php include '../components/header.php'; ?>
 
 <div class="profile-container">
+    <div class="profile-avatar">
+        <?php echo strtoupper(substr($username, 0, 1)); ?>
+    </div>
     <h2>Willkommen, <?php echo htmlspecialchars($username); ?></h2>
     <div class="profile-info">
         <p><strong>Benutzername:</strong> <?php echo htmlspecialchars($username); ?></p>
         <p><strong>E-Mail:</strong> <?php echo htmlspecialchars($email); ?></p>
         <p><strong>Mitglied seit:</strong> <?php echo date("d.m.Y", strtotime($created_at)); ?></p>
     </div>
-    <a href="bookings.php" class="button">Meine Bestellungen</a>
+    <a href="bookings.php" class="button orders">Meine Bestellungen</a>
     <a href="logout.php" class="button logout">Abmelden</a>
 </div>
 

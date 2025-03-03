@@ -1,4 +1,5 @@
 <?php
+session_start(); // Session starten
 require_once "../components/db_connect.php"; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -15,10 +16,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->fetch();
         
         if (password_verify($password, $hashed_password)) {
+            session_regenerate_id(true); // Neue Session-ID erzeugen (Sicherheitsmaßnahme)
             $_SESSION["user_id"] = $user_id;
             $_SESSION["username"] = $username;
 
-            // Dauerhafte Anmeldung
+            // Dauerhafte Anmeldung mit Cookies
             if (isset($_POST["remember"])) {
                 setcookie("user_id", $user_id, time() + (86400 * 30), "/");
                 setcookie("username", $username, time() + (86400 * 30), "/");
@@ -36,6 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 $conn->close();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="de">

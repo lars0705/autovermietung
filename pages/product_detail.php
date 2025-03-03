@@ -1,32 +1,28 @@
 <?php
-// Verbindung zur Datenbank
-$host = "localhost";
-$user = "root";
-$pass = "";
-$dbname = "car_rental_db";
+session_start();
+require_once "../components/db_connect.php"; 
 
-$conn = new mysqli($host, $user, $pass, $dbname);
-if ($conn->connect_error) {
-    die("Verbindung fehlgeschlagen: " . $conn->connect_error);
-}
-
-// Fahrzeug-ID aus URL abrufen
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-// Fahrzeugdetails aus der Datenbank abrufen
-$sql = "SELECT type, drive, gear, seats, doors, air_condition, gps, min_age, vendor_name, name, img_file_name, price FROM car_rental_data WHERE type_id = $id";
-$result = $conn->query($sql);
+// Standardwerte für Datumsübernahme aus product_list.php
+$default_pickup = isset($_GET['pickup_date']) ? $_GET['pickup_date'] : date('Y-m-d', strtotime('+1 day'));
+$default_return = isset($_GET['return_date']) ? $_GET['return_date'] : date('Y-m-d', strtotime('+2 days'));
+
+$stmt = $conn->prepare("SELECT * FROM car_rental_data WHERE type_id = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result = $stmt->get_result();
 $car = $result->fetch_assoc();
+$stmt->close();
+
+if (!$car) {
+    die("Fahrzeug nicht gefunden.");
+}
+
+// Abhol- und Rückgabeort aus Datenbank
+$location = htmlspecialchars($car["loc_name"]);
 
 $conn->close();
-// Fahrzeugdaten aus URL abrufen
-$id = isset($_GET['id']) ? htmlspecialchars($_GET['id']) : "Unbekannt";
-$name = isset($_GET['name']) ? htmlspecialchars($_GET['name']) : "Unbekannt";
-$vendor = isset($_GET['vendor']) ? htmlspecialchars($_GET['vendor']) : "Unbekannt";
-$seats = isset($_GET['seats']) ? htmlspecialchars($_GET['seats']) : "Unbekannt";
-$doors = isset($_GET['doors']) ? htmlspecialchars($_GET['doors']) : "Unbekannt";
-$price = isset($_GET['price']) ? htmlspecialchars($_GET['price']) : "Unbekannt";
-$image = isset($_GET['image']) ? htmlspecialchars($_GET['image']) : "";
 ?>
 
 <!DOCTYPE html>
@@ -34,12 +30,14 @@ $image = isset($_GET['image']) ? htmlspecialchars($_GET['image']) : "";
 <head>
     <meta charset="UTF-8">
     <title><?php echo htmlspecialchars($car["vendor_name"]) . " " . htmlspecialchars($car["name"]); ?> - Details</title>
-    <link rel="stylesheet" href="../css/style_product_detail.css"> <!-- Neue CSS-Datei -->
+    <link rel="stylesheet" href="../css/style_product_detail.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 
+<?php include '../components/header.php'; ?>
+
 <div class="product_detail_container">
-    
     <!-- Fahrzeugbild & Preisübersicht -->
     <div class="top_section">
         <h2><?php echo htmlspecialchars($car["vendor_name"]) . " " . htmlspecialchars($car["name"]); ?></h2>
@@ -53,10 +51,9 @@ $image = isset($_GET['image']) ? htmlspecialchars($_GET['image']) : "";
         <?php endif; ?>
         </div>
         <p class="car_price_large"><?php echo htmlspecialchars($car["price"]); ?>€ / Tag <span class="km_info">300km / Tag</span></p>
-        <button class="book_button">Jetzt buchen</button>
     </div>
 
-    <!-- Technische Daten aus der Datenbank -->
+    <!-- Technische Daten & Buchungsinformationen -->
     <div class="details_section">
         <h3>Technische Daten</h3>
         <div class="details_grid">
@@ -71,42 +68,96 @@ $image = isset($_GET['image']) ? htmlspecialchars($_GET['image']) : "";
         </div>
     </div>
 
-<!-- Zurück zur Produktübersicht -->
-<button id="back_button" class="back_button">Zurück zur Fahrzeugübersicht</button>
+    <!-- Buchungsdetails -->
+    <div class="details_section">
+        <h3>Buchungsdetails</h3>
+        <form action="book_car.php" method="POST" id="booking-form">
+            <input type="hidden" name="car_id" value="<?php echo $id; ?>">
+            <input type="hidden" name="car_location" value="<?php echo $location; ?>">
 
+            <div class="details_grid">
+                <label for="pickup_date"><strong>Abholdatum:</strong></label>
+                <input type="date" id="pickup_date" name="pickup_date" value="<?php echo $default_pickup; ?>" required>
+
+                <label for="return_date"><strong>Rückgabedatum:</strong></label>
+                <input type="date" id="return_date" name="return_date" value="<?php echo $default_return; ?>" required>
+
+                <p><strong>Abhol- & Rückgabeort:</strong> <?php echo $location; ?></p>
+                <p><strong>Gesamtpreis:</strong> <span id="total_price">0</span>€</p>
+            </div>
+
+            <p id="date_error" class="error" style="display: none;">Das Rückgabedatum muss mindestens einen Tag nach dem Abholdatum liegen.</p>
+            <p id="booking_error" class="error" style="display: none;">Dieses Fahrzeug ist im gewählten Zeitraum nicht verfügbar.</p>
+
+            <button type="submit" id="book_button" class="book_button">Jetzt buchen</button>
+        </form>
+    </div>
+
+    <!-- Zurück zur Produktübersicht -->
+    <button id="back_button" class="back_button">Zurück zur Fahrzeugübersicht</button>
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Scrollposition beim Laden der Seite speichern
-        localStorage.setItem("scrollPosition", window.scrollY);
+document.addEventListener("DOMContentLoaded", function () {
+    const pickupDate = document.getElementById("pickup_date");
+    const returnDate = document.getElementById("return_date");
+    const totalPriceElement = document.getElementById("total_price");
+    const bookButton = document.getElementById("book_button");
+    const dateError = document.getElementById("date_error");
+    const bookingError = document.getElementById("booking_error");
+    const pricePerDay = <?php echo $car["price"]; ?>;
+    const carId = <?php echo $id; ?>;
+    const bookingForm = document.getElementById("booking-form");
 
-        document.getElementById("back_button").addEventListener("click", function () {
-            let filters = localStorage.getItem("filters");
-            let scrollPos = localStorage.getItem("scrollPosition");
+    function calculatePrice() {
+        let startDate = new Date(pickupDate.value);
+        let endDate = new Date(returnDate.value);
+        let days = (endDate - startDate) / (1000 * 60 * 60 * 24);
 
-            let url = "product_list.php";
-            if (filters) {
-                url += "?" + filters;
-            }
+        if (days >= 1) {
+            totalPriceElement.innerText = (days * pricePerDay).toFixed(2);
+            dateError.style.display = "none";
+            checkAvailability();
+        } else {
+            totalPriceElement.innerText = "0";
+            dateError.style.display = "block";
+            bookButton.disabled = true;
+        }
+    }
 
-            // Scrollposition direkt speichern, bevor die Seite verlassen wird
-            localStorage.setItem("scrollPosition", window.scrollY);
+    function checkAvailability() {
+        fetch(`check_availability.php?car_id=${carId}&pickup_date=${pickupDate.value}&return_date=${returnDate.value}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.available) {
+                    bookingError.style.display = "none";
+                    bookButton.disabled = false;
+                } else {
+                    bookingError.style.display = "block";
+                    bookButton.disabled = true;
+                }
+            });
+    }
 
-            if (scrollPos) {
-                url += "#pos" + scrollPos;
-            }
-
-            window.location.href = url;
-        });
-
-        // Falls die Seite aus dem Verlauf geladen wird, zur gespeicherten Scrollposition springen
-        let storedScrollPos = localStorage.getItem("scrollPosition");
-        if (storedScrollPos) {
-            window.scrollTo(0, storedScrollPos);
+    bookingForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        if (!bookButton.disabled) {
+            bookingForm.submit();
         }
     });
+
+    pickupDate.addEventListener("input", calculatePrice);
+    returnDate.addEventListener("input", calculatePrice);
+
+    document.getElementById("back_button").addEventListener("click", function () {
+        window.history.back();
+    });
+
+    calculatePrice();
+});
 </script>
+
+<?php include '../components/footer.php'; ?>
 
 </body>
 </html>

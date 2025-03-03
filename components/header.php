@@ -1,5 +1,7 @@
 <?php
-session_start(); // Session starten, um auf den Anmeldestatus zuzugreifen
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 $istAngemeldet = isset($_SESSION['user']); // Prüfen, ob der Nutzer angemeldet ist
 ?>

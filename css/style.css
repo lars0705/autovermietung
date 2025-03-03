@@ -5,7 +5,7 @@
 }
 
           /* Allgemeine Stile */
-body {
+html, body {
   margin: 0;
   padding: 0;
   background-image: url("../assets/images/hintergrund.jpg");
@@ -13,12 +13,26 @@ body {
   background-position: center;
   color: #fff;
   font-family: "Inter", sans-serif;
+  display: flex;
+  flex-direction: column;
 }
 
-          /* Produktkacheln */
+          /* Produktkacheln*/
+.sort-container {
+  margin-top: 50px;
+  text-align: right;
+  margin-bottom: 20px;
+}
 
+.sort-container select {
+  padding: 5px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
 
 .product_card {
+  margin-top: 50px;
   width: 300px;
   padding: 15px;
   background-color: #1f1f1f;
@@ -394,4 +408,19 @@ select option {
   text-align: center;
   margin-top: 30px;
   font-size: 14px;
+}
+
+
+.main-container {
+  flex: 1; /* Dehnt den Inhalt aus, damit der Footer nach unten gedrückt wird */
+}
+
+footer {
+  background-color: #23272a;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  position: relative;
+  bottom: 0;
+  width: 100%;
 }
