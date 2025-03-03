@@ -1,0 +1,43 @@
+/* Hero-Bild Container */
+.hero_section {
+    height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Hero-Bild - Breite passend, Höhe abgeschnitten */
+.hero_section img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Hauptcontainer für Sektionen */
+.content-sections {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Weißer Bereich */
+.white_section {
+    height: 80vh;
+    background-color: rgb(160, 145, 123);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: black;
+}
+
+/* Dunkelgrauer Bereich */
+.dark_section {
+    height: 80vh;
+    background-color: #232323;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+}

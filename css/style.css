@@ -8,6 +8,7 @@
 html, body {
   margin: 0;
   padding: 0;
+  background-repeat: repeat-y;
   background-image: url("../assets/images/hintergrund.jpg");
   background-size: cover;
   background-position: center;
@@ -156,7 +157,6 @@ html, body {
 
 /* Hauptbereich */
 .main_content {
-  min-height: 200vh;
   padding: 20px;
 }
 
