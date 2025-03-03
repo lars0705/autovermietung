@@ -47,9 +47,15 @@ $conn->close();
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Meine Bestellungen</title>
-    <link rel="stylesheet" href="../css/style_bookings.css">
+    <title>Sigmacars | Meine Bestellungen</title>
     <link rel="stylesheet" href="../css/style.css">
+    <?php
+        $currentPage = basename($_SERVER['PHP_SELF'], ".php"); // Holt den Dateinamen ohne .php
+        $cssFile = "../css/style_" . $currentPage . ".css"; // Baut den Pfad zur CSS-Datei
+        if (file_exists($cssFile)) { // Prüft, ob die Datei existiert
+            echo '<link rel="stylesheet" href="' . $cssFile . '">';
+        }
+    ?>
 </head>
 <body>
 

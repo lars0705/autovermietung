@@ -17,6 +17,11 @@ html, body {
   flex-direction: column;
 }
 
+.main_content {
+  flex-grow: 1;
+  margin-top: 80px;
+}
+
           /* Produktkacheln*/
 .sort-container {
   margin-top: 50px;
@@ -151,13 +156,6 @@ html, body {
   .car_link {
       width: 90%;
   }
-}
-
-
-/* Hauptbereich */
-.main_content {
-  min-height: 200vh;
-  padding: 20px;
 }
 
 /* Filter-Container */

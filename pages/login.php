@@ -44,25 +44,33 @@ $conn->close();
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Anmelden</title>
-    <link rel="stylesheet" href="../css/style_auth.css">
+    <title>Sigmacars | Anmeldung</title>
     <link rel="stylesheet" href="../css/style.css">
+    <?php
+        $currentPage = basename($_SERVER['PHP_SELF'], ".php"); // Holt den Dateinamen ohne .php
+        $cssFile = "../css/style_" . $currentPage . ".css"; // Baut den Pfad zur CSS-Datei
+        if (file_exists($cssFile)) { // Prüft, ob die Datei existiert
+            echo '<link rel="stylesheet" href="' . $cssFile . '">';
+        }
+    ?>
 </head>
 <body>
 
 <?php include '../components/header.php'; ?>
 
-<div class="form-container">
-    <h2>Anmelden</h2>
-    <?php if (isset($_GET['registered'])) echo "<p class='success'>Registrierung erfolgreich! Bitte anmelden.</p>"; ?>
-    <?php if (isset($error)) echo "<p class='error'>$error</p>"; ?>
-    <form action="login.php" method="POST">
-        <input type="email" name="email" placeholder="E-Mail" required>
-        <input type="password" name="password" placeholder="Passwort" required>
-        <label><input type="checkbox" name="remember"> Angemeldet bleiben</label>
-        <button type="submit">Login</button>
-    </form>
-    <p>Kein Konto? <a href="register.php">Registrieren</a></p>
+<div class="main_content">
+    <div class="form-container">
+        <h2>Anmelden</h2>
+        <?php if (isset($_GET['registered'])) echo "<p class='success'>Registrierung erfolgreich! Bitte anmelden.</p>"; ?>
+        <?php if (isset($error)) echo "<p class='error'>$error</p>"; ?>
+        <form action="login.php" method="POST">
+            <input type="email" name="email" placeholder="E-Mail" required>
+            <input type="password" name="password" placeholder="Passwort" required>
+            <label><input type="checkbox" name="remember"> Angemeldet bleiben</label>
+            <button type="submit">Login</button>
+        </form>
+        <p>Kein Konto? <a href="register.php">Registrieren</a></p>
+    </div>
 </div>
 
 <?php include '../components/footer.php'; ?>
