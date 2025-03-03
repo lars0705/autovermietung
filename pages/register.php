@@ -36,24 +36,31 @@ $conn->close();
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Registrieren</title>
-    <link rel="stylesheet" href="../css/style_auth.css">
+    <title>Sigmacars | Registrierung</title>
     <link rel="stylesheet" href="../css/style.css">
+    <?php
+        $currentPage = basename($_SERVER['PHP_SELF'], ".php"); // Holt den Dateinamen ohne .php
+        $cssFile = "../css/style_" . $currentPage . ".css"; // Baut den Pfad zur CSS-Datei
+        if (file_exists($cssFile)) { // Prüft, ob die Datei existiert
+            echo '<link rel="stylesheet" href="' . $cssFile . '">';
+        }
+    ?>
 </head>
 <body>
 
 <?php include '../components/header.php'; ?>
-
-<div class="form-container">
-    <h2>Registrieren</h2>
-    <?php if (isset($error)) echo "<p class='error'>$error</p>"; ?>
-    <form action="register.php" method="POST">
-        <input type="text" name="username" placeholder="Benutzername" required>
-        <input type="email" name="email" placeholder="E-Mail" required>
-        <input type="password" name="password" placeholder="Passwort" required>
-        <button type="submit">Registrieren</button>
-    </form>
-    <p>Schon ein Konto? <a href="login.php">Anmelden</a></p>
+<div class="main_content">
+    <div class="form-container">
+        <h2>Registrieren</h2>
+        <?php if (isset($error)) echo "<p class='error'>$error</p>"; ?>
+        <form action="register.php" method="POST">
+            <input type="text" name="username" placeholder="Benutzername" required>
+            <input type="email" name="email" placeholder="E-Mail" required>
+            <input type="password" name="password" placeholder="Passwort" required>
+            <button type="submit">Registrieren</button>
+        </form>
+        <p>Schon ein Konto? <a href="login.php">Anmelden</a></p>
+    </div>
 </div>
 
 <?php include '../components/footer.php'; ?>

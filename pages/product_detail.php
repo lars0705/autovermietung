@@ -29,9 +29,15 @@ $conn->close();
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title><?php echo htmlspecialchars($car["vendor_name"]) . " " . htmlspecialchars($car["name"]); ?> - Details</title>
-    <link rel="stylesheet" href="../css/style_product_detail.css">
+    <title>Sigmacars | <?php echo htmlspecialchars($car["vendor_name"]) . " " . htmlspecialchars($car["name"]); ?> - Details</title>
     <link rel="stylesheet" href="../css/style.css">
+    <?php
+        $currentPage = basename($_SERVER['PHP_SELF'], ".php"); // Holt den Dateinamen ohne .php
+        $cssFile = "../css/style_" . $currentPage . ".css"; // Baut den Pfad zur CSS-Datei
+        if (file_exists($cssFile)) { // Prüft, ob die Datei existiert
+            echo '<link rel="stylesheet" href="' . $cssFile . '">';
+        }
+    ?>
 </head>
 <body>
 

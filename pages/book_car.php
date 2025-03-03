@@ -1,12 +1,4 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="../css/style.css" />
-    <title>Sigmacars | Fahrzeugübersicht</title>
-</head>
-<html>
-
 <?php
 include '../components/header.php';
 session_start();

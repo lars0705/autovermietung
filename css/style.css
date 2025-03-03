@@ -18,6 +18,11 @@ html, body {
   flex-direction: column;
 }
 
+.main_content {
+  flex-grow: 1;
+  margin-top: 80px;
+}
+
           /* Produktkacheln*/
 .sort-container {
   margin-top: 50px;
@@ -154,12 +159,15 @@ html, body {
   }
 }
 
+<<<<<<< HEAD
 
 /* Hauptbereich */
 .main_content {
   padding: 20px;
 }
 
+=======
+>>>>>>> 487dcff27d13fbee67cbde2c57ced873809e5bc3
 /* Filter-Container */
 .filter_container {
   position: sticky;
