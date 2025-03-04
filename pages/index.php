@@ -3,17 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="../css/style_index.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sigmacars | Startseite</title>
-    <?php
-        $currentPage = basename($_SERVER['PHP_SELF'], ".php"); // Holt den Dateinamen ohne .php
-        $cssFile = "../css/style_" . $currentPage . ".css"; // Baut den Pfad zur CSS-Datei
-        if (file_exists($cssFile)) { // Prüft, ob die Datei existiert
-            echo '<link rel="stylesheet" href="' . $cssFile . '">';
-        }
-    ?>
+    <link rel="stylesheet" href="../css/style.css" />
   </head>
   <body>
     <?php include '../components/header.php'; ?>
