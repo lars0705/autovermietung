@@ -1,8 +1,5 @@
 @import url('fonts.css');
 
-* {
-  box-sizing: border-box;
-}
 
           /* Allgemeine Stile */
 html, body {
@@ -10,7 +7,7 @@ html, body {
   padding: 0;
   background-repeat: repeat-y;
   background-image: url("../assets/images/hintergrund.jpg");
-  background-size: contain;
+  background-size: fill;
   background-position: center;
   color: #fff;
   font-family: "Inter", sans-serif;
@@ -22,143 +19,6 @@ html, body {
   flex-grow: 1;
   margin-top: 80px;
 }
-
-          /* Produktkacheln*/
-.sort-container {
-  margin-top: 50px;
-  text-align: right;
-  margin-bottom: 20px;
-}
-
-.sort-container select {
-  padding: 5px;
-  font-size: 14px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-
-.product_card {
-  margin-top: 50px;
-  width: 300px;
-  padding: 15px;
-  background-color: #1f1f1f;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  text-align: center;
-}
-.product_card_container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  padding: 20px;
-}
-
-.car_link {
-  text-decoration: none;
-  color: inherit;
-  display: block;
-  width: 45%;
-  max-width: 600px;
-  min-width: 400px;
-}
-
-/* Fahrzeug-Frame mit verbessertem Farbverlauf */
-.car_frame {
-  display: flex;
-  align-items: center;
-  background: linear-gradient(135deg, #050505, #272727, #050505); /* Dunkel → Hell → Dunkel */
-  border-radius: 15px;
-  padding: 20px;
-  transition: transform 0.3s ease-in-out, border 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-  position: relative;
-  border: 3px solid transparent;
-}
-
-/* Hover-Effekt: Weiße Umrandung mit Abstand */
-.car_frame:hover {
-  transform: scale(1.02);
-  border: 3px solid white; /* Weiße Umrandung */
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); /* Optional: Leichter Glow */
-}
-
-.car_image {
-  flex: 1;
-  padding-right: 20px;
-}
-
-.car_image img {
-  width: 100%;
-  border-radius: 10px;
-}
-
-.car_info {
-  flex: 2;
-  color: #fff;
-}
-
-.car_info h3 {
-  font-size: 22px;
-  margin-bottom: 10px;
-}
-
-.car_details {
-  display: flex;
-  justify-content: space-between;
-}
-
-.car_price {
-  font-size: 22px;
-  font-weight: bold;
-  margin-top: 10px;
-}
-
-.book_button {
-  background-color: transparent;
-  border: 2px solid white;
-  color: white;
-  padding: 8px 20px;
-  border-radius: 5px;
-  font-size: 14px;
-  cursor: pointer;
-  margin-top: 10px;
-  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-}
-
-.book_button:hover {
-  background-color: white;
-  color: black;
-}
-
-/* Fade-In Effekt */
-.fade-in {
-  opacity: 0.5;
-  transform: translateY(20px);
-  animation: fadeInUp 0.08s ease-out forwards;
-}
-
-@keyframes fadeInUp {
-  from {
-      opacity: 0.5;
-      transform: translateY(20px);
-  }
-  to {
-      opacity: 1;
-      transform: translateY(0);
-  }
-}
-
-/* Responsive Anpassung für kleinere Bildschirme */
-@media (max-width: 900px) {
-  .product_card_container {
-      flex-direction: column;
-      align-items: center;
-  }
-  .car_link {
-      width: 90%;
-  }
-}
-
 
 /* Hauptbereich */
 .main_content {

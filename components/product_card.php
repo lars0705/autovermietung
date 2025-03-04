@@ -5,7 +5,7 @@ ob_start();
 require_once "../components/db_connect.php";
 
 // Standard-Sortierung
-$sort_order = $_GET['order'] ?? 'asc'; // Standardmäßig aufsteigend
+$sort_order = $_GET['order'] ?? 'asc';
 
 // Filterwerte abrufen
 $conditions = ["type_id NOT IN (SELECT car_id FROM bookings WHERE CURDATE() BETWEEN pickup_date AND return_date)"];
@@ -54,11 +54,7 @@ if (!empty($conditions)) {
 $sql .= " GROUP BY type_id";
 
 // Sortierung nach Preis
-if ($sort_order === 'asc') {
-    $sql .= " ORDER BY price ASC";
-} else {
-    $sql .= " ORDER BY price DESC";
-}
+$sql .= ($sort_order === 'asc') ? " ORDER BY price ASC" : " ORDER BY price DESC";
 
 $stmt = $conn->prepare($sql);
 
@@ -98,7 +94,7 @@ ob_end_clean();
 <head>
     <meta charset="UTF-8">
     <title>Fahrzeugübersicht</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style_product_list.css">
 </head>
 <body>
 
@@ -114,24 +110,33 @@ ob_end_clean();
 <div class="product_card_container">
     <?php if (!empty($cars)): ?>
         <?php foreach ($cars as $index => $car): ?>
-            <a href="product_detail.php?id=<?php echo urlencode($car['type_id']); ?>&pickup_date=<?php echo urlencode($_GET['pickup_date'] ?? ''); ?>&return_date=<?php echo urlencode($_GET['return_date'] ?? ''); ?>" class="car_link fade-in" style="animation-delay: <?php echo ($index * 0.2); ?>s">
-                <div class="car_frame">
-                    <div class="car_image">
-                        <?php 
-                        $imagePath = "../assets/images/" . $car["img_file_name"];
-                        if (!empty($car["img_file_name"]) && file_exists($imagePath)): ?>
-                            <img src="<?php echo htmlspecialchars($imagePath); ?>">
-                        <?php else: ?>
-                            <img src="../assets/images/Placeholder_car.png">
-                        <?php endif; ?>
-                    </div>
-                    <div class="car_info">
-                        <h3><?php echo htmlspecialchars($car["vendor_name"]) . " " . htmlspecialchars($car["name"]); ?></h3>
-                        <p class="car_price"><strong><?php echo htmlspecialchars($car["price"]); ?>€ / Tag</strong></p>
-                        <button class="book_button">Jetzt buchen</button>
-                    </div>
+            <div class="car_frame fade-in" style="animation-delay: <?php echo ($index * 0.2); ?>s">
+                <div class="car_image">
+                    <?php 
+                    $imagePath = "../assets/images/" . $car["img_file_name"];
+                    if (!empty($car["img_file_name"]) && file_exists($imagePath)): ?>
+                        <img src="<?php echo htmlspecialchars($imagePath); ?>">
+                    <?php else: ?>
+                        <img src="../assets/images/Placeholder_car.png">
+                    <?php endif; ?>
                 </div>
-            </a>
+                <div class="car_info">
+                    <h3><?php echo htmlspecialchars($car["vendor_name"]) . " " . htmlspecialchars($car["name"]); ?></h3>
+                    <p class="car_price"><strong><?php echo htmlspecialchars($car["price"]); ?>€ / Tag</strong></p>
+                    
+                    <ul class="car_details">
+                        <li><strong>Kategorie:</strong> <?php echo htmlspecialchars($car["type"]); ?></li>
+                        <li><strong>Antrieb:</strong> <?php echo htmlspecialchars($car["drive"]); ?></li>
+                        <li><strong>Getriebe:</strong> <?php echo htmlspecialchars($car["gear"]); ?></li>
+                        <li><strong>Sitzplätze:</strong> <?php echo htmlspecialchars($car["seats"]); ?></li>
+                        <li><strong>Türen:</strong> <?php echo htmlspecialchars($car["doors"]); ?></li>
+                        <li><strong>Klimaanlage:</strong> <?php echo $car["air_condition"] ? "Ja" : "Nein"; ?></li>
+                        <li><strong>GPS:</strong> <?php echo $car["gps"] ? "Ja" : "Nein"; ?></li>
+                    </ul>
+
+                    <a href="product_detail.php?id=<?php echo urlencode($car['type_id']); ?>&pickup_date=<?php echo urlencode($_GET['pickup_date'] ?? ''); ?>&return_date=<?php echo urlencode($_GET['return_date'] ?? ''); ?>" class="more_button">Mehr erfahren</a>
+                </div>
+            </div>
         <?php endforeach; ?>
     <?php else: ?>
         <p>Keine Fahrzeuge verfügbar.</p>

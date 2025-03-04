@@ -17,6 +17,23 @@
         </div>
     </div>
     <div class="dark_section">
-        <h2>Neuzugang</h2>
+        <div class="about-container">
+            <div class="about-text">
+                <h2>Über Uns</h2>
+                <p>
+                    Willkommen bei <strong>SigmaCars</strong> – Ihre Premium-Autovermietung für exklusive Fahrzeuge. 
+                    Egal ob Sportwagen, luxuriöse Limousine oder praktischer SUV – wir bieten Ihnen das perfekte 
+                    Fahrzeug für jeden Anlass.  
+                </p>
+                <p>
+                    Qualität, Komfort und exzellenter Service stehen bei uns an erster Stelle. 
+                    Entdecken Sie unser einzigartiges Angebot und erleben Sie pure Fahrfreude.
+                </p>
+                <!--<button class="about-button" onclick="window.location.href='about.php'">Mehr erfahren</button> -->
+            </div>
+            <div class="about-image">
+                <img src="../assets/images/about_us.png" alt="Über uns Bild">
+            </div>
+        </div>
     </div>
 </div>
