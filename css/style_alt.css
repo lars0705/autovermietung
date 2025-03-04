@@ -1,0 +1,294 @@
+@import url('fonts.css');
+
+
+          /* Allgemeine Stile */
+html, body {
+  margin: 0;
+  padding: 0;
+  background-repeat: repeat-y;
+  background-image: url("../assets/images/hintergrund.jpg");
+  background-size: fill;
+  background-position: center;
+  color: #fff;
+  font-family: "Inter", sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.main_content {
+  flex-grow: 1;
+  margin-top: 80px;
+}
+
+/* Hauptbereich */
+.main_content {
+  padding: 20px;
+}
+
+/* Filter-Container */
+.filter_container {
+  z-index: 10;
+  position: sticky;
+  top: 100px;
+  left: 10%;
+  width: 80%;
+  background: #131313;
+  padding: 15px 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.filter_container.sticky {
+  top: 80px;
+  width: 100%;
+}
+
+.filter_container.fest {
+  position: relative;
+  top: 80px;
+  width: 99%;
+  left: 0.5%;
+}
+
+/* Filter-Formular */
+.filter_form {
+  gap: 15px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+/* Filter-Gruppen */
+.filter_group {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter_group label {
+  color: white;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+/* Eingabefelder und Dropdowns */
+.filter_form input,
+.filter_form select {
+  padding: 10px;
+  background: transparent;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  color: white;
+  width: 200px;
+  cursor: pointer;
+}
+
+.filter_form input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+select option {
+  background: #131313;
+  color: white;
+}
+
+/* Button */
+.filter_form .submit_button {
+  padding: 10px 20px;
+  background-color: transparent;
+  color: red;
+  border: 1px solid red;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  margin-top: 21px;
+  width: 200px;
+}
+
+.filter_form .submit_button:hover {
+  background-color: red;
+  color: white;
+}
+
+.filter_form .reset_button {
+  padding: 10px 20px;
+  background-color: transparent;
+  color: #e0e0e0;
+  border: 1px solid #e0e0e0;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  margin-top: 21px;
+  width: 200px;
+  max-height: 40px;
+}
+
+.filter_form .reset_button:hover {
+  background-color: #e0e0e0;
+  color: black;
+}
+
+
+
+
+
+/* CSS-Anpassungen für den Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background-color: #131313;
+  position: fixed;
+  z-index: 1000;
+  width: 100%;
+  top: 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+}
+
+.logo img {
+  height: 40px; 
+  margin-right: 10px;
+}
+
+.nav_buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 50px;
+  font-size: 18px;
+  font-weight: 300;
+  color: #b1b1b1;
+  background-color: transparent;
+  border: 2px solid #b1b1b1;
+  border-radius: 50px;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* CSS-Anpassungen für den Footer */
+.footer {
+  background-color: #131313;
+  color: white;
+  padding: 40px 40px;
+  border-top: 2px solid #b1b1b1;
+}
+
+.footer_container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.footer_section {
+  flex: 1;
+  min-width: 200px;
+}
+
+.footer_section h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.footer_section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer_section ul li {
+  margin-bottom: 10px;
+}
+
+.footer_section ul li a {
+  color: #b1b1b1;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer_section ul li a:hover {
+  color: #fff;
+}
+
+.social_media a {
+  margin-right: 15px;
+}
+
+.social_media img {
+  width: 30px;
+  height: 30px;
+  transition: transform 0.3s ease;
+}
+
+.social_media a:hover img {
+  transform: scale(1.1);
+}
+
+.footer_section form {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.footer_section input[type="email"] {
+  padding: 10px;
+  width: 250px;
+  border: 2px solid #b1b1b1;
+  border-radius: 5px;
+  background-color: transparent;
+  color: white;
+}
+
+.footer_section button {
+  padding: 10px 20px;
+  border: 2px solid #b1b1b1;
+  background-color: transparent;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 14px;
+}
+
+.footer_section button:hover {
+  background-color: #b1b1b1;
+}
+
+.footer_bottom {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 14px;
+}
+
+
+.main-container {
+  flex: 1; /* Dehnt den Inhalt aus, damit der Footer nach unten gedrückt wird */
+}
+
+footer {
+  background-color: #23272a;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}

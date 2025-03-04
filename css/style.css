@@ -1,140 +1,59 @@
+/* ========== GLOBAL STYLES ========== */
+
+/* Schriftarten */
 @import url('fonts.css');
 
-
-          /* Allgemeine Stile */
-html, body {
-  margin: 0;
-  padding: 0;
-  background-repeat: repeat-y;
-  background-image: url("../assets/images/hintergrund.jpg");
-  background-size: fill;
-  background-position: center;
-  color: #fff;
-  font-family: "Inter", sans-serif;
-  display: flex;
-  flex-direction: column;
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
 }
 
-.main_content {
-  flex-grow: 1;
-  margin-top: 80px;
-}
-
-/* Hauptbereich */
-.main_content {
-  padding: 20px;
-}
-
-/* Filter-Container */
-.filter_container {
-  z-index: 10;
-  position: sticky;
-  top: 100px;
-  left: 10%;
-  width: 80%;
+::-webkit-scrollbar-track {
   background: #131313;
-  padding: 15px 20px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.filter_container.sticky {
-  top: 80px;
-  width: 100%;
-}
-
-.filter_container.fest {
-  position: relative;
-  top: 80px;
-  width: 99%;
-  left: 0.5%;
-}
-
-/* Filter-Formular */
-.filter_form {
-  gap: 15px;
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-}
-
-/* Filter-Gruppen */
-.filter_group {
-  display: flex;
-  flex-direction: column;
-}
-
-.filter_group label {
-  color: white;
-  font-size: 14px;
-  margin-bottom: 5px;
-}
-
-/* Eingabefelder und Dropdowns */
-.filter_form input,
-.filter_form select {
-  padding: 10px;
-  background: transparent;
-  border: 1px solid #ccc;
   border-radius: 5px;
-  font-size: 16px;
-  color: white;
-  width: 200px;
-  cursor: pointer;
 }
 
-.filter_form input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
+::-webkit-scrollbar-thumb {
+  background: #ff5733;
+  border-radius: 5px;
 }
 
-select option {
-  background: #131313;
-  color: white;
+::-webkit-scrollbar-thumb:hover {
+  background: #e64a19;
 }
 
-/* Button */
-.filter_form .submit_button {
-  padding: 10px 20px;
-  background-color: transparent;
-  color: red;
-  border: 1px solid red;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: 0.3s ease-in-out;
-  margin-top: 21px;
-  width: 200px;
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #ff5733 #131313;
 }
 
-.filter_form .submit_button:hover {
-  background-color: red;
-  color: white;
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url("../assets/images/hintergrund.jpg");
+    color: white;
+    font-family: "Inter", sans-serif;
+    display: flex;
+    flex-direction: column;
 }
 
-.filter_form .reset_button {
-  padding: 10px 20px;
-  background-color: transparent;
-  color: #e0e0e0;
-  border: 1px solid #e0e0e0;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: 0.3s ease-in-out;
-  margin-top: 21px;
-  width: 200px;
-  max-height: 40px;
+.main_content {
+    flex-grow: 1;
+    margin-top: 80px;
+    padding: 20px;
 }
 
-.filter_form .reset_button:hover {
-  background-color: #e0e0e0;
-  color: black;
+button {
+  padding: 10px 50px;
+  font-size: 18px;
+  font-weight: 300;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
 }
 
+/* ========== HEADER (header.php) ========== */
 
-
-
-
-/* CSS-Anpassungen für den Header */
 .header {
   display: flex;
   justify-content: space-between;
@@ -143,21 +62,13 @@ select option {
   background-color: #131313;
   position: fixed;
   z-index: 1000;
-  width: 100%;
+  left: 0;
+  right: 0;
   top: 0;
 }
 
-.logo {
-  display: flex;
-  align-items: center;
-  font-size: 20px;
-  font-weight: bold;
-  color: white;
-}
-
 .logo img {
-  height: 40px; 
-  margin-right: 10px;
+  height: 40px
 }
 
 .nav_buttons {
@@ -165,28 +76,25 @@ select option {
   gap: 15px;
 }
 
-.button {
-  display: inline-block;
+.nav_button {
   padding: 10px 50px;
   font-size: 18px;
   font-weight: 300;
-  color: #b1b1b1;
-  background-color: transparent;
-  border: 2px solid #b1b1b1;
   border-radius: 50px;
   text-decoration: none;
-  text-align: center;
   transition: all 0.3s ease-in-out;
+  color: #b1b1b1;
+  border: 2px solid #b1b1b1;
 }
 
-.button:hover {
+.nav_button:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* CSS-Anpassungen für den Footer */
+/* ========== FOOTER (footer.php) ========== */
+
 .footer {
   background-color: #131313;
-  color: white;
   padding: 40px 40px;
   border-top: 2px solid #b1b1b1;
 }
@@ -194,19 +102,12 @@ select option {
 .footer_container {
   display: flex;
   justify-content: space-between;
-  flex-wrap: wrap;
   gap: 30px;
 }
 
 .footer_section {
   flex: 1;
   min-width: 200px;
-}
-
-.footer_section h3 {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 15px;
 }
 
 .footer_section ul {
@@ -228,10 +129,6 @@ select option {
   color: #fff;
 }
 
-.social_media a {
-  margin-right: 15px;
-}
-
 .social_media img {
   width: 30px;
   height: 30px;
@@ -242,13 +139,13 @@ select option {
   transform: scale(1.1);
 }
 
-.footer_section form {
+.footer form {
   display: flex;
   gap: 10px;
   align-items: center;
 }
 
-.footer_section input[type="email"] {
+.footer input[type="email"] {
   padding: 10px;
   width: 250px;
   border: 2px solid #b1b1b1;
@@ -257,7 +154,7 @@ select option {
   color: white;
 }
 
-.footer_section button {
+.footer button {
   padding: 10px 20px;
   border: 2px solid #b1b1b1;
   background-color: transparent;
@@ -265,29 +162,29 @@ select option {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  font-size: 14px;
 }
 
-.footer_section button:hover {
-  background-color: #b1b1b1;
+.footer button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .footer_bottom {
   text-align: center;
   margin-top: 30px;
-  font-size: 14px;
 }
 
+/* ========== STARTSEITE (index.php) ========== */
 
-.main-container {
-  flex: 1; /* Dehnt den Inhalt aus, damit der Footer nach unten gedrückt wird */
-}
+/* ========== PRODUKTÜBERSICHT (product_list.php) ========== */
 
-footer {
-  background-color: #23272a;
-  color: white;
-  text-align: center;
-  padding: 10px;
-  position: relative;
-  bottom: 0;
-  width: 100%;
-}
+/* ========== FILTERFENSTER (filter_form.php) ========== */
+
+/* ========== PRODUKTDETAILSEITE (product_detail.php) ========== */
+
+/* ========== LOGIN & REGISTRIERUNG (login.php & register.php) ========== */
+
+/* ========== PROFILSEITE (profile.php) ========== */
+
+/* ========== BUCHUNGEN (bookings.php) ========== */
+
