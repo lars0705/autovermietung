@@ -2,13 +2,11 @@
 <html>
   <head>
     <meta charset="utf-8" />
-<<<<<<< HEAD
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="../css/style_index.css" />
-=======
->>>>>>> 487dcff27d13fbee67cbde2c57ced873809e5bc3
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sigmacars | Startseite</title>
-    <link rel="stylesheet" href="../css/style.css" />
     <?php
         $currentPage = basename($_SERVER['PHP_SELF'], ".php"); // Holt den Dateinamen ohne .php
         $cssFile = "../css/style_" . $currentPage . ".css"; // Baut den Pfad zur CSS-Datei
@@ -30,5 +28,6 @@
     </main> -->
     <?php include '../components/footer.php'; ?>
     <script src="../js/script.js"></script>
+    <script src="../js/script_categories_animation.js"></script>
   </body>
 </html>
