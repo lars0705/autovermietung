@@ -113,8 +113,8 @@ ob_end_clean();
             <div class="car_frame fade-in" style="animation-delay: <?php echo ($index * 0.2); ?>s">
                 <div class="car_image">
                     <?php 
-                    $imagePath = "../assets/images/" . $car["img_file_name"];
-                    if (!empty($car["img_file_name"]) && file_exists($imagePath)): ?>
+                    $imagePath = "../assets/images/cars/" . $car["type_id_" . $car["type_id"]];
+                    if (file_exists($imagePath)): ?>
                         <img src="<?php echo htmlspecialchars($imagePath); ?>">
                     <?php else: ?>
                         <img src="../assets/images/Placeholder_car.png">
