@@ -4,8 +4,7 @@ ob_start();
 
 require_once "../components/db_connect.php";
 
-// Standard-Sortierung
-$sort_order = $_GET['order'] ?? 'asc';
+
 
 // Filterwerte abrufen
 $conditions = ["type_id NOT IN (SELECT car_id FROM bookings WHERE CURDATE() BETWEEN pickup_date AND return_date)"];
@@ -98,15 +97,6 @@ ob_end_clean();
 </head>
 <body>
 
-<!-- Sortieroptionen -->
-<div class="sort-container">
-    <label for="sort">Sortieren nach:</label>
-    <select id="sort" onchange="sortCars()">
-        <option value="asc" <?php echo ($sort_order === 'asc') ? 'selected' : ''; ?>>Preis: Aufsteigend</option>
-        <option value="desc" <?php echo ($sort_order === 'desc') ? 'selected' : ''; ?>>Preis: Absteigend</option>
-    </select>
-</div>
-
 <div class="product_card_container">
     <?php if (!empty($cars)): ?>
         <?php foreach ($cars as $index => $car): ?>
@@ -136,15 +126,5 @@ ob_end_clean();
         <p>Keine Fahrzeuge verfügbar.</p>
     <?php endif; ?>
 </div>
-
-<script>
-function sortCars() {
-    let sortOrder = document.getElementById("sort").value;
-    let urlParams = new URLSearchParams(window.location.search);
-    urlParams.set('order', sortOrder);
-    window.location.search = urlParams.toString();
-}
-</script>
-
 </body>
 </html>

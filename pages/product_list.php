@@ -7,9 +7,11 @@
 </head>
 <body>
   <?php include '../components/header.php'; ?>
-  <?php include '../components/filterform_list.php'; ?>
-  <h2>Fahrzeugübersicht</h2> 
-  <?php include '../components/product_card.php'; ?>
+  <div class="main_content">
+    <?php include '../components/filterform_list.php'; ?>
+    <h2>Fahrzeugübersicht</h2> 
+    <?php include '../components/product_card.php'; ?>
+  </div>
   <?php include '../components/footer.php'; ?>
   </body>
 </html>

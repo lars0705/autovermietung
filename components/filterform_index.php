@@ -1,4 +1,4 @@
-<div class="filter_container">
+<div class="filter_container index">
     <form class="filter_form" action="product_list.php" method="GET">
         <div class="filter_group">
         <label for="location">Standorte</label>
@@ -14,23 +14,21 @@
         </div>
 
         <div class="filter_group">
-        <label for="pickup_date">Abholdatum</label>
-        <input type="date" id="pickup_date" name="pickup_date" value="<?php echo isset($_GET['pickup_date']) ? $_GET['pickup_date'] : ''; ?>">
+            <label for="pickup_date">Abholdatum</label>
+            <input type="date" id="pickup_date" name="pickup_date" value="<?php echo isset($_GET['pickup_date']) ? $_GET['pickup_date'] : ''; ?>">
         </div>
 
         <div class="filter_group">
-        <label for="return_date">Rückgabedatum</label>
-        <input type="date" id="return_date" name="return_date" value="<?php echo isset($_GET['return_date']) ? $_GET['return_date'] : ''; ?>">
+            <label for="return_date">Rückgabedatum</label>
+            <input type="date" id="return_date" name="return_date" value="<?php echo isset($_GET['return_date']) ? $_GET['return_date'] : ''; ?>">
         </div>
 
-        <div class="filter_group">
-            <button type="submit" id="submit_button" class="submit_button">Filter anwenden</button>
-            <div id="error_message" style="color: red; font-size: 14px; margin-top: 10px; display: none;"></div>
-        </div>
+        <button type="submit" id="submit_button" class="submit_button">Autos anzeigen</button>
     </form> 
+    <div id="error_message" class="error_message"></div>
 </div>
 
-<script>
+<script> // Javascript Code, um das richtige Einsetzen von Abhol- und Rückgabedatum zu erzwingen
 document.addEventListener("DOMContentLoaded", function () {
     const pickupDate = document.getElementById("pickup_date");
     const returnDate = document.getElementById("return_date");
@@ -48,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return false;
         }
 
-        const pickupValue = new Date(pickupDate.value); // Lokale Zeit erzwingen
+        const pickupValue = new Date(pickupDate.value);
         const returnValue = new Date(returnDate.value);
 
         if (returnValue <= pickupValue) {

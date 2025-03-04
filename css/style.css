@@ -1,7 +1,11 @@
 /* ========== GLOBAL STYLES ========== */
 
-/* Schriftarten */
-@import url('fonts.css');
+@font-face {
+  font-family: "Inter";
+  src: url("../assets/fonts/Inter.woff2") format("woff2");
+  font-weight: 300 700;
+  font-style: normal;
+}
 
 /* Scrollbar */
 ::-webkit-scrollbar {
@@ -14,42 +18,43 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #ff5733;
+  background: red;
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #e64a19;
+  background: red;
 }
 
-html {
+* {
+  font-family: "Inter", sans-serif;
+}
+
+html, body {
   scrollbar-width: thin;
-  scrollbar-color: #ff5733 #131313;
-}
-
-body {
-    margin: 0;
-    padding: 0;
-    background-image: url("../assets/images/hintergrund.jpg");
-    color: white;
-    font-family: "Inter", sans-serif;
-    display: flex;
-    flex-direction: column;
+  scrollbar-color: red #131313;
+  margin: 0;
+  padding: 0;
+  background-image: url("../assets/images/hintergrund.jpg");
+  color: white;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .main_content {
-    flex-grow: 1;
-    margin-top: 80px;
-    padding: 20px;
+  flex-grow: 1;
+  margin-top: 100px;
+  display: block;
 }
 
 button {
-  padding: 10px 50px;
   font-size: 18px;
   font-weight: 300;
   border-radius: 50px;
   text-decoration: none;
   transition: all 0.3s ease-in-out;
+  cursor: pointer;
 }
 
 /* ========== HEADER (header.php) ========== */
@@ -176,9 +181,198 @@ button {
 
 /* ========== STARTSEITE (index.php) ========== */
 
+.section-title {
+  text-align: center;
+}
+
+.categorie_container{
+  padding: 50px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  transform-style: preserve-3d;
+  transform: perspective(1000px);
+}
+
+.categorie_container .item{
+  width: 200px;
+  height: 350px;
+  transition: 0.5s;
+  filter: brightness(0.3);
+  background-color: black;
+}
+
+/* Animation für gehoverte Kachel */
+.categorie_container .item:hover{
+  filter: brightness(1);
+  transform: translateZ(240px);
+  background-color: #420b0b;
+}
+
+/*Animation für die Kacheln, die sich links und rechts von der gehoverten Kachel befinden */
+.categorie_container .item:hover + *{
+  filter: brightness(0.6);
+  transform: translateZ(150px) rotateY(40deg);
+  background-color: #131313;
+}
+
+.categorie_container .item:hover + * + *{
+  filter: brightness(0.4);
+  transform: translateZ(70px) rotateY(20deg);
+}
+
+.categorie_container .item:has(+ *:hover){
+  filter: brightness(0.6);
+  transform: translateZ(150px) rotateY(-40deg);
+  background-color: #131313;
+}
+
+.categorie_container .item:has(+ * + *:hover){
+  filter: brightness(0.4);
+  transform: translateZ(70px) rotateY(-20deg);
+}
+
+.item img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.about-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+  padding: 50px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.about-text {
+  flex: 1;
+  color: rgb(138, 138, 138);
+  text-align: left;
+}
+
+.about-text h2 {
+  font-size: 32px;
+  margin-bottom: 15px;
+}
+
+.about-text p {
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.about-image {
+  flex: 1;
+}
+
+.about-image img {
+  max-width: 500px;
+  border-radius: 15px;
+  box-shadow: 4px 4px 15px rgba(255, 255, 255, 0.2);
+}
+
+
 /* ========== PRODUKTÜBERSICHT (product_list.php) ========== */
 
 /* ========== FILTERFENSTER (filter_form.php) ========== */
+
+.filter_container {
+  z-index: 1000;
+  background: #131313;
+  padding: 20px;
+  border-radius: 20px;
+  margin: 0 auto;
+  width: 50%;
+}
+
+.filter_form {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: end;
+}
+
+.filter_spalte {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+
+.filter_group {
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  height: 66px;
+  align-self: stretch;
+}
+
+.filter_group label {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.filter_form input,
+.filter_form select {
+  background: transparent;
+  border: 1px solid white;
+  border-radius: 5px;
+  font-size: 18px;
+  color: white;
+  height: 44px;
+  width: 150px;
+  cursor: pointer;
+  padding-inline-start: 5px;
+  box-sizing: border-box;
+}
+
+.filter_form input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+select option {
+  background: #131313;
+  color: white;
+}
+
+.filter_form .submit_button {
+  background-color: transparent;
+  color: red;
+  border: 1px solid red;
+  width: 150px;
+  height: 44px;
+  margin-top: auto;
+}
+
+.filter_form .submit_button:hover {
+  background-color: red;
+  color: white;
+}
+
+.filter_form .reset_button {
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+  width: 150px;
+  height: 44px;
+  margin-top: auto;
+}
+
+.filter_form .reset_button:hover {
+  background-color: white;
+  color: black;
+}
+
+.filter_container .error_message {
+  text-align: center;
+  margin-top: 20px;
+  color: red;
+}
 
 /* ========== PRODUKTDETAILSEITE (product_detail.php) ========== */
 
