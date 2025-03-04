@@ -74,10 +74,8 @@ $conn->close();
             $car = $cars[$order['car_id']] ?? null;
             if (!$car) continue;
 
-            // Standardbild setzen, falls keins vorhanden ist
-            $imagePath = !empty($car["img_file_name"]) && file_exists("../assets/images/" . $car["img_file_name"])
-                ? "../assets/images/" . htmlspecialchars($car["img_file_name"])
-                : "../assets/images/Placeholder_car.png";
+            // Bild setzen
+            include '../components/header.php';
 
             // Status bestimmen (falls `status` nicht existiert, auf "Unbekannt" setzen)
             $status = isset($order["status"]) ? strtolower($order["status"]) : "unbekannt";

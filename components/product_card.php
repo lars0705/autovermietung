@@ -112,13 +112,7 @@ ob_end_clean();
         <?php foreach ($cars as $index => $car): ?>
             <div class="car_frame fade-in" style="animation-delay: <?php echo ($index * 0.2); ?>s">
                 <div class="car_image">
-                    <?php 
-                    $imagePath = "../assets/images/cars/" . $car["type_id_" . $car["type_id"]];
-                    if (file_exists($imagePath)): ?>
-                        <img src="<?php echo htmlspecialchars($imagePath); ?>">
-                    <?php else: ?>
-                        <img src="../assets/images/Placeholder_car.png">
-                    <?php endif; ?>
+                    <?php include '../components/load_image.php'; ?>
                 </div>
                 <div class="car_info">
                     <h3><?php echo htmlspecialchars($car["vendor_name"]) . " " . htmlspecialchars($car["name"]); ?></h3>

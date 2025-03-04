@@ -48,13 +48,7 @@ $conn->close();
     <div class="top_section">
         <h2><?php echo htmlspecialchars($car["vendor_name"]) . " " . htmlspecialchars($car["name"]); ?></h2>
         <div class="car_image">
-        <?php 
-        $imagePath = "../assets/images/" . $car["img_file_name"];
-        if (!empty($car["img_file_name"]) && file_exists($imagePath)): ?>
-          <img src="<?php echo htmlspecialchars($imagePath); ?>">
-        <?php else: ?>
-          <img src="../assets/images/Placeholder_car.png">
-        <?php endif; ?>
+            <?php include '../components/load_image.php'; ?>
         </div>
         <p class="car_price_large"><?php echo htmlspecialchars($car["price"]); ?>€ / Tag <span class="km_info">300km / Tag</span></p>
     </div>
