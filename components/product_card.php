@@ -1,89 +1,59 @@
 <?php
-// Verhindert unerwünschte Ausgabe vor dem JSON-Header
-ob_start();
+// 1️⃣ Session nur starten, wenn noch keine existiert
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 require_once "../components/db_connect.php";
 
+// 2️⃣ Werte aus der URL abrufen
+$location = $_GET['location'] ?? '';
+$pickup_date = $_GET['pickup_date'] ?? date('Y-m-d', strtotime('+1 day'));
+$return_date = $_GET['return_date'] ?? date('Y-m-d', strtotime('+2 days'));
 
-
-// Filterwerte abrufen
-$conditions = ["type_id NOT IN (SELECT car_id FROM bookings WHERE CURDATE() BETWEEN pickup_date AND return_date)"];
-
-if (!empty($_GET['location'])) {
-    $conditions[] = "loc_name = ?";
-}
-if (!empty($_GET['category'])) {
-    $conditions[] = "type = ?";
-}
-if (!empty($_GET['brand'])) {
-    $conditions[] = "vendor_name_abbr = ?";
-}
-if (!empty($_GET['drivetrain'])) {
-    $conditions[] = "drive = ?";
-}
-if (!empty($_GET['transmission'])) {
-    $conditions[] = "gear = ?";
-}
-if (!empty($_GET['seats'])) {
-    $conditions[] = "seats = ?";
-}
-if (!empty($_GET['doors'])) {
-    $conditions[] = "doors = ?";
-}
-if (!empty($_GET['ac'])) {
-    $conditions[] = "air_condition = true";
-}
-if (!empty($_GET['gps'])) {
-    $conditions[] = "gps = true";
-}
-if (!empty($_GET['min_age'])) {
-    $conditions[] = "min_age <= ?";
-}
-if (!empty($_GET['max_price'])) {
-    $conditions[] = "price <= ?";
-}
-
-// SQL-Abfrage mit sicheren Parametern aufbauen
-$sql = "SELECT * FROM car_rental_data";
-if (!empty($conditions)) {
-    $sql .= " WHERE " . implode(" AND ", $conditions);
-}
-
-// Nur ein Auto pro Typ anzeigen
-$sql .= " GROUP BY type_id";
-
-// Sortierung nach Preis
-$sql .= ($sort_order === 'asc') ? " ORDER BY price ASC" : " ORDER BY price DESC";
-
+// 3️⃣ Alle Fahrzeuge aus `car_rental_data` abrufen
+$sql = "SELECT * FROM car_rental_data WHERE loc_name = ?";
 $stmt = $conn->prepare($sql);
-
-// Parameter dynamisch binden
-$params = [];
-if (!empty($_GET['location'])) $params[] = $_GET['location'];
-if (!empty($_GET['category'])) $params[] = $_GET['category'];
-if (!empty($_GET['brand'])) $params[] = $_GET['brand'];
-if (!empty($_GET['drivetrain'])) $params[] = $_GET['drivetrain'];
-if (!empty($_GET['transmission'])) $params[] = $_GET['transmission'];
-if (!empty($_GET['seats'])) $params[] = $_GET['seats'];
-if (!empty($_GET['doors'])) $params[] = $_GET['doors'];
-if (!empty($_GET['min_age'])) $params[] = $_GET['min_age'];
-if (!empty($_GET['max_price'])) $params[] = $_GET['max_price'];
-
-if (!empty($params)) {
-    $stmt->bind_param(str_repeat("s", count($params)), ...$params);
-}
-
+$stmt->bind_param("s", $location);
 $stmt->execute();
 $result = $stmt->get_result();
 
 $cars = [];
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $cars[] = $row;
-    }
+while ($row = $result->fetch_assoc()) {
+    $cars[$row["car_id"]] = $row;
 }
-
 $stmt->close();
+
+// 4️⃣ Alle Buchungen aus `bookings` abrufen
+$sql = "SELECT car_id, type_id, pickup_date, return_date, car_location FROM bookings WHERE car_location = ? 
+        AND (
+            (? BETWEEN pickup_date AND return_date) OR
+            (? BETWEEN pickup_date AND return_date) OR
+            (pickup_date BETWEEN ? AND ?) OR
+            (return_date BETWEEN ? AND ?)
+        )";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("sssssss", $location, $pickup_date, $return_date, $pickup_date, $return_date, $pickup_date, $return_date);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$bookings = [];
+$booked_cars = [];
+while ($row = $result->fetch_assoc()) {
+    $bookings[] = $row;
+    $booked_cars[$row["car_id"]] = $row; // Speichert `car_id` für späteren Vergleich
+}
+$stmt->close();
+
+// 5️⃣ Berechnung: Verfügbare Fahrzeuge
+$available_cars = array_filter($cars, function ($car) use ($booked_cars) {
+    return !isset($booked_cars[$car["car_id"]]); // Entfernt gebuchte Autos
+});
+
+// 6️⃣ Berechnung: Nicht verfügbare Fahrzeuge (Alle aus `bookings`)
+$unavailable_cars = array_intersect_key($cars, $booked_cars);
+
+// 7️⃣ Frames pro `type_id` & `location` erstellen
 $conn->close();
 ob_end_clean();
 ?>
@@ -97,12 +67,109 @@ ob_end_clean();
 </head>
 <body>
 
+<!-- 1️⃣ Tabelle: Alle verfügbaren Autos -->
+<h2>Verfügbare Fahrzeuge</h2>
+<table border="1">
+    <tr>
+        <th>Car ID</th>
+        <th>Type ID</th>
+        <th>Standort</th>
+        <th>Preis</th>
+        <th>Name</th>
+    </tr>
+    <?php foreach ($available_cars as $car): ?>
+    <tr>
+        <td><?php echo htmlspecialchars($car["car_id"]); ?></td>
+        <td><?php echo htmlspecialchars($car["type_id"]); ?></td>
+        <td><?php echo htmlspecialchars($car["loc_name"]); ?></td>
+        <td><?php echo htmlspecialchars($car["price"]); ?> €</td>
+        <td><?php echo htmlspecialchars($car["name"]); ?></td>
+    </tr>
+    <?php endforeach; ?>
+</table>
+
+<!-- 2️⃣ Tabelle: Alle Buchungen -->
+<h2>Bestehende Buchungen</h2>
+<table border="1">
+    <tr>
+        <th>Car ID</th>
+        <th>Type ID</th>
+        <th>Pickup Date</th>
+        <th>Return Date</th>
+        <th>Standort</th>
+    </tr>
+    <?php foreach ($bookings as $booking): ?>
+    <tr>
+        <td><?php echo htmlspecialchars($booking["car_id"]); ?></td>
+        <td><?php echo htmlspecialchars($booking["type_id"]); ?></td>
+        <td><?php echo htmlspecialchars($booking["pickup_date"]); ?></td>
+        <td><?php echo htmlspecialchars($booking["return_date"]); ?></td>
+        <td><?php echo htmlspecialchars($booking["car_location"]); ?></td>
+    </tr>
+    <?php endforeach; ?>
+</table>
+
+<!-- 3️⃣ Tabelle: Nicht verfügbare Fahrzeuge -->
+<h2>Nicht verfügbare Fahrzeuge</h2>
+<table border="1">
+    <tr>
+        <th>Car ID</th>
+        <th>Type ID</th>
+        <th>Standort</th>
+        <th>Preis</th>
+    </tr>
+    <?php foreach ($unavailable_cars as $car): ?>
+    <tr>
+        <td><?php echo htmlspecialchars($car["car_id"]); ?></td>
+        <td><?php echo htmlspecialchars($car["type_id"]); ?></td>
+        <td><?php echo htmlspecialchars($car["loc_name"]); ?></td>
+        <td><?php echo htmlspecialchars($car["price"]); ?> €</td>
+    </tr>
+    <?php endforeach; ?>
+</table>
+
+<?php 
+$grouped_cars = [];
+
+foreach ($available_cars as $car) {
+    $key = $car['type_id'] . '|' . $car['loc_name'] . '|' . $car['price']; // Eindeutiger Schlüssel
+
+    if (!isset($grouped_cars[$key])) {
+        $grouped_cars[$key] = [
+            'car_ids' => [],
+            'count' => 0,
+            'type_id' => $car['type_id'],
+            'location' => $car['loc_name'],
+            'price' => $car['price'],
+            'vendor_name' => $car['vendor_name'],
+            'vendor_name_abbr' => $car['vendor_name_abbr'],
+            'name' => $car['name'],
+            'name_extension' => $car['name_extension'],
+            'seats' => $car['seats'],
+            'doors' => $car['doors'],
+            'gear' => $car['gear'],
+            'trunk' => $car['trunk'],
+            'air_condition' => $car['air_condition'],
+            'gps' => $car['gps'],
+            'min_age' => $car['min_age'],
+            'type' => $car['type'],
+            'drive' => $car['drive'],
+        ];
+    }
+
+    $grouped_cars[$key]['car_ids'][] = $car['car_id'];
+    $grouped_cars[$key]['count'] = count($grouped_cars[$key]['car_ids']);
+
+}
+?>
+
+<!-- Fahrzeugkarten -->
 <div class="product_card_container">
-    <?php if (!empty($cars)): ?>
-        <?php foreach ($cars as $index => $car): ?>
-            <div class="car_frame fade-in" style="animation-delay: <?php echo ($index * 0.2); ?>s">
+    <?php if (!empty($grouped_cars)): ?>
+        <?php foreach ($grouped_cars as $car): ?>
+            <div class="car_frame fade-in">
                 <div class="car_image">
-                    <?php include '../components/load_image.php'; ?>
+                <?php include '../components/load_image.php'; ?>
                 </div>
                 <div class="car_info">
                     <h3><?php echo htmlspecialchars($car["vendor_name"]) . " " . htmlspecialchars($car["name"]); ?></h3>
@@ -116,14 +183,17 @@ ob_end_clean();
                         <li><strong>Türen:</strong> <?php echo htmlspecialchars($car["doors"]); ?></li>
                         <li><strong>Klimaanlage:</strong> <?php echo $car["air_condition"] ? "Ja" : "Nein"; ?></li>
                         <li><strong>GPS:</strong> <?php echo $car["gps"] ? "Ja" : "Nein"; ?></li>
+                        <li><strong>Standort:</strong> <?php echo $_GET['location']; ?></li>
+                        <li><strong>verfügbar:</strong> <?php echo $car['count']; ?></li>
+                        <li><strong>ID:</strong> <?php echo $car['type_id']; ?></li>
                     </ul>
 
-                    <a href="product_detail.php?id=<?php echo urlencode($car['type_id']); ?>&pickup_date=<?php echo urlencode($_GET['pickup_date'] ?? ''); ?>&return_date=<?php echo urlencode($_GET['return_date'] ?? ''); ?>" class="more_button">Mehr erfahren</a>
+                    <a href="product_detail.php?type_id=<?php echo urlencode($car["type_id"]); ?>&pickup_date=<?php echo urlencode($pickup_date); ?>&return_date=<?php echo urlencode($return_date); ?>" class="more_button">Fahrzeug anzeigen</a>
                 </div>
             </div>
         <?php endforeach; ?>
     <?php else: ?>
-        <p>Keine Fahrzeuge verfügbar.</p>
+        <p>Keine Fahrzeuge am gewählten Standort verfügbar.</p>
     <?php endif; ?>
 </div>
 </body>
