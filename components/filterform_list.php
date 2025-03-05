@@ -59,8 +59,8 @@ $sort_order = $_GET['order'] ?? 'asc';
       </div>
 
       <div class="filter_group">
-        <label for="max_price">Preisgrenze: <span id="price_value">1000</span> € / Tag</label>
-        <input type="range" id="max_price" name="max_price" min="0" max="1000" step="10" value="<?php echo isset($_GET['max_price']) ? $_GET['max_price'] : '1000'; ?>">
+        <label for="max_price">Preisgrenze: <span id="price_value">1000</span>€/Tag</label>
+        <input type="range" id="max_price" name="max_price" min="0" max="900" step="10" value="<?php echo isset($_GET['max_price']) ? $_GET['max_price'] : '900'; ?>">
       </div>
     </div>
 

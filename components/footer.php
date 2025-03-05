@@ -6,8 +6,7 @@
             <ul>
                 <li><a href="tel:+1234567890">+1 234 567 890</a></li>
                 <li><a href="mailto:kontakt@sigmacars.de">kontakt@sigmacars.de</a></li>
-                <li><a href="https://www.google.de/maps/place/38436+Wolfsburg-Fallersleben-S%C3%BClfeld/">1234 Sigmastraße</a></li>
-                <li><a href="https://www.google.de/maps/place/Wolfsburg/">38436 Wolfsburg</a></li>
+                <li><a href="https://www.google.de/maps/place/Wolfsburg/">Sigmastraße 123<br>38436 Wolfsburg</a></li>
             </ul>
         </div>
 

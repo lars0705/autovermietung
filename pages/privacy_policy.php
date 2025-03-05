@@ -2,15 +2,14 @@
 <html lang="de">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sigmacars | Datenschutzerklärung</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
     <?php include '../components/header.php'; ?>
 
-    <main class="privacy-policy-container">
-        <div class="privacy-policy-content">
+    <div class="main_content">
+        <div class="static_content">
             <h1>Datenschutzerklärung</h1>
 
             <section>
@@ -53,7 +52,7 @@
                 <p>Wir behalten uns vor, diese Datenschutzerklärung bei Bedarf anzupassen. Es gilt jeweils die aktuelle Version, die auf unserer Website veröffentlicht wird.</p>
             </section>
         </div>
-    </main>
+</div>
 
     <?php include '../components/footer.php'; ?>
 </body>

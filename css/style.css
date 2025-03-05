@@ -191,8 +191,6 @@ button {
   background-color: transparent;
   color: white;
   border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
   font-size: 14px;
   font-weight: bold;
 }
@@ -201,7 +199,6 @@ button {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Footer Bottom */
 .footer_bottom {
   text-align: center;
   margin-top: 30px;
@@ -209,113 +206,6 @@ button {
   color: #b1b1b1;
 }
 
-/* ========== IMPRESSUM SEITE (impressum.php) ========== */
-
-.impressum-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
-}
-
-.impressum-content {
-  background-color: rgba(19, 19, 19, 0.85); /* Dunkler Hintergrund mit Transparenz */
-  padding: 40px;
-  border-radius: 15px;
-  max-width: 800px;
-  width: 100%;
-  color: white;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.impressum-content h1 {
-  text-align: center;
-  font-size: 32px;
-  margin-bottom: 10px;
-}
-
-.impressum-content section {
-  margin-bottom: 30px;
-}
-
-.impressum-content h2 {
-  font-size: 24px;
-  color: #ff5733;
-  border-bottom: 2px solid #ff5733;
-  padding-bottom: 5px;
-  margin-bottom: 15px;
-}
-
-.impressum-content p {
-  font-size: 16px;
-  line-height: 1.6;
-  color: #e0e0e0;
-}
-
-.impressum-content a {
-  color: #ff5733;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.impressum-content a:hover {
-  color: #e64a19;
-}
-
-/* ========== DATENSCHUTZERKLÄRUNG SEITE (privacy_policy.php) ========== */
-
-.privacy-policy-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
-}
-
-.privacy-policy-content {
-  background-color: rgba(19, 19, 19, 0.85); /* Dunkler Hintergrund mit Transparenz */
-  padding: 40px;
-  border-radius: 15px;
-  max-width: 800px;
-  width: 100%;
-  color: white;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.privacy-policy-content h1 {
-  text-align: center;
-  font-size: 32px;
-  margin-bottom: 10px;
-}
-
-.privacy-policy-content section {
-  margin-bottom: 30px;
-}
-
-.privacy-policy-content h2 {
-  font-size: 24px;
-  color: #ff5733;
-  border-bottom: 2px solid #ff5733;
-  padding-bottom: 5px;
-  margin-bottom: 15px;
-}
-
-.privacy-policy-content p {
-  font-size: 16px;
-  line-height: 1.6;
-  color: #e0e0e0;
-}
-
-.privacy-policy-content a {
-  color: #ff5733;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.privacy-policy-content a:hover {
-  color: #e64a19;
-}
 
 
 /* ========== STARTSEITE (index.php) ========== */
@@ -521,78 +411,58 @@ select option {
 
 /* ========== BUCHUNGEN (bookings.php) ========== */
 
-/* ========== AGB SEITE (terms.php) ========== */
+/* ========== STATISCHE SEITEN (terms.php / privacy_policy.php / imprint.php) ========== */
 
-.agb-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-}
-
-.agb-content {
-    background-color: rgba(19, 19, 19, 0.85); /* Dunkler Hintergrund mit Transparenz */
+.static_content {
+    background-color: #131313;
     padding: 40px;
     border-radius: 15px;
     max-width: 800px;
-    width: 100%;
-    color: white;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    margin: auto;
+    margin-bottom: 50px;
 }
 
-.agb-content h1 {
+.static_content h1 {
     text-align: center;
     font-size: 32px;
     margin-bottom: 10px;
 }
 
-.agb-date {
+.static_date {
     text-align: center;
-    font-size: 14px;
     color: #b1b1b1;
     margin-bottom: 20px;
 }
 
-.agb-content section {
-    margin-bottom: 30px;
-}
-
-.agb-content h2 {
-    font-size: 24px;
-    color: #ff5733;
-    border-bottom: 2px solid #ff5733;
+.static_content h2 {
+    color: red;
+    border-bottom: 2px solid red;
     padding-bottom: 5px;
-    margin-bottom: 15px;
 }
 
-.agb-content p, .agb-content ul {
-    font-size: 16px;
+.static_content p, .agb-content ul {
     line-height: 1.6;
-    color: #e0e0e0;
+    color: #b1b1b1;
 }
 
-.agb-content ul {
+.static_content ul {
     padding-left: 20px;
 }
 
-.agb-content ul li {
+.static_content ul li {
     margin-bottom: 10px;
-    list-style-type: disc;
 }
 
-.agb-content a {
-    color: #ff5733;
+.static_content a {
+    color: red;
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
-.agb-content a:hover {
-    color: #e64a19;
+.static_content a:hover {
+    text-decoration: underline;
 }
 
-.agb-contact {
+.static_contact {
     text-align: center;
-    font-size: 16px;
-    margin-top: 20px;
 }

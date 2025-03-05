@@ -2,17 +2,15 @@
 <html lang="de">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sigmacars | Allgemeine Geschäftsbedingungen (AGB)</title>
+    <title>Sigmacars | AGB</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
     <?php include '../components/header.php'; ?>
-
-    <main class="agb-container">
-        <div class="agb-content">
+    <div class="main_content">
+        <div class="static_content">
             <h1>Allgemeine Geschäftsbedingungen (AGB)</h1>
-            <p class="agb-date">Stand: März 2025</p>
+            <p class="static_date">Stand: März 2025</p>
 
             <section>
                 <h2>1. Geltungsbereich</h2>
@@ -75,7 +73,7 @@
 
             <section>
                 <h2>9. Datenschutz</h2>
-                <p>Die Verarbeitung personenbezogener Daten erfolgt gemäß unserer <a href="privacy_policy.php">Datenschutzerklärung</a>.</p>
+                <p>Die Verarbeitung personenbezogener Daten erfolgt gemäß unserer <a href="../pages/privacy_policy.php">Datenschutzerklärung</a>.</p>
             </section>
 
             <section>
@@ -83,10 +81,9 @@
                 <p>Es gilt das Recht der Bundesrepublik Deutschland. Gerichtsstand ist Wolfsburg.</p>
             </section>
 
-            <p class="agb-contact">Bei Fragen zu diesen AGB kontaktieren Sie uns unter <a href="mailto:kontakt@sigmacars.de">kontakt@sigmacars.de</a>.</p>
+            <p class="static_contact">Bei Fragen zu diesen AGB kontaktieren Sie uns unter <a href="mailto:kontakt@sigmacars.de">kontakt@sigmacars.de</a>.</p>
         </div>
-    </main>
-
+    </div>
     <?php include '../components/footer.php'; ?>
 </body>
 </html>
