@@ -8,7 +8,6 @@ $sort_order = $_GET['order'] ?? 'asc';
       <div class="filter_group">
         <label for="location">Standorte</label>
         <select id="location" name="location">
-          <option value="" <?php echo (!isset($_GET['location']) || $_GET['location'] == '') ? 'selected' : ''; ?>>Beliebig</option>
           <?php
           $locations = ["berlin", "bielefeld", "bochum", "bremen", "dortmund", "dresden", "freiburg", "hamburg", "köln", "leipzig", "münchen", "nürnberg", "paderborn", "rostock"];
           foreach ($locations as $loc) {
