@@ -1,11 +1,11 @@
 <h1 class="section-title">Kategorien</h1>
 <div class="categorie_container">
-    <button class="item" onclick="selectCategory('limousine')"><img src="../assets/images/limousine_cat.png" alt="Limousine"></button>
-    <button class="item" onclick="selectCategory('suv')"><img src="../assets/images/suv_cat.png" alt="SUV"></button>
-    <button class="item" onclick="selectCategory('cabrio')"><img src="../assets/images/cabrio_cat.png" alt="Cabrio"></button>
-    <button class="item" onclick="selectCategory('coupé')"><img src="../assets/images/coupe_cat.png" alt="Coupé"></button>
-    <button class="item" onclick="selectCategory('kombi')"><img src="../assets/images/kombi_cat.png" alt="Kombi"></button>
-    <button class="item" onclick="selectCategory('mehrsitzer')"><img src="../assets/images/mehrsitzer_cat.png" alt="Mehrsitzer"></button>
+    <button class="item category_card" data-category="limousine"><img src="../assets/images/limousine_cat.png" alt="Limousine"></button>
+    <button class="item category_card" data-category="suv"><img src="../assets/images/suv_cat.png" alt="SUV"></button>
+    <button class="item category_card" data-category="cabrio"><img src="../assets/images/cabrio_cat.png" alt="Cabrio"></button>
+    <button class="item category_card" data-category="coupé"><img src="../assets/images/coupe_cat.png" alt="Coupé"></button>
+    <button class="item category_card" data-category="kombi"><img src="../assets/images/kombi_cat.png" alt="Kombi"></button>
+    <button class="item category_card" data-category="mehrsitzer"><img src="../assets/images/mehrsitzer_cat.png" alt="Mehrsitzer"></button>
 </div>
 <div class="about-container">
     <div class="about-text">
@@ -26,22 +26,57 @@
 </div>
 
 <script>
-function selectCategory(category) {
-    console.log("Kategorie gewählt:", category); // Debugging
+document.addEventListener("DOMContentLoaded", function () {
+    const pickupDate = document.getElementById("pickup_date");
+    const returnDate = document.getElementById("return_date");
+    const errorMessage = document.getElementById("error_message");
+    const categoryCards = document.querySelectorAll(".category_card");
 
-    const location = document.getElementById("location").value;
-    console.log("Standort gewählt:", location); // Debugging
+    function checkDates() {
+        errorMessage.style.display = "none";
+        errorMessage.textContent = "";
 
-    if (!location) {
-        alert("Bitte wählen Sie zuerst einen Standort aus!");
-        return;
+        if (!pickupDate.value || !returnDate.value) {
+            errorMessage.textContent = "Bitte Abhol- und Rückgabedatum eingeben.";
+            errorMessage.style.display = "block";
+            categoryCards.forEach(card => card.classList.add("disabled_item"));
+            return false;
+        }
+
+        const pickupValue = new Date(pickupDate.value);
+        const returnValue = new Date(returnDate.value);
+
+        if (returnValue <= pickupValue) {
+            errorMessage.textContent = "Das Rückgabedatum muss nach dem Abholdatum liegen.";
+            errorMessage.style.display = "block";
+            categoryCards.forEach(card => card.classList.add("disabled_item"));
+            return false;
+        }
+
+        categoryCards.forEach(card => card.classList.remove("disabled_item"));
+        return true;
     }
 
-    // Überprüfung: Wurde die URL korrekt gesetzt?
-    const url = `product_list.php?location=${location}&category=${category}`;
-    console.log("Weiterleitung zu:", url); // Debugging
 
-    // Weiterleitung zur Produktliste mit den Filtern
-    window.location.href = url;
-}
+    pickupDate.addEventListener("input", checkDates);
+    returnDate.addEventListener("input", checkDates);
+
+    if (pickupDate.value && returnDate.value) {
+        checkDates();
+    }
+
+    function selectCategory(category) {
+        if (!checkDates()) return;
+
+        const url = `product_list.php?category=${category}&pickup_date=${pickupDate.value}&return_date=${returnDate.value}`;
+        window.location.href = url;
+    }
+
+    document.querySelectorAll(".categorie_container .item").forEach(item => {
+        item.addEventListener("click", function () {
+            const category = this.getAttribute("data-category");
+            selectCategory(category);
+        });
+    });
+});
 </script>

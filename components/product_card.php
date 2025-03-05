@@ -97,6 +97,7 @@ ob_end_clean();
 </head>
 <body>
 
+<h2>Fahrzeugübersicht</h2> 
 <div class="product_card_container">
     <?php if (!empty($cars)): ?>
         <?php foreach ($cars as $index => $car): ?>
