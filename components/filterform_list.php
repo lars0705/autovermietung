@@ -70,8 +70,15 @@ $sort_order = $_GET['order'] ?? 'asc';
       <div class="filter_group">
         <label for="category">Fahrzeugkategorie</label>
         <select id="category" name="category">
-        <option value="" >Beliebig</option>
-          <option value='limousine' >Limousine</option><option value='suv' >Suv</option><option value='cabrio' >Cabrio</option><option value='coupé' selected>Coupé</option><option value='kombi' >Kombi</option><option value='mehrsitzer' >Mehrsitzer</option>        </select>
+        <option value="" <?php echo (!isset($_GET['category']) || $_GET['category'] == '') ? 'selected' : ''; ?>>Beliebig</option>
+          <?php
+          $categories = ["limousine", "suv", "cabrio", "coupé", "kombi", "mehrsitzer"];
+          foreach ($categories as $cat) {
+            $selected = isset($_GET['category']) && $_GET['category'] == $cat ? 'selected' : '';
+            echo "<option value='$cat' $selected>" . ucfirst($cat) . "</option>";
+          }
+          ?>
+        </select>
       </div>
 
       <div class="filter_group">
