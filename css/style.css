@@ -273,9 +273,14 @@ button {
   transform: translateZ(70px) rotateY(-20deg);
 }
 
-.categorie_container .item.disabled_item:hover {
+.disabled-card {
+  filter: brightness(50%);
+  pointer-events: none; /* Optional: Deaktiviert die Klickbarkeit */
+}
+
+.disabled-card:hover {
+  filter: brightness(50%);
   background-color: green;
-  pointer-events: none;
 }
 
 .item img{

@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!pickupDate.value || !returnDate.value) {
             errorMessage.textContent = "Bitte Abhol- und Rückgabedatum eingeben.";
             errorMessage.style.display = "block";
-            categoryCards.forEach(card => card.classList.add("disabled_item"));
+            categoryCards.forEach(card => card.setAttribute("disabled", "disabled"));
             return false;
         }
 
@@ -49,14 +49,13 @@ document.addEventListener("DOMContentLoaded", function () {
         if (returnValue <= pickupValue) {
             errorMessage.textContent = "Das Rückgabedatum muss nach dem Abholdatum liegen.";
             errorMessage.style.display = "block";
-            categoryCards.forEach(card => card.classList.add("disabled_item"));
+            categoryCards.forEach(card => card.setAttribute("disabled", "disabled"));
             return false;
         }
 
-        categoryCards.forEach(card => card.classList.remove("disabled_item"));
+        categoryCards.forEach(card => card.removeAttribute("disabled"));
         return true;
     }
-
 
     pickupDate.addEventListener("input", checkDates);
     returnDate.addEventListener("input", checkDates);
@@ -74,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.querySelectorAll(".categorie_container .item").forEach(item => {
         item.addEventListener("click", function () {
-            const category = this.getAttribute("data-category");
+            const category = this.getAttribute("data-category"); 
             selectCategory(category);
         });
     });
