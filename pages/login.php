@@ -1,6 +1,8 @@
 <?php
-session_start(); // Session starten
-require_once "../components/db_connect.php"; 
+session_start();
+require_once "../components/db_connect.php";
+
+$return_url = isset($_GET['type_id']) ? "type_id=" . $_GET['type_id'] . "&pickup_date=" . $_GET['pickup_date'] . "&return_date=" . $_GET['return_date'] : "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $conn->real_escape_string(trim($_POST["email"]));
@@ -10,23 +12,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $stmt->store_result();
-    
+
     if ($stmt->num_rows == 1) {
         $stmt->bind_result($user_id, $username, $hashed_password);
         $stmt->fetch();
-        
+
         if (password_verify($password, $hashed_password)) {
-            session_regenerate_id(true); // Neue Session-ID erzeugen (Sicherheitsmaßnahme)
+            session_regenerate_id(true);
             $_SESSION["user_id"] = $user_id;
             $_SESSION["username"] = $username;
 
-            // Dauerhafte Anmeldung mit Cookies
             if (isset($_POST["remember"])) {
                 setcookie("user_id", $user_id, time() + (86400 * 30), "/");
                 setcookie("username", $username, time() + (86400 * 30), "/");
             }
 
-            header("Location: profile.php");
+            if (!empty($_POST["return_url"])) {
+                header("Location: product_detail.php?" . $_POST["return_url"] . "&logged_in=true");
+            } else {
+                header("Location: profile.php");
+            }
             exit();
         } else {
             $error = "Falsches Passwort.";
@@ -38,7 +43,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 $conn->close();
 ?>
-
 
 <!DOCTYPE html>
 <html lang="de">
@@ -56,13 +60,14 @@ $conn->close();
         <h2>Anmelden</h2>
         <?php if (isset($_GET['registered'])) echo "<p class='success'>Registrierung erfolgreich! Bitte anmelden.</p>"; ?>
         <?php if (isset($error)) echo "<p class='error'>$error</p>"; ?>
-        <form action="login.php" method="POST">
+        <form action="login.php<?php echo $return_url ? '?' . $return_url : ''; ?>" method="POST">
+            <input type="hidden" name="return_url" value="<?php echo htmlspecialchars($return_url); ?>">
             <input type="email" name="email" placeholder="E-Mail" required>
             <input type="password" name="password" placeholder="Passwort" required>
             <label><input type="checkbox" name="remember"> Angemeldet bleiben</label>
             <button type="submit">Login</button>
         </form>
-        <p>Kein Konto? <a href="register.php">Registrieren</a></p>
+        <p>Kein Konto? <a href="register.php<?php echo $return_url ? '?' . $return_url : ''; ?>">Registrieren</a></p>
     </div>
 </div>
 
