@@ -26,7 +26,7 @@ if (empty($bookings)) {
     $placeholders = implode(',', array_fill(0, count($car_ids), '?'));
 
     // Alle Fahrzeugdetails für die gebuchten Autos abrufen
-    $sql = "SELECT * FROM car_rental_data WHERE type_id IN ($placeholders)";
+    $sql = "SELECT * FROM car_rental_data WHERE car_id IN ($placeholders)";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param(str_repeat('i', count($car_ids)), ...$car_ids);
     $stmt->execute();
@@ -36,7 +36,7 @@ if (empty($bookings)) {
     // Autos nach `car_id` indizieren
     $cars = [];
     foreach ($cars_data as $car) {
-        $cars[$car['type_id']] = $car;
+        $cars[$car['car_id']] = $car;
     }
 }
 

@@ -2,7 +2,7 @@
 session_start();
 require_once "../components/db_connect.php"; 
 
-$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$id = isset($_GET['type_id']) ? intval($_GET['type_id']) : 0;
 
 // Standardwerte für Datumsübernahme aus product_list.php
 $default_pickup = isset($_GET['pickup_date']) ? $_GET['pickup_date'] : date('Y-m-d', strtotime('+1 day'));
@@ -65,7 +65,7 @@ $conn->close();
     <div class="details_section">
         <h3>Buchungsdetails</h3>
         <form action="book_car.php" method="POST" id="booking-form">
-            <input type="hidden" name="car_id" value="<?php echo $id; ?>">
+            <input type="hidden" name="type_id" value="<?php echo $id; ?>">
             <input type="hidden" name="car_location" value="<?php echo $location; ?>">
 
             <div class="details_grid">
