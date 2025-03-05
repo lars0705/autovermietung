@@ -97,17 +97,29 @@ button {
   background-color: #131313;
   padding: 40px 40px;
   border-top: 2px solid #b1b1b1;
+  color: #b1b1b1;
+  font-family: Arial, sans-serif;
 }
 
 .footer_container {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 30px;
+  max-width: 1200px;
+  margin: auto;
 }
 
 .footer_section {
   flex: 1;
   min-width: 200px;
+  margin: 10px;
+}
+
+.footer_section h3 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: white;
 }
 
 .footer_section ul {
@@ -129,6 +141,13 @@ button {
   color: #fff;
 }
 
+/* Social Media */
+.social_media {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
 .social_media img {
   width: 30px;
   height: 30px;
@@ -139,10 +158,17 @@ button {
   transform: scale(1.1);
 }
 
+/* Newsletter */
+.newsletter p {
+  font-size: 14px;
+  color: #b1b1b1;
+}
+
 .footer form {
   display: flex;
   gap: 10px;
   align-items: center;
+  margin-top: 10px;
 }
 
 .footer input[type="email"] {
@@ -163,15 +189,19 @@ button {
   cursor: pointer;
   transition: background-color 0.3s ease;
   font-size: 14px;
+  font-weight: bold;
 }
 
 .footer button:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
+/* Footer Bottom */
 .footer_bottom {
   text-align: center;
   margin-top: 30px;
+  font-size: 14px;
+  color: #b1b1b1;
 }
 
 /* ========== STARTSEITE (index.php) ========== */
