@@ -19,6 +19,69 @@ $sort_order = $_GET['order'] ?? 'asc';
       </div>
 
       <div class="filter_group">
+        <label for="doors">Türen</label>
+        <select id="doors" name="doors">
+          <option value="" <?php echo (!isset($_GET['doors']) || $_GET['doors'] == '') ? 'selected' : ''; ?>>Beliebig</option>
+          <?php
+          $doors = ["2", "4", "5"];
+          foreach ($doors as $door) {
+              $selected = (isset($_GET['doors']) && $_GET['doors'] == $door) ? 'selected' : '';
+              echo "<option value='$door' $selected>$door</option>";
+          }
+          ?>
+        </select>
+      </div>
+    </div>
+
+    <div class="filter_spalte">
+      <div class="filter_group">
+        <label for="pickup_date">Abholdatum</label>
+        <input type="date" id="pickup_date" name="pickup_date" value="<?php echo isset($_GET['pickup_date']) ? $_GET['pickup_date'] : ''; ?>">
+      </div>
+
+      <div class="filter_group">
+        <label for="min_age">Jüngster Fahrer</label>
+        <select id="min_age" name="min_age">
+          <option value="" <?php echo (!isset($_GET['min_age']) || $_GET['min_age'] == '') ? 'selected' : ''; ?>>Beliebig</option>
+          <?php
+          $ages = ["18", "21", "25"];
+          foreach ($ages as $age) {
+              $selected = (isset($_GET['min_age']) && $_GET['min_age'] == $age) ? 'selected' : '';
+              echo "<option value='$age' $selected>$age</option>";
+          }
+          ?>
+        </select>
+      </div>
+    </div>
+
+    <div class="filter_spalte">
+      <div class="filter_group">
+        <label for="return_date">Rückgabedatum</label>
+        <input type="date" id="return_date" name="return_date" value="<?php echo isset($_GET['return_date']) ? $_GET['return_date'] : ''; ?>">
+      </div>
+
+      <div class="filter_group">
+        <label for="ac">Klimaanlage</label>
+        <input type="checkbox" id="ac" name="ac" value="true" <?php echo isset($_GET['ac']) ? 'checked' : ''; ?>>
+      </div>
+    </div>
+    
+    <div class="filter_spalte">
+      <div class="filter_group">
+        <label for="category">Fahrzeugkategorie</label>
+        <select id="category" name="category">
+        <option value="" >Beliebig</option>
+          <option value='limousine' >Limousine</option><option value='suv' >Suv</option><option value='cabrio' >Cabrio</option><option value='coupé' selected>Coupé</option><option value='kombi' >Kombi</option><option value='mehrsitzer' >Mehrsitzer</option>        </select>
+      </div>
+
+      <div class="filter_group">
+        <label for="gps">GPS</label>
+        <input type="checkbox" id="gps" name="gps" value="true" >
+      </div>
+    </div>
+
+    <div class="filter_spalte">
+      <div class="filter_group">
         <label for="brand">Marke</label>
         <select id="brand" name="brand">
           <option value="" <?php echo (!isset($_GET['brand']) || $_GET['brand'] == '') ? 'selected' : ''; ?>>Beliebig</option>
@@ -43,33 +106,14 @@ $sort_order = $_GET['order'] ?? 'asc';
           ?>
         </select>
       </div>
-        
-      <div class="filter_group">
-        <label for="doors">Türen</label>
-        <select id="doors" name="doors">
-          <option value="" <?php echo (!isset($_GET['doors']) || $_GET['doors'] == '') ? 'selected' : ''; ?>>Beliebig</option>
-          <?php
-          $doors = ["2", "4", "5"];
-          foreach ($doors as $door) {
-              $selected = (isset($_GET['doors']) && $_GET['doors'] == $door) ? 'selected' : '';
-              echo "<option value='$door' $selected>$door</option>";
-          }
-          ?>
-        </select>
-      </div>
 
       <div class="filter_group">
-        <label for="max_price">Preisgrenze: <span id="price_value">1000</span>€/Tag</label>
+        <label for="max_price">Max. Preis: <span id="price_value">1000</span>€/Tag</label>
         <input type="range" id="max_price" name="max_price" min="0" max="900" step="10" value="<?php echo isset($_GET['max_price']) ? $_GET['max_price'] : '900'; ?>">
       </div>
     </div>
 
     <div class="filter_spalte">
-      <div class="filter_group">
-        <label for="pickup_date">Abholdatum</label>
-        <input type="date" id="pickup_date" name="pickup_date" value="<?php echo isset($_GET['pickup_date']) ? $_GET['pickup_date'] : ''; ?>">
-      </div>
-
       <div class="filter_group">
         <label for="drivetrain">Antrieb</label>
         <select id="drivetrain" name="drivetrain">
@@ -88,29 +132,11 @@ $sort_order = $_GET['order'] ?? 'asc';
       </div>
 
       <div class="filter_group">
-        <label for="min_age">Jüngster Fahrer</label>
-        <select id="min_age" name="min_age">
-          <option value="" <?php echo (!isset($_GET['min_age']) || $_GET['min_age'] == '') ? 'selected' : ''; ?>>Beliebig</option>
-          <?php
-          $ages = ["18", "21", "25"];
-          foreach ($ages as $age) {
-              $selected = (isset($_GET['min_age']) && $_GET['min_age'] == $age) ? 'selected' : '';
-              echo "<option value='$age' $selected>$age</option>";
-          }
-          ?>
-        </select>
-      </div>
-
-      <div class="filter_group">
         <button type="button" id="custom_reset" class="reset_button">Filter zurücksetzen</button>
       </div>
     </div>
-    <div class="filter_spalte">
-      <div class="filter_group">
-        <label for="return_date">Rückgabedatum</label>
-        <input type="date" id="return_date" name="return_date" value="<?php echo isset($_GET['return_date']) ? $_GET['return_date'] : ''; ?>">
-      </div>
 
+    <div class="filter_spalte">
       <div class="filter_group">
         <label for="transmission">Getriebe</label>
         <select id="transmission" name="transmission">
@@ -129,56 +155,27 @@ $sort_order = $_GET['order'] ?? 'asc';
       </div>
 
       <div class="filter_group">
-        <label for="ac">Klimaanlage</label>
-        <input type="checkbox" id="ac" name="ac" value="true" <?php echo isset($_GET['ac']) ? 'checked' : ''; ?>>
-      </div>
-
-      <div class="filter_group">
         <button type="submit" id="submit_button" class="submit_button">Filter anwenden</button>
       </div>
     </div>
-    <div class="filter_spalte">
-      <div class="filter_group">
-        <label for="category">Fahrzeugkategorie</label>
-        <select id="category" name="category">
-        <option value="" <?php echo (!isset($_GET['category']) || $_GET['category'] == '') ? 'selected' : ''; ?>>Beliebig</option>
-          <?php
-          $categories = ["limousine", "suv", "cabrio", "coupé", "kombi", "mehrsitzer"];
-          foreach ($categories as $cat) {
-            $selected = isset($_GET['category']) && $_GET['category'] == $cat ? 'selected' : '';
-            echo "<option value='$cat' $selected>" . ucfirst($cat) . "</option>";
-          }
-          ?>
-        </select>
-      </div>
 
+    <div class="filter_spalte">
       <div class="filter_group">
         <label for="seats">Sitzplätze</label>
         <select id="seats" name="seats">
-          <option value="" <?php echo (!isset($_GET['seats']) || $_GET['seats'] == '') ? 'selected' : ''; ?>>Beliebig</option>
-          <?php
-          $seats = ["2", "4", "5", "7", "8", "9"];
-          foreach ($seats as $seat) {
-              $selected = (isset($_GET['seats']) && $_GET['seats'] == $seat) ? 'selected' : '';
-              echo "<option value='$seat' $selected>$seat</option>";
-          }
-          ?>
-        </select>
+          <option value="" selected>Beliebig</option>
+          <option value='2' >2</option><option value='4' >4</option><option value='5' >5</option><option value='7' >7</option><option value='8' >8</option><option value='9' >9</option>        </select>
       </div>
-
-      <div class="filter_group">
-        <label for="gps">GPS</label>
-        <input type="checkbox" id="gps" name="gps" value="true" <?php echo isset($_GET['gps']) ? 'checked' : ''; ?>>
-      </div>
-
+      
       <div class="filter_group">
         <label for="sort">Sortierung</label>
         <select id="sort" name="order">
-          <option value="asc" <?php echo ($sort_order === 'asc') ? 'selected' : ''; ?>>Preis: Aufsteigend</option>
-          <option value="desc" <?php echo ($sort_order === 'desc') ? 'selected' : ''; ?>>Preis: Absteigend</option>
+          <option value="asc" selected>Preis: Aufsteigend</option>
+          <option value="desc" >Preis: Absteigend</option>
         </select>   
       </div>
     </div>
+
   </form>
   <div id="error_message" class="error_message"></div>
 </div>
