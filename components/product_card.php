@@ -10,17 +10,19 @@ require_once "../components/db_connect.php";
 $location = $_GET['location'] ?? '';
 $pickup_date = $_GET['pickup_date'] ?? date('Y-m-d', strtotime('+1 day'));
 $return_date = $_GET['return_date'] ?? date('Y-m-d', strtotime('+2 days'));
-$doors = $_GET['doors'] ?? null;
-$seats = $_GET['seats'] ?? null;
-$min_age = $_GET['min_age'] ?? null;
+
+$doors = !empty($_GET['doors']) ? $_GET['doors'] : null;
+$seats = !empty($_GET['seats']) ? $_GET['seats'] : null;
+$min_age = !empty($_GET['min_age']) ? $_GET['min_age'] : null;
 $ac = isset($_GET['ac']) ? 1 : null;
 $gps = isset($_GET['gps']) ? 1 : null;
-$category = $_GET['category'] ?? null;
-$brand = $_GET['brand'] ?? null;
-$max_price = $_GET['max_price'] ?? null;
-$drivetrain = $_GET['drivetrain'] ?? null;
-$transmission = $_GET['transmission'] ?? null;
+$category = !empty($_GET['category']) ? $_GET['category'] : null;
+$brand = !empty($_GET['brand']) ? $_GET['brand'] : null;
+$max_price = (!empty($_GET['max_price']) && $_GET['max_price'] != "0") ? $_GET['max_price'] : null;
+$drivetrain = !empty($_GET['drivetrain']) ? $_GET['drivetrain'] : null;
+$transmission = !empty($_GET['transmission']) ? $_GET['transmission'] : null;
 $order = $_GET['order'] ?? 'asc';
+
 
 
 // 3️⃣ Alle Fahrzeuge aus `car_rental_data` abrufen
@@ -180,18 +182,17 @@ foreach ($available_cars as $car) {
     <?php if (!empty($grouped_cars)): ?>
         <?php foreach ($grouped_cars as $car): ?>
             <?php if (
-    ($doors === null || (!empty($car["doors"]) && $car["doors"] == $doors)) &&
-    ($seats === null || (!empty($car["seats"]) && $car["seats"] == $seats)) &&
-    ($min_age === null || (!empty($car["min_age"]) && $car["min_age"] <= $min_age)) &&
-    ($ac === null || (!empty($car["air_condition"]) && $car["air_condition"] == $ac)) &&
-    ($gps === null || (!empty($car["gps"]) && $car["gps"] == $gps)) &&
-    ($category === null || (!empty($car["type"]) && stripos($car["type"], $category) !== false)) &&
-    ($brand === null || (!empty($car["vendor_name"]) && stripos($car["vendor_name"], $brand) !== false)) &&
-    ($max_price === null || (!empty($car["price"]) && $car["price"] <= $max_price)) &&
-    ($drivetrain === null || (!empty($car["drive"]) && stripos($car["drive"], $drivetrain) !== false)) &&
-    ($transmission === null || (!empty($car["gear"]) && stripos($car["gear"], $transmission) !== false))
+    ($doors === null || ($car["doors"] ?? null) == $doors) &&
+    ($seats === null || ($car["seats"] ?? null) == $seats) &&
+    ($min_age === null || ($car["min_age"] ?? null) <= $min_age) &&
+    ($ac === null || ($car["air_condition"] ?? null) == 1) &&  
+    ($gps === null || ($car["gps"] ?? null) == 1) &&  
+    ($category === null || stripos(strtolower($car["type"] ?? ''), strtolower($category)) !== false) &&
+    ($brand === null || stripos(strtolower($car["vendor_name"] ?? ''), strtolower($brand)) !== false) &&
+    ($max_price === null || ($car["price"] ?? null) <= $max_price) &&
+    ($drivetrain === null || stripos(strtolower($car["drive"] ?? ''), strtolower($drivetrain)) !== false) &&
+    ($transmission === null || stripos(strtolower($car["gear"] ?? ''), strtolower($transmission)) !== false)
 ): ?>
-
             <div class="car_frame fade-in">
                 <div class="car_image">
                 <?php include '../components/load_image.php'; ?>
