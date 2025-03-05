@@ -16,14 +16,16 @@
             <section>
                 <h2>Angaben gemäß § 5 TMG</h2>
                 <p>Sigmacars GmbH<br>
-                Musterstraße 1<br>
-                12345 Musterstadt<br>
+                Sigmastraße 1234<br>
+                38436 Musterstadt<br>
                 Deutschland</p>
             </section>
 
             <section>
                 <h2>Vertreten durch:</h2>
-                <p>Max Mustermann (Geschäftsführer)</p>
+                <p>Lars Kehrhahn</p>
+                <p>Leo Konitzer</p>
+                <p>Linus Krieg</p>
             </section>
 
             <section>
@@ -35,7 +37,7 @@
 
             <section>
                 <h2>Handelsregister:</h2>
-                <p>Amtsgericht Musterstadt, HRB 123456</p>
+                <p>Amtsgericht Wolfsburg, HRB 123456</p>
             </section>
 
             <section>
