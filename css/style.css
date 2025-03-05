@@ -102,17 +102,29 @@ button {
   background-color: #131313;
   padding: 40px 40px;
   border-top: 2px solid #b1b1b1;
+  color: #b1b1b1;
+  font-family: Arial, sans-serif;
 }
 
 .footer_container {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 30px;
+  max-width: 1200px;
+  margin: auto;
 }
 
 .footer_section {
   flex: 1;
   min-width: 200px;
+  margin: 10px;
+}
+
+.footer_section h3 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: white;
 }
 
 .footer_section ul {
@@ -134,6 +146,13 @@ button {
   color: #fff;
 }
 
+/* Social Media */
+.social_media {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
 .social_media img {
   width: 30px;
   height: 30px;
@@ -144,10 +163,17 @@ button {
   transform: scale(1.1);
 }
 
+/* Newsletter */
+.newsletter p {
+  font-size: 14px;
+  color: #b1b1b1;
+}
+
 .footer form {
   display: flex;
   gap: 10px;
   align-items: center;
+  margin-top: 10px;
 }
 
 .footer input[type="email"] {
@@ -168,16 +194,129 @@ button {
   cursor: pointer;
   transition: background-color 0.3s ease;
   font-size: 14px;
+  font-weight: bold;
 }
 
 .footer button:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
+/* Footer Bottom */
 .footer_bottom {
   text-align: center;
   margin-top: 30px;
+  font-size: 14px;
+  color: #b1b1b1;
 }
+
+/* ========== IMPRESSUM SEITE (impressum.php) ========== */
+
+.impressum-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.impressum-content {
+  background-color: rgba(19, 19, 19, 0.85); /* Dunkler Hintergrund mit Transparenz */
+  padding: 40px;
+  border-radius: 15px;
+  max-width: 800px;
+  width: 100%;
+  color: white;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.impressum-content h1 {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.impressum-content section {
+  margin-bottom: 30px;
+}
+
+.impressum-content h2 {
+  font-size: 24px;
+  color: #ff5733;
+  border-bottom: 2px solid #ff5733;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+}
+
+.impressum-content p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #e0e0e0;
+}
+
+.impressum-content a {
+  color: #ff5733;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.impressum-content a:hover {
+  color: #e64a19;
+}
+
+/* ========== DATENSCHUTZERKLÄRUNG SEITE (privacy_policy.php) ========== */
+
+.privacy-policy-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.privacy-policy-content {
+  background-color: rgba(19, 19, 19, 0.85); /* Dunkler Hintergrund mit Transparenz */
+  padding: 40px;
+  border-radius: 15px;
+  max-width: 800px;
+  width: 100%;
+  color: white;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.privacy-policy-content h1 {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.privacy-policy-content section {
+  margin-bottom: 30px;
+}
+
+.privacy-policy-content h2 {
+  font-size: 24px;
+  color: #ff5733;
+  border-bottom: 2px solid #ff5733;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+}
+
+.privacy-policy-content p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #e0e0e0;
+}
+
+.privacy-policy-content a {
+  color: #ff5733;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.privacy-policy-content a:hover {
+  color: #e64a19;
+}
+
 
 /* ========== STARTSEITE (index.php) ========== */
 
@@ -382,3 +521,78 @@ select option {
 
 /* ========== BUCHUNGEN (bookings.php) ========== */
 
+/* ========== AGB SEITE (terms.php) ========== */
+
+.agb-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.agb-content {
+    background-color: rgba(19, 19, 19, 0.85); /* Dunkler Hintergrund mit Transparenz */
+    padding: 40px;
+    border-radius: 15px;
+    max-width: 800px;
+    width: 100%;
+    color: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.agb-content h1 {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.agb-date {
+    text-align: center;
+    font-size: 14px;
+    color: #b1b1b1;
+    margin-bottom: 20px;
+}
+
+.agb-content section {
+    margin-bottom: 30px;
+}
+
+.agb-content h2 {
+    font-size: 24px;
+    color: #ff5733;
+    border-bottom: 2px solid #ff5733;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+.agb-content p, .agb-content ul {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #e0e0e0;
+}
+
+.agb-content ul {
+    padding-left: 20px;
+}
+
+.agb-content ul li {
+    margin-bottom: 10px;
+    list-style-type: disc;
+}
+
+.agb-content a {
+    color: #ff5733;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.agb-content a:hover {
+    color: #e64a19;
+}
+
+.agb-contact {
+    text-align: center;
+    font-size: 16px;
+    margin-top: 20px;
+}

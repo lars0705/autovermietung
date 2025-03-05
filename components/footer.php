@@ -6,7 +6,8 @@
             <ul>
                 <li><a href="tel:+1234567890">+1 234 567 890</a></li>
                 <li><a href="mailto:kontakt@sigmacars.de">kontakt@sigmacars.de</a></li>
-                <li>1234 Sigmastraße, 38436 Wolfsburg</li>
+                <li><a href="https://www.google.de/maps/place/38436+Wolfsburg-Fallersleben-S%C3%BClfeld/">1234 Sigmastraße</a></li>
+                <li><a href="https://www.google.de/maps/place/Wolfsburg/">38436 Wolfsburg</a></li>
             </ul>
         </div>
 
@@ -18,7 +19,7 @@
                 <li><a href="../pages/product_list.php">Fahrzeuge</a></li>
                 <li><a href="../pages/terms.php">AGB's</a></li>
                 <li><a href="../pages/imprint.php">Impressum</a></li>
-                <li><a href="../pages/privacy_policy.php">Datenschutzbestimmungen</a></li>
+                <li><a href="../pages/privacy_policy.php">Datenschutz</a></li>
             </ul>
         </div>
 
@@ -34,19 +35,13 @@
         </div>
 
         <!-- Newsletter -->
-        <div class="footer_section">
+        <div class="footer_section newsletter">
             <h3>Newsletter</h3>
             <p>Erhalte die neuesten Angebote und Updates direkt in deinen Posteingang.</p>
             <form onsubmit="clearInput(); return false;">
                 <input type="email" id="emailInput" placeholder="Deine E-Mail-Adresse" required>
                 <button type="submit">Abonnieren</button>
             </form>
-
-            <script>
-                function clearInput() {
-                    document.getElementById("emailInput").value = ""; // Leert das Feld
-                }
-            </script>
         </div>
     </div>
 
