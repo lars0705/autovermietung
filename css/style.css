@@ -49,7 +49,7 @@ html, body {
 }
 
 button {
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 300;
   border-radius: 50px;
   text-decoration: none;
@@ -63,37 +63,42 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 30px;
+  padding: 10px 20px;
   background-color: #131313;
   position: fixed;
   z-index: 1000;
   left: 0;
   right: 0;
   top: 0;
+  height: 40px;
 }
 
 .logo img {
-  height: 40px
+  height: 30px;
 }
 
 .nav_buttons {
   display: flex;
-  gap: 15px;
 }
 
 .nav_button {
-  padding: 10px 50px;
   font-size: 18px;
   font-weight: 300;
-  border-radius: 50px;
   text-decoration: none;
   transition: all 0.3s ease-in-out;
+  cursor: pointer;
   color: #b1b1b1;
-  border: 2px solid #b1b1b1;
+}
+
+.nav_button:not(:last-child)::after {
+  content: "|";
+  color: #b1b1b1;
+  margin-left: 30px;
+  margin-right: 30px;
 }
 
 .nav_button:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  text-decoration: underline;
 }
 
 /* ========== FOOTER (footer.php) ========== */
@@ -143,10 +148,9 @@ button {
 }
 
 .footer_section ul li a:hover {
-  color: #fff;
+  text-decoration: underline;
 }
 
-/* Social Media */
 .social_media {
   display: flex;
   gap: 15px;
@@ -163,7 +167,6 @@ button {
   transform: scale(1.1);
 }
 
-/* Newsletter */
 .newsletter p {
   font-size: 14px;
   color: #b1b1b1;
@@ -210,8 +213,16 @@ button {
 
 /* ========== STARTSEITE (index.php) ========== */
 
+.filter_container.index{
+  width: 30%;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 .section-title {
   text-align: center;
+  padding-top: 100px;
 }
 
 .categorie_container{
@@ -307,52 +318,54 @@ button {
 
 /* ========== PRODUKTÜBERSICHT (product_list.php) ========== */
 
+.filter_container.product_list {
+  width: 60%;
+}
+
 /* ========== FILTERFENSTER (filter_form.php) ========== */
 
 .filter_container {
   z-index: 1000;
   background: #131313;
-  padding: 20px;
+  padding: 10px;
   border-radius: 20px;
   margin: 0 auto;
-  width: 50%;
 }
 
 .filter_form {
   width: 100%;
   display: flex;
   justify-content: space-around;
-  align-items: end;
 }
 
 .filter_spalte {
   display: flex;
   flex-direction: column;
-  row-gap: 20px;
 }
 
 .filter_group {
   display: flex;
   flex-direction: column;
-  justify-self: center;
   height: 66px;
-  align-self: stretch;
 }
 
 .filter_group label {
-  font-size: 14px;
-  margin-bottom: 5px;
+  font-size: 12px;
+  margin-bottom: 2px;
+  font-weight: 300;
+  color: #b1b1b1;
 }
 
 .filter_form input,
 .filter_form select {
   background: transparent;
-  border: 1px solid white;
+  border: 1px solid #b1b1b1;
   border-radius: 5px;
-  font-size: 18px;
-  color: white;
-  height: 44px;
-  width: 150px;
+  font-size: 14px;
+  font-weight: 300;
+  color: #b1b1b1;
+  height: 36px;
+  width: 120px;
   cursor: pointer;
   padding-inline-start: 5px;
   box-sizing: border-box;
@@ -361,45 +374,43 @@ button {
 .filter_form input[type="checkbox"] {
   width: 20px;
   height: 20px;
-  cursor: pointer;
 }
 
 select option {
   background: #131313;
-  color: white;
+  color: #b1b1b1;
 }
 
 .filter_form .submit_button {
   background-color: transparent;
   color: red;
   border: 1px solid red;
-  width: 150px;
-  height: 44px;
-  margin-top: auto;
+  width: 120px;
+  height: 36px;
+  margin-top: 17px;
 }
 
 .filter_form .submit_button:hover {
   background-color: red;
-  color: white;
+  color: #b1b1b1;
 }
 
 .filter_form .reset_button {
   background-color: transparent;
-  color: white;
-  border: 1px solid white;
-  width: 150px;
-  height: 44px;
-  margin-top: auto;
+  color: #b1b1b1;
+  border: 1px solid #b1b1b1;
+  width: 120px;
+  height: 36px;
+  margin-top: 17px;
 }
 
 .filter_form .reset_button:hover {
-  background-color: white;
+  background-color: #b1b1b1;
   color: black;
 }
 
 .filter_container .error_message {
   text-align: center;
-  margin-top: 20px;
   color: red;
 }
 
@@ -451,6 +462,7 @@ select option {
 
 .static_content ul li {
     margin-bottom: 10px;
+    color: #b1b1b1;
 }
 
 .static_content a {
