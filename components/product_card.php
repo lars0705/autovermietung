@@ -66,7 +66,7 @@ ob_end_clean();
     <link rel="stylesheet" href="../css/style_product_list.css">
 </head>
 <body>
-
+<?php /*
 <!-- 1️⃣ Tabelle: Alle verfügbaren Autos -->
 <h2>Verfügbare Fahrzeuge</h2>
 <table border="1">
@@ -127,7 +127,7 @@ ob_end_clean();
     </tr>
     <?php endforeach; ?>
 </table>
-
+*/?>
 <?php 
 $grouped_cars = [];
 
