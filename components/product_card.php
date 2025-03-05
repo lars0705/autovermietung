@@ -10,6 +10,18 @@ require_once "../components/db_connect.php";
 $location = $_GET['location'] ?? '';
 $pickup_date = $_GET['pickup_date'] ?? date('Y-m-d', strtotime('+1 day'));
 $return_date = $_GET['return_date'] ?? date('Y-m-d', strtotime('+2 days'));
+$doors = $_GET['doors'] ?? null;
+$seats = $_GET['seats'] ?? null;
+$min_age = $_GET['min_age'] ?? null;
+$ac = isset($_GET['ac']) ? 1 : null;
+$gps = isset($_GET['gps']) ? 1 : null;
+$category = $_GET['category'] ?? null;
+$brand = $_GET['brand'] ?? null;
+$max_price = $_GET['max_price'] ?? null;
+$drivetrain = $_GET['drivetrain'] ?? null;
+$transmission = $_GET['transmission'] ?? null;
+$order = $_GET['order'] ?? 'asc';
+
 
 // 3️⃣ Alle Fahrzeuge aus `car_rental_data` abrufen
 $sql = "SELECT * FROM car_rental_data WHERE loc_name = ?";
@@ -167,6 +179,19 @@ foreach ($available_cars as $car) {
 <div class="product_card_container">
     <?php if (!empty($grouped_cars)): ?>
         <?php foreach ($grouped_cars as $car): ?>
+            <?php if (
+    ($doors === null || (!empty($car["doors"]) && $car["doors"] == $doors)) &&
+    ($seats === null || (!empty($car["seats"]) && $car["seats"] == $seats)) &&
+    ($min_age === null || (!empty($car["min_age"]) && $car["min_age"] <= $min_age)) &&
+    ($ac === null || (!empty($car["air_condition"]) && $car["air_condition"] == $ac)) &&
+    ($gps === null || (!empty($car["gps"]) && $car["gps"] == $gps)) &&
+    ($category === null || (!empty($car["type"]) && stripos($car["type"], $category) !== false)) &&
+    ($brand === null || (!empty($car["vendor_name"]) && stripos($car["vendor_name"], $brand) !== false)) &&
+    ($max_price === null || (!empty($car["price"]) && $car["price"] <= $max_price)) &&
+    ($drivetrain === null || (!empty($car["drive"]) && stripos($car["drive"], $drivetrain) !== false)) &&
+    ($transmission === null || (!empty($car["gear"]) && stripos($car["gear"], $transmission) !== false))
+): ?>
+
             <div class="car_frame fade-in">
                 <div class="car_image">
                 <?php include '../components/load_image.php'; ?>
@@ -191,6 +216,7 @@ foreach ($available_cars as $car) {
                     <a href="product_detail.php?type_id=<?php echo urlencode($car["type_id"]); ?>&pickup_date=<?php echo urlencode($pickup_date); ?>&return_date=<?php echo urlencode($return_date); ?>" class="more_button">Fahrzeug anzeigen</a>
                 </div>
             </div>
+            <?php endif; ?>
         <?php endforeach; ?>
     <?php else: ?>
         <p>Keine Fahrzeuge am gewählten Standort verfügbar.</p>
