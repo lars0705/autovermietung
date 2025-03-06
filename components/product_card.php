@@ -213,9 +213,8 @@ foreach ($available_cars as $car) {
                         <li><strong>verfügbar:</strong> <?php echo $car['count']; ?></li>
                         <li><strong>ID:</strong> <?php echo $car['type_id']; ?></li>
                     </ul>
-
-                    <a href="product_detail.php?type_id=<?php echo urlencode($car["type_id"]); ?>&pickup_date=<?php echo urlencode($pickup_date); ?>&return_date=<?php echo urlencode($return_date); ?>" class="more_button">Fahrzeug anzeigen</a>
-                </div>
+                    <a href="product_detail.php?type_id=<?php echo urlencode($car["type_id"]); ?>&pickup_date=<?php echo urlencode($pickup_date); ?>&return_date=<?php echo urlencode($return_date); ?>&count=<?php echo urlencode($car['count']); ?>" class="more_button">Fahrzeug anzeigen</a>
+                    </div>
             </div>
             <?php endif; ?>
         <?php endforeach; ?>

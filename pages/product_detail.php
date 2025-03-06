@@ -7,6 +7,7 @@ $id = isset($_GET['type_id']) ? intval($_GET['type_id']) : 0;
 // Standardwerte für Datumsübernahme aus product_list.php
 $default_pickup = isset($_GET['pickup_date']) ? $_GET['pickup_date'] : date('Y-m-d', strtotime('+1 day'));
 $default_return = isset($_GET['return_date']) ? $_GET['return_date'] : date('Y-m-d', strtotime('+2 days'));
+$count = isset($_GET['count']) ? intval($_GET['count']) : 0;
 
 $stmt = $conn->prepare("SELECT * FROM car_rental_data WHERE type_id = ?");
 $stmt->bind_param("i", $id);
@@ -114,6 +115,8 @@ document.addEventListener("DOMContentLoaded", function () {
             <?php include '../components/load_image.php'; ?>
         </div>
         <p class="car_price_large"><?php echo number_format($car["price"], 2, ',', '.'); ?>€ / Tag <span class="km_info">300km / Tag</span></p>
+        <p class="availabilty_large"><?php echo $count; ?><strong> verfügbares Fahrzeug<?php echo ($count == 1) ? '' : 'e'; ?> in </strong><?php echo $location; ?>
+</p>
     </div>
 
     <div class="details_section">
