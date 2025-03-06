@@ -118,6 +118,20 @@ $conn->close();
         .cancel-button:hover {
             background: darkred;
         }
+
+        .feedback_button {
+            display: inline-block;
+            background: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .feedback_button:hover {
+            background: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -128,6 +142,13 @@ $conn->close();
     <!-- Linke Seite: Tabelle mit Buchungen -->
     <div class="table-container">
         <h2>Meine Bestellungen</h2>
+        <?php if (!empty($bookings)): ?>
+            <a href="feedback.php" class="feedback_button">Feedback geben</a>
+        <?php endif; ?>
+        <?php if (isset($_GET['feedback_success'])): ?>
+            <p class="success_message">Danke für Ihr Feedback! Ihre Bewertung wurde erfolgreich gespeichert.</p>
+        <?php endif; ?>
+
         <p>Gesamtbuchungen: <?php echo $total_bookings; ?> | Seiten: <?php echo $total_pages; ?></p>
 
         <?php if (isset($_GET['success']) && $_GET['success'] == 'true'): ?>
