@@ -54,13 +54,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     $total_price = $price_per_day * $days;
+    $booked_date = date("Y-m-d H:i:s"); // Aktuelle Zeit für die Buchung
 
     // Buchung in die Datenbank einfügen
     $stmt = $conn->prepare("
-        INSERT INTO bookings (user_id, car_id, type_id, pickup_date, return_date, car_location, total_price) 
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO bookings (user_id, car_id, type_id, pickup_date, return_date, car_location, total_price, booked_date) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     ");
-    $stmt->bind_param("iiisssi", $user_id, $car_id, $type_id, $pickup_date, $return_date, $location, $total_price);
+    $stmt->bind_param("iiisssis", $user_id, $car_id, $type_id, $pickup_date, $return_date, $location, $total_price, $booked_date);
 
     if ($stmt->execute()) {
         // Erfolgreiche Buchung → Weiterleitung zur Buchungsseite mit Erfolgsmeldung

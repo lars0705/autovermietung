@@ -29,6 +29,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     const pickupDate = document.getElementById("pickup_date");
     const returnDate = document.getElementById("return_date");
+    const locationInput = document.getElementById("location"); // Standort-Feld hinzufügen
     const errorMessage = document.getElementById("error_message");
     const categoryCards = document.querySelectorAll(".category_card");
 
@@ -67,7 +68,13 @@ document.addEventListener("DOMContentLoaded", function () {
     function selectCategory(category) {
         if (!checkDates()) return;
 
-        const url = `product_list.php?category=${category}&pickup_date=${pickupDate.value}&return_date=${returnDate.value}`;
+        let url = `product_list.php?category=${category}&pickup_date=${pickupDate.value}&return_date=${returnDate.value}`;
+
+        // Falls ein Standort-Input existiert und nicht leer ist, füge ihn zur URL hinzu
+        if (locationInput && locationInput.value) {
+            url += `&location=${encodeURIComponent(locationInput.value)}`;
+        }
+
         window.location.href = url;
     }
 
@@ -78,4 +85,5 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+
 </script>

@@ -191,7 +191,6 @@ $total_pages = ceil($total_vehicles / $vehicles_per_page);
 
 // Fahrzeuge für die aktuelle Seite extrahieren
 $displayed_cars = array_slice($grouped_cars, $offset, $vehicles_per_page, true);
-
 ?>
 
 
@@ -238,21 +237,6 @@ $displayed_cars = array_slice($grouped_cars, $offset, $vehicles_per_page, true);
         <?php endforeach; ?>
     <?php else: ?>
         <p>Keine Fahrzeuge am gewählten Standort verfügbar.</p>
-    <?php endif; ?>
-</div>
-<div class="pagination">
-    <?php if ($current_page > 1): ?>
-        <a href="?location=<?php echo urlencode($location); ?>&pickup_date=<?php echo urlencode($pickup_date); ?>&return_date=<?php echo urlencode($return_date); ?>&page=<?php echo $current_page - 1; ?>" class="pagination_button">« Zurück</a>
-    <?php endif; ?>
-
-    <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-        <a href="?location=<?php echo urlencode($location); ?>&pickup_date=<?php echo urlencode($pickup_date); ?>&return_date=<?php echo urlencode($return_date); ?>&page=<?php echo $i; ?>" class="pagination_button <?php echo ($i == $current_page) ? 'active' : ''; ?>">
-            <?php echo $i; ?>
-        </a>
-    <?php endfor; ?>
-
-    <?php if ($current_page < $total_pages): ?>
-        <a href="?location=<?php echo urlencode($location); ?>&pickup_date=<?php echo urlencode($pickup_date); ?>&return_date=<?php echo urlencode($return_date); ?>&page=<?php echo $current_page + 1; ?>" class="pagination_button">Weiter »</a>
     <?php endif; ?>
 </div>
 </body>
