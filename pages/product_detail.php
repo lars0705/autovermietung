@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <div class="car_image">
             <?php include '../components/load_image.php'; ?>
         </div>
-        <p class="car_price_large"><?php echo htmlspecialchars($car["price"]); ?>€ / Tag <span class="km_info">300km / Tag</span></p>
+        <p class="car_price_large"><?php echo number_format($car["price"], 2, ',', '.'); ?>€ / Tag <span class="km_info">300km / Tag</span></p>
     </div>
 
     <div class="details_section">

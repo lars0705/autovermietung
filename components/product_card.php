@@ -199,7 +199,7 @@ foreach ($available_cars as $car) {
                 </div>
                 <div class="car_info">
                     <h3><?php echo htmlspecialchars($car["vendor_name"]) . " " . htmlspecialchars($car["name"]); ?></h3>
-                    <p class="car_price"><strong><?php echo htmlspecialchars($car["price"]); ?>€ / Tag</strong></p>
+                    <p class="car_price"><strong><?php echo number_format($car["price"], 2, ',', '.'); ?>€ / Tag</strong></p>
                     
                     <ul class="car_details">
                         <li><strong>Kategorie:</strong> <?php echo htmlspecialchars($car["type"]); ?></li>
