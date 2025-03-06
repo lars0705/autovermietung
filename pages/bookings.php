@@ -76,7 +76,8 @@ $conn->close();
         }
         .frame-container {
             flex: 2;
-            margin-left: 520px;
+            margin-top: 50px;
+            margin-left: 900px;
             overflow-y: auto;
             max-height: 80vh;
         }
@@ -84,7 +85,7 @@ $conn->close();
             border: 1px solid #ddd;
             padding: 15px;
             margin-bottom: 15px;
-            background: #f9f9f9;
+            background:rgb(51, 44, 44);
             border-radius: 8px;
         }
         .booking-frame img {

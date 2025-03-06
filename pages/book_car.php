@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         header("Location: bookings.php?success=true");
         exit();
     } else {
-        echo "Fehler bei der Buchung.";
+        echo "Fehler bei der Buchung: " . $stmt->error;
     }
     $stmt->close();
 }
