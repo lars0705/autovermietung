@@ -115,8 +115,11 @@ document.addEventListener("DOMContentLoaded", function () {
             <?php include '../components/load_image.php'; ?>
         </div>
         <p class="car_price_large"><?php echo number_format($car["price"], 2, ',', '.'); ?>€ / Tag <span class="km_info">300km / Tag</span></p>
-        <p class="availabilty_large"><?php echo $count; ?><strong> verfügbares Fahrzeug<?php echo ($count == 1) ? '' : 'e'; ?> in </strong><?php echo $location; ?>
-</p>
+        <p class="availability_large">
+            <?php echo $count; ?>
+            <strong>verfügbare<?php echo ($count == 1) ? 's Fahrzeug' : ' Fahrzeuge'; ?> in </strong>
+            <?php echo htmlspecialchars($location); ?>
+        </p>
     </div>
 
     <div class="details_section">
