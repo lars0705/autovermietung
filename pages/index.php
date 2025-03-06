@@ -6,31 +6,31 @@
     <link rel="stylesheet" href="../css/style.css" />
     <style>
       /* Feedback-Slider */
-      .feedback-slider {
+      .feedback_slider {
         max-width: 500px;
         margin: 20px auto;
         text-align: center;
         position: relative;
       }
 
-      .feedback-slide {
+      .feedback_slide {
         display: none;
       }
 
-      .feedback-slide.active {
+      .feedback_slide.active {
         display: block;
       }
 
-      .feedback-text {
+      .feedback_text {
         font-style: italic;
       }
 
-      .feedback-rating {
+      .feedback_rating {
         color: gold;
       }
 
       /* Intro-Animation */
-      #intro-overlay {
+      .intro_overlay {
         position: fixed;
         top: 0;
         left: 0;
@@ -45,7 +45,7 @@
         transition: opacity 0.6s ease-in-out;
       }
 
-      #intro-logo {
+      .intro_logo {
         width: 180px; /* Logo-Größe leicht verkleinert */
         opacity: 0;
         transition: opacity 0.8s ease-in-out;
@@ -53,10 +53,8 @@
     </style>
   </head>
   <body>
-    
-    <!-- Intro-Animation -->
-    <div id="intro-overlay">
-      <img src="../assets/images/sigmacars_logo.png" alt="Sigmacars Logo" id="intro-logo">
+    <div id="intro_overlay" class="intro_overlay">
+      <img src="../assets/images/sigmacars_logo.png" alt="Sigmacars Logo" id="intro_logo" class="intro_logo" />
     </div>
 
     <?php include '../components/header.php'; ?>
@@ -73,8 +71,8 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-          const overlay = document.getElementById("intro-overlay");
-          const logo = document.getElementById("intro-logo");
+          const overlay = document.getElementById("intro_overlay");
+          const logo = document.getElementById("intro_logo");
 
           // Logo fade-in (0.3s Verzögerung)
           setTimeout(() => {

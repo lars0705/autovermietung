@@ -14,18 +14,18 @@ while ($row = $result->fetch_assoc()) {
 $conn->close();
 ?>
 
-<div class="feedback-slider">
+<div class="feedback_slider">
     <?php foreach ($feedbacks as $index => $fb): ?>
-        <div class="feedback-slide <?php echo $index === 0 ? 'active' : ''; ?>">
-            <p class="feedback-text">"<?php echo htmlspecialchars($fb["feedback_text"]); ?>"</p>
-            <p class="feedback-user">- <?php echo htmlspecialchars($fb["username"]); ?></p>
-            <p class="feedback-rating"><?php echo str_repeat("⭐", $fb["rating"]); ?></p>
+        <div class="feedback_slide <?php echo $index === 0 ? 'active' : ''; ?>">
+            <p class="feedback_text">"<?php echo htmlspecialchars($fb["feedback_text"]); ?>"</p>
+            <p class="feedback_user">- <?php echo htmlspecialchars($fb["username"]); ?></p>
+            <p class="feedback_rating"><?php echo str_repeat("⭐", $fb["rating"]); ?></p>
         </div>
     <?php endforeach; ?>
 </div>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-    const slides = document.querySelectorAll(".feedback-slide");
+    const slides = document.querySelectorAll(".feedback_slide");
     let currentIndex = 0;
 
     function showNextSlide() {
