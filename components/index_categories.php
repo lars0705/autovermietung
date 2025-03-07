@@ -1,4 +1,4 @@
-<h1 class="section-title">Kategorien</h1>
+<h1 class="section_title">Kategorien</h1>
 <div class="categorie_container">
     <button class="item category_card" data-category="limousine"><img src="../assets/images/limousine_cat.png" alt="Limousine"></button>
     <button class="item category_card" data-category="suv"><img src="../assets/images/suv_cat.png" alt="SUV"></button>
@@ -7,86 +7,16 @@
     <button class="item category_card" data-category="kombi"><img src="../assets/images/kombi_cat.png" alt="Kombi"></button>
     <button class="item category_card" data-category="mehrsitzer"><img src="../assets/images/mehrsitzer_cat.png" alt="Mehrsitzer"></button>
 </div>
-<div class="about-container">
-    <div class="about-text">
-        <h2>Über Uns</h2>
-        <p>
-            Willkommen bei <strong>SigmaCars</strong> – Ihre Premium-Autovermietung für exklusive Fahrzeuge. 
-            Egal ob Sportwagen, luxuriöse Limousine oder praktischer SUV – wir bieten Ihnen das perfekte 
-            Fahrzeug für jeden Anlass.  
-        </p>
-        <p>
-            Qualität, Komfort und exzellenter Service stehen bei uns an erster Stelle. 
-            Entdecken Sie unser einzigartiges Angebot und erleben Sie pure Fahrfreude.
-        </p>
-    </div>
-    <div class="about-image">
-        <img src="../assets/images/about_us.png" alt="Über uns Bild">
-    </div>
-</div>
-
-<h2 class="section-title">Unsere Empfehlungen für Sie</h2>
-
-<div class="city-recommendations">
-    <div class="city" data-video="../assets/videos/berlin.mp4">
-        <img src="../assets/images/berlin.png" alt="Berlin">
-        <video class="city-video" src="../assets/videos/berlin.mp4" muted loop></video>
-        <div class="city-info">
-            <h3>Berlin</h3>
-            <p>Erleben Sie die pulsierende Hauptstadt mit einzigartiger Kultur und Geschichte.</p>
-        </div>
-    </div>
-
-    <div class="city" data-video="../assets/videos/hamburg.mp4">
-        <img src="../assets/images/hamburg.png" alt="Hamburg">
-        <video class="city-video" src="../assets/videos/hamburg.mp4" muted loop></video>
-        <div class="city-info">
-            <h3>Hamburg</h3>
-            <p>Genießen Sie die maritime Atmosphäre und das aufregende Nachtleben.</p>
-        </div>
-    </div>
-
-    <div class="city" data-video="../assets/videos/muenchen.mp4">
-        <img src="../assets/images/muenchen.png" alt="München">
-        <video class="city-video" src="../assets/videos/muenchen.mp4" muted loop></video>
-        <div class="city-info">
-            <h3>München</h3>
-            <p>Erleben Sie bayerische Traditionen und atemberaubende Architektur.</p>
-        </div>
-    </div>
-</div>
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const cityElements = document.querySelectorAll(".city");
-
-    cityElements.forEach(city => {
-        const video = city.querySelector(".city-video");
-        const img = city.querySelector("img");
-
-        city.addEventListener("mouseenter", () => {
-            video.style.opacity = "1";  
-            img.style.opacity = "0";   
-            video.play();
-        });
-
-        city.addEventListener("mouseleave", () => {
-            video.style.opacity = "0"; 
-            img.style.opacity = "1";   
-            video.pause();
-            video.currentTime = 0;
-        });
-    });
-});
-</script>
-
-
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     const pickupDate = document.getElementById("pickup_date");
     const returnDate = document.getElementById("return_date");
+<<<<<<< HEAD:components/index_content.php
     const locationInput = document.getElementById("location"); 
+=======
+    const locationInput = document.getElementById("location");
+>>>>>>> 7c85a137021f772a6e3ab1733566faeacfc48279:components/index_categories.php
     const errorMessage = document.getElementById("error_message");
     const categoryCards = document.querySelectorAll(".category_card");
 
@@ -127,7 +57,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         let url = `product_list.php?category=${category}&pickup_date=${pickupDate.value}&return_date=${returnDate.value}`;
 
-        // Falls ein Standort-Input existiert und nicht leer ist, füge ihn zur URL hinzu
         if (locationInput && locationInput.value) {
             url += `&location=${encodeURIComponent(locationInput.value)}`;
         }

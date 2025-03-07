@@ -48,6 +48,7 @@ $conn->close();
     <meta charset="UTF-8">
     <title>Sigmacars | Meine Bestellungen</title>
     <link rel="stylesheet" href="../css/style.css">
+<<<<<<< HEAD
     <style>
         .content-container {
             display: flex;
@@ -133,14 +134,16 @@ $conn->close();
             background: #0056b3;
         }
     </style>
+=======
+>>>>>>> 7c85a137021f772a6e3ab1733566faeacfc48279
 </head>
 <body>
 
 <?php include '../components/header.php'; ?>
 
-<div class="content-container">
+<div class="content_container">
     <!-- Linke Seite: Tabelle mit Buchungen -->
-    <div class="table-container">
+    <div class="table_container">
         <h2>Meine Bestellungen</h2>
         <?php if (!empty($bookings)): ?>
             <a href="feedback.php" class="feedback_button">Feedback geben</a>
@@ -155,7 +158,7 @@ $conn->close();
             <p class="success_message">Vielen Dank für Ihre Buchung! Ihre Reservierung wurde erfolgreich gespeichert.</p>
         <?php endif; ?>
 
-        <table class="bookings-table">
+        <table class="bookings_table">
             <tr>
                 <th>Booking ID</th>
                 <th>Von</th>
@@ -177,7 +180,7 @@ $conn->close();
                         <td><?php echo $order["booked_date"]; ?></td>
                         <td><?php echo number_format($order["total_price"], 2, ',', '.'); ?>€</td>
                         <td>
-                            <button class="cancel-button" onclick="cancelBooking(<?php echo $order['booking_id']; ?>)">Stornieren</button>
+                            <button class="cancel_button" onclick="cancelBooking(<?php echo $order['booking_id']; ?>)">Stornieren</button>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -201,7 +204,7 @@ $conn->close();
     </div>
 
     <!-- Rechte Seite: Fahrzeugdetails -->
-    <div class="frame-container">
+    <div class="frame_container">
         <?php foreach ($bookings as $order): ?>
             <?php 
                 $now = new DateTime();
@@ -209,7 +212,7 @@ $conn->close();
                 $interval = $now->diff($pickup_time);
                 $remaining_time = ($interval->invert) ? "Bereits begonnen" : $interval->format('%d Tage %h Stunden %i Minuten');
             ?>
-            <div class="booking-frame">
+            <div class="booking_frame">
                 <h3><?php echo htmlspecialchars($order["vendor_name"]) . " " . htmlspecialchars($order["name"]); ?></h3>
                 <p><strong>Fahrzeugtyp:</strong> <?php echo htmlspecialchars($order["type"]); ?></p>
                 <?php $imagePath = "../assets/images/cars/type_id_" . $order["type_id"] . ".png"; ?>
@@ -220,7 +223,7 @@ $conn->close();
                 <p><strong>Standort:</strong> <?php echo htmlspecialchars($order["loc_name"]); ?></p>
                 <p><strong>Preis pro Tag:</strong> <?php echo number_format($order["price"], 2, ',', '.'); ?>€</p>
                 <p><strong>Gesamtsumme:</strong> <?php echo number_format($order["total_price"], 2, ',', '.'); ?>€</p>
-                <button class="cancel-button" onclick="cancelBooking(<?php echo $order['booking_id']; ?>)">Stornieren</button>
+                <button class="cancel_button" onclick="cancelBooking(<?php echo $order['booking_id']; ?>)">Stornieren</button>
             </div>
         <?php endforeach; ?>
     </div>
