@@ -170,8 +170,15 @@ $sort_order = $_GET['order'] ?? 'asc';
       <div class="filter_group">
         <label for="seats">Sitzplätze</label>
         <select id="seats" name="seats">
-          <option value="" selected>Beliebig</option>
-          <option value='2' >2</option><option value='4' >4</option><option value='5' >5</option><option value='7' >7</option><option value='8' >8</option><option value='9' >9</option>        </select>
+            <option value="" <?php echo (!isset($_GET['seats']) || $_GET['seats'] == '') ? 'selected' : ''; ?>>Beliebig</option>
+            <?php
+            $seats = ["2", "4", "5", "7", "8", "9"];
+            foreach ($seats as $seat) {
+                $selected = (isset($_GET['seats']) && $_GET['seats'] == $seat) ? 'selected' : '';
+                echo "<option value='$seat' $selected>$seat</option>";
+            }
+            ?>
+          </select>
       </div>
       
       <div class="filter_group">
@@ -188,59 +195,60 @@ $sort_order = $_GET['order'] ?? 'asc';
 </div>
     
 
-<script> // Javascript Code, um das richtige Einsetzen von Abhol- und Rückgabedatum zu erzwingen
-document.addEventListener("DOMContentLoaded", function () {
-    const priceSlider = document.getElementById("max_price");
-    const priceValue = document.getElementById("price_value");
-    const pickupDate = document.getElementById("pickup_date");
-    const returnDate = document.getElementById("return_date");
-    const submitButton = document.getElementById("submit_button");
-    const resetButton = document.getElementById("custom_reset");
-    const filterForm = document.querySelector(".filter_form");
-    const errorMessage = document.getElementById("error_message");
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('.filter_form');
+    const pickupDateInput = document.getElementById('pickup_date');
+    const returnDateInput = document.getElementById('return_date');
+    const errorMessageDiv = document.getElementById('error_message');
+    const submitButton = document.getElementById('submit_button');
+    const priceSlider = document.getElementById('max_price');
+    const priceValue = document.getElementById('price_value');
+    const resetButton = document.getElementById('custom_reset');
 
-    function checkDates() {
-        errorMessage.style.display = "none";
-        errorMessage.textContent = "";
+    // Funktion zur Validierung der Datumswerte
+    function validateDates() {
+        let errorMessage = '';
+        const pickupDate = new Date(pickupDateInput.value);
+        const returnDate = new Date(returnDateInput.value);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
 
-        if (!pickupDate.value || !returnDate.value) {
-            errorMessage.textContent = "Bitte Abhol- und Rückgabedatum eingeben.";
-            errorMessage.style.display = "block";
-            submitButton.setAttribute("disabled", "disabled");
-            return false;
+        if (!pickupDateInput.value || !returnDateInput.value) {
+            errorMessage = 'Bitte Abhol- und Rückgabedatum eingeben.';
+        } else if (pickupDate < today) {
+            errorMessage = 'Das Abholdatum darf nicht in der Vergangenheit liegen.';
+        } else if (returnDate <= pickupDate) {
+            errorMessage = 'Das Rückgabedatum muss nach dem Abholdatum liegen.';
         }
 
-        const pickupValue = new Date(pickupDate.value);
-        const returnValue = new Date(returnDate.value);
-
-        if (returnValue <= pickupValue) {
-            errorMessage.textContent = "Das Rückgabedatum muss nach dem Abholdatum liegen.";
-            errorMessage.style.display = "block";
-            submitButton.setAttribute("disabled", "disabled");
+        if (errorMessage) {
+            errorMessageDiv.textContent = errorMessage;
+            errorMessageDiv.style.display = 'block';
             return false;
+        } else {
+            errorMessageDiv.style.display = 'none';
+            return true;
         }
-        
-        submitButton.removeAttribute("disabled");
-        return true;
     }
 
-    pickupDate.addEventListener("input", checkDates);
-    returnDate.addEventListener("input", checkDates);
+    // Event-Listener für das Absenden des Formulars
+    form.addEventListener('submit', function(event) {
+        if (!validateDates()) {
+            event.preventDefault(); // Verhindert das Absenden des Formulars, falls Fehler vorliegen
+        }
+    });
 
-    
-    if (pickupDate.value && returnDate.value) {
-        checkDates();
-    }
-    // Java Script Code, um über dem Preis-Slider den aktuellen Wert anzuzeigen
+    // Preis-Slider aktualisiert den Wert in der Anzeige
     priceValue.textContent = priceSlider.value;
-    priceSlider.addEventListener("input", function () {
+    priceSlider.addEventListener("input", function() {
         priceValue.textContent = this.value;
     });
 
-    // Java Script Code, um die Filter zurückzusetzen, aber das Abhol- und Rückgabedatum und den Standort beizubehalten
-    resetButton.addEventListener("click", function () {
-        const filterFields = filterForm.querySelectorAll("select, input:not([type='date']):not([type='hidden'])");
-        
+    // Filter zurücksetzen, aber Abhol-/Rückgabedatum und Standort beibehalten
+    resetButton.addEventListener("click", function() {
+        const filterFields = form.querySelectorAll("select, input:not([type='date']):not([type='hidden'])");
+
         filterFields.forEach(field => {
             if (field.tagName === "SELECT") {
                 field.value = "";
@@ -251,15 +259,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 priceValue.textContent = field.min;
             }
         });
-        
-        filterForm.submit();
-    });
 
-
-    filterForm.addEventListener("submit", function (event) {
-        if (!checkDates()) {
-            event.preventDefault();
-        }
+        form.submit();
     });
 });
 </script>
+

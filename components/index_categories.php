@@ -12,44 +12,48 @@
 document.addEventListener("DOMContentLoaded", function () {
     const pickupDate = document.getElementById("pickup_date");
     const returnDate = document.getElementById("return_date");
-    const locationInput = document.getElementById("location"); 
+    const locationInput = document.getElementById("location");
     const errorMessage = document.getElementById("error_message");
     const categoryCards = document.querySelectorAll(".category_card");
 
-    function checkDates() {
+    function checkDates(showError = false) {
         errorMessage.style.display = "none";
         errorMessage.textContent = "";
 
         if (!pickupDate.value || !returnDate.value) {
-            errorMessage.textContent = "Bitte Abhol- und Rückgabedatum eingeben.";
-            errorMessage.style.display = "block";
-            categoryCards.forEach(card => card.setAttribute("disabled", "disabled"));
+            if (showError) {
+                errorMessage.textContent = "Bitte Abhol- und Rückgabedatum eingeben.";
+                errorMessage.style.display = "block";
+            }
             return false;
         }
 
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
         const pickupValue = new Date(pickupDate.value);
         const returnValue = new Date(returnDate.value);
 
-        if (returnValue <= pickupValue) {
-            errorMessage.textContent = "Das Rückgabedatum muss nach dem Abholdatum liegen.";
-            errorMessage.style.display = "block";
-            categoryCards.forEach(card => card.setAttribute("disabled", "disabled"));
+        if (pickupValue < today) {
+            if (showError) {
+                errorMessage.textContent = "Das Abholdatum darf nicht in der Vergangenheit liegen.";
+                errorMessage.style.display = "block";
+            }
             return false;
         }
 
-        categoryCards.forEach(card => card.removeAttribute("disabled"));
+        if (returnValue <= pickupValue) {
+            if (showError) {
+                errorMessage.textContent = "Das Rückgabedatum muss nach dem Abholdatum liegen.";
+                errorMessage.style.display = "block";
+            }
+            return false;
+        }
+
         return true;
     }
 
-    pickupDate.addEventListener("input", checkDates);
-    returnDate.addEventListener("input", checkDates);
-
-    if (pickupDate.value && returnDate.value) {
-        checkDates();
-    }
-
     function selectCategory(category) {
-        if (!checkDates()) return;
+        if (!checkDates(true)) return;
 
         let url = `product_list.php?category=${category}&pickup_date=${pickupDate.value}&return_date=${returnDate.value}`;
 
@@ -60,12 +64,11 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.href = url;
     }
 
-    document.querySelectorAll(".categorie_container .item").forEach(item => {
-        item.addEventListener("click", function () {
-            const category = this.getAttribute("data-category"); 
+    categoryCards.forEach(card => {
+        card.addEventListener("click", function () {
+            const category = this.getAttribute("data-category");
             selectCategory(category);
         });
     });
 });
-
 </script>

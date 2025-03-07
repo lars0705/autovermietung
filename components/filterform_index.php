@@ -28,48 +28,35 @@
     <div id="error_message" class="error_message"></div>
 </div>
 
-<script> // Javascript Code, um das richtige Einsetzen von Abhol- und Rückgabedatum zu erzwingen
-document.addEventListener("DOMContentLoaded", function () {
-    const pickupDate = document.getElementById("pickup_date");
-    const returnDate = document.getElementById("return_date");
-    const submitButton = document.getElementById("submit_button");
-    const errorMessage = document.getElementById("error_message");
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('.filter_form');
+    const pickupDateInput = document.getElementById('pickup_date');
+    const returnDateInput = document.getElementById('return_date');
+    const errorMessageDiv = document.getElementById('error_message');
+    const submitButton = document.getElementById('submit_button');
 
-    function checkDates() {
-        errorMessage.style.display = "none";
-        errorMessage.textContent = "";
+    form.addEventListener('submit', function(event) {
+        let errorMessage = '';
+        const pickupDate = new Date(pickupDateInput.value);
+        const returnDate = new Date(returnDateInput.value);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
 
-        if (!pickupDate.value || !returnDate.value) {
-            errorMessage.textContent = "Bitte Abhol- und Rückgabedatum eingeben.";
-            errorMessage.style.display = "block";
-            submitButton.setAttribute("disabled", "disabled");
-            return false;
+        if (!pickupDateInput.value || !returnDateInput.value) {
+            errorMessage = 'Bitte Abhol- und Rückgabedatum eingeben.';
+        } else if (pickupDate < today) {
+            errorMessage = 'Das Abholdatum darf nicht in der Vergangenheit liegen.';
+        } else if (returnDate <= pickupDate) {
+            errorMessage = 'Das Rückgabedatum muss nach dem Abholdatum liegen.';
         }
 
-        const pickupValue = new Date(pickupDate.value);
-        const returnValue = new Date(returnDate.value);
-
-        if (returnValue <= pickupValue) {
-            errorMessage.textContent = "Das Rückgabedatum muss nach dem Abholdatum liegen.";
-            errorMessage.style.display = "block";
-            submitButton.setAttribute("disabled", "disabled");
-            return false;
-        }
-        
-        submitButton.removeAttribute("disabled");
-        return true;
-    }
-
-    pickupDate.addEventListener("input", checkDates);
-    returnDate.addEventListener("input", checkDates);
-
-    if (pickupDate.value && returnDate.value) {
-        checkDates();
-    }
-
-    document.querySelector("form").addEventListener("submit", function (event) {
-        if (!checkDates()) {
+        if (errorMessage) {
             event.preventDefault();
+            errorMessageDiv.textContent = errorMessage;
+            errorMessageDiv.style.display = 'block';
+        } else {
+            errorMessageDiv.style.display = 'none';
         }
     });
 });

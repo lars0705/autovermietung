@@ -35,7 +35,7 @@ html, body {
   scrollbar-color: red #131313;
   margin: 0;
   padding: 0;
-  background-image: url("../assets/images/hintergrund.jpg");
+  background-image: url("../assets/images/background.jpg");
   color: white;
   display: flex;
   flex-direction: column;
@@ -300,7 +300,7 @@ button {
   object-fit: contain;
 }
 
-.treuepunkte_section {
+.ad_section {
   position: relative;
   margin: 0px auto;
   margin-top: 40px;
@@ -311,7 +311,7 @@ button {
   border-radius: 20px;
 }
 
-.treuepunkte_section img {
+.ad_section img {
   width: 100%;
   height: auto;
   display: block;
@@ -319,7 +319,7 @@ button {
   filter: brightness(0.5);
 }
 
-.treuepunkte_text {
+.ad_text {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -327,12 +327,12 @@ button {
   text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
 }
 
-.treuepunkte_text h2 {
+.ad_text h2 {
   font-size: 36px;
   margin-bottom: 10px;
 }
 
-.treuepunkte_text p {
+.ad_text p {
   font-size: 20px;
 }
 
