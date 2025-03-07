@@ -48,100 +48,14 @@ $conn->close();
     <meta charset="UTF-8">
     <title>Sigmacars | Meine Bestellungen</title>
     <link rel="stylesheet" href="../css/style.css">
-    <style>
-        .content-container {
-            display: flex;
-            justify-content: space-between;
-            gap: 20px;
-            padding: 20px;
-        }
-        .table-container {
-            flex: 1;
-            min-width: 500px;
-            position: fixed;
-            left: 20px;
-            top: 100px;
-        }
-        .bookings-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .bookings-table th, .bookings-table td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            text-align: center;
-        }
-        .bookings-table th {
-            background-color: #f4f4f4;
-        }
-        .frame-container {
-            flex: 2;
-            margin-top: 50px;
-            margin-left: 900px;
-            overflow-y: auto;
-            max-height: 80vh;
-        }
-        .booking-frame {
-            border: 1px solid #ddd;
-            padding: 15px;
-            margin-bottom: 15px;
-            background:rgb(51, 44, 44);
-            border-radius: 8px;
-        }
-        .booking-frame img {
-            max-width: 100%;
-            border-radius: 8px;
-        }
-        .pagination {
-            margin: 20px 0;
-            text-align: center;
-        }
-        .pagination a {
-            padding: 10px 15px;
-            text-decoration: none;
-            background: #007BFF;
-            color: white;
-            border-radius: 5px;
-            margin: 5px;
-            font-weight: bold;
-        }
-        .pagination a.active {
-            background: #0056b3;
-        }
-        .cancel-button {
-            background: red;
-            color: white;
-            padding: 10px;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .cancel-button:hover {
-            background: darkred;
-        }
-
-        .feedback_button {
-            display: inline-block;
-            background: #007BFF;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-        .feedback_button:hover {
-            background: #0056b3;
-        }
-    </style>
 </head>
 <body>
 
 <?php include '../components/header.php'; ?>
 
-<div class="content-container">
+<div class="content_container">
     <!-- Linke Seite: Tabelle mit Buchungen -->
-    <div class="table-container">
+    <div class="table_container">
         <h2>Meine Bestellungen</h2>
         <?php if (!empty($bookings)): ?>
             <a href="feedback.php" class="feedback_button">Feedback geben</a>
@@ -156,7 +70,7 @@ $conn->close();
             <p class="success_message">Vielen Dank für Ihre Buchung! Ihre Reservierung wurde erfolgreich gespeichert.</p>
         <?php endif; ?>
 
-        <table class="bookings-table">
+        <table class="bookings_table">
             <tr>
                 <th>Booking ID</th>
                 <th>Von</th>
@@ -178,7 +92,7 @@ $conn->close();
                         <td><?php echo $order["booked_date"]; ?></td>
                         <td><?php echo number_format($order["total_price"], 2, ',', '.'); ?>€</td>
                         <td>
-                            <button class="cancel-button" onclick="cancelBooking(<?php echo $order['booking_id']; ?>)">Stornieren</button>
+                            <button class="cancel_button" onclick="cancelBooking(<?php echo $order['booking_id']; ?>)">Stornieren</button>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -189,7 +103,7 @@ $conn->close();
     </div>
 
     <!-- Rechte Seite: Fahrzeugdetails -->
-    <div class="frame-container">
+    <div class="frame_container">
         <?php foreach ($bookings as $order): ?>
             <?php 
                 $now = new DateTime();
@@ -197,7 +111,7 @@ $conn->close();
                 $interval = $now->diff($pickup_time);
                 $remaining_time = ($interval->invert) ? "Bereits begonnen" : $interval->format('%d Tage %h Stunden %i Minuten');
             ?>
-            <div class="booking-frame">
+            <div class="booking_frame">
                 <h3><?php echo htmlspecialchars($order["vendor_name"]) . " " . htmlspecialchars($order["name"]); ?></h3>
                 <p><strong>Fahrzeugtyp:</strong> <?php echo htmlspecialchars($order["type"]); ?></p>
                 <img src="../images/<?php echo htmlspecialchars($order["img_file_name"]); ?>" alt="Fahrzeugbild">
@@ -207,7 +121,7 @@ $conn->close();
                 <p><strong>Standort:</strong> <?php echo htmlspecialchars($order["loc_name"]); ?></p>
                 <p><strong>Preis pro Tag:</strong> <?php echo number_format($order["price"], 2, ',', '.'); ?>€</p>
                 <p><strong>Gesamtsumme:</strong> <?php echo number_format($order["total_price"], 2, ',', '.'); ?>€</p>
-                <button class="cancel-button" onclick="cancelBooking(<?php echo $order['booking_id']; ?>)">Stornieren</button>
+                <button class="cancel_button" onclick="cancelBooking(<?php echo $order['booking_id']; ?>)">Stornieren</button>
             </div>
         <?php endforeach; ?>
     </div>

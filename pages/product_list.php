@@ -15,11 +15,11 @@
 
     <?php if ($show_welcome): ?>
         <div class="welcome_section">
-            <img src="../assets/images/welcome_picture.jpg" alt="Willkommen bei SigmaCars">
-            <div class="welcome_text">
-              <h2>Finde dein perfektes Auto!</h2>
-              <p>Gib deine Reisedaten ein, um verfügbare Fahrzeuge anzuzeigen.</p>
-            </div>
+          <img src="../assets/images/welcome_picture.jpg" alt="Willkommen bei SigmaCars">
+          <div class="welcome_text">
+            <h2>Finde dein perfektes Auto!</h2>
+            <p>Gib deine Reisedaten ein, um verfügbare Fahrzeuge anzuzeigen.</p>
+          </div>
         </div>
     <?php else: ?>
         <?php include '../components/product_card.php'; ?>
