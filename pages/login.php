@@ -56,6 +56,7 @@ $conn->close();
     <meta charset="UTF-8">
     <title>Sigmacars | Anmeldung</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style_login.css">
 </head>
 <body>
 

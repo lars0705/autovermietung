@@ -48,6 +48,7 @@ $conn->close();
     <meta charset="UTF-8">
     <title>Sigmacars | Registrierung</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style_register.css">
 </head>
 <body>
 
@@ -56,14 +57,19 @@ $conn->close();
 <div class="main_content">
     <div class="form-container">
         <h2>Registrieren</h2>
+
         <?php if (isset($error)) echo "<p class='error'>$error</p>"; ?>
+
         <form action="register.php<?php echo $return_url ? '?' . $return_url : ''; ?>" method="POST">
             <input type="hidden" name="return_url" value="<?php echo htmlspecialchars($return_url); ?>">
+
             <input type="text" name="username" placeholder="Benutzername" required>
             <input type="email" name="email" placeholder="E-Mail" required>
             <input type="password" name="password" placeholder="Passwort" required>
+            
             <button type="submit">Registrieren</button>
         </form>
+
         <p>Schon ein Konto? <a href="login.php<?php echo $return_url ? '?' . $return_url : ''; ?>">Anmelden</a></p>
     </div>
 </div>
