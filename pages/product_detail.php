@@ -71,6 +71,7 @@ $conn->close();
             <p><strong>Getriebe:</strong> <?php echo htmlspecialchars($car["gear"]); ?></p>
             <p><strong>Sitze:</strong> <?php echo htmlspecialchars($car["seats"]); ?></p>
             <p><strong>Türen:</strong> <?php echo htmlspecialchars($car["doors"]); ?></p>
+            <p><strong>Platz für Koffer:</strong> <?php echo htmlspecialchars($car["trunk"]); ?></p>
             <p><strong>Klimaanlage:</strong> <?php echo $car["air_condition"] ? "Ja" : "Nein"; ?></p>
             <p><strong>GPS:</strong> <?php echo $car["gps"] ? "Ja" : "Nein"; ?></p>
             <p><strong>Mindestalter:</strong> <?php echo htmlspecialchars($car["min_age"]); ?> Jahre</p>

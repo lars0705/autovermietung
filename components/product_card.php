@@ -12,6 +12,7 @@ $pickup_date = $_GET['pickup_date'] ?? date('Y-m-d', strtotime('+1 day'));
 $return_date = $_GET['return_date'] ?? date('Y-m-d', strtotime('+2 days'));
 
 $doors = !empty($_GET['doors']) ? $_GET['doors'] : null;
+$trunk = !empty($_GET['trunk']) ? $_GET['trunk'] : null;
 $seats = !empty($_GET['seats']) ? $_GET['seats'] : null;
 $min_age = !empty($_GET['min_age']) ? $_GET['min_age'] : null;
 $ac = isset($_GET['ac']) ? 1 : null;
@@ -150,9 +151,6 @@ $displayed_cars = array_slice($grouped_cars, $offset, $vehicles_per_page, true);
             ($transmission === null || stripos(strtolower($car["gear"] ?? ''), strtolower($transmission)) !== false)
             ): ?>
             <div class="car_frame fade-in">
-                <div class="car_image">
-                <?php include '../components/load_image.php'; ?>
-                </div>
                 <div class="car_info">
                     <h3><?php echo htmlspecialchars($car["vendor_name"]) . " " . htmlspecialchars($car["name"]); ?></h3>
                     <p class="car_price"><strong><?php echo number_format($car["price"], 2, ',', '.'); ?>€ / Tag</strong></p>
@@ -163,12 +161,16 @@ $displayed_cars = array_slice($grouped_cars, $offset, $vehicles_per_page, true);
                         <li><strong>Türen:</strong> <?php echo htmlspecialchars($car["doors"]); ?></li>
                         <li><strong>Antrieb:</strong> <?php echo htmlspecialchars($car["drive"]); ?></li>
                         <li><strong>Getriebe:</strong> <?php echo htmlspecialchars($car["gear"]); ?></li>
+                        <li><strong>Koffer:</strong> <?php echo $car['trunk']; ?></li>
                         <li><strong>GPS:</strong> <?php echo $car["gps"] ? "Ja" : "Nein"; ?></li>
                         <li><strong>Klimaanlage:</strong> <?php echo $car["air_condition"] ? "Ja" : "Nein"; ?></li>
-                    <!--<li><strong>Standort:</strong> <?php echo $_GET['location']; ?></li>-->
-                        <li><strong>verfügbar:</strong> <?php echo $car['count']; ?></li>
-                        <li><strong>ID:</strong> <?php echo $car['type_id']; ?></li>
+                    <!--<li><strong>Standort:</strong> <?php //echo $_GET['location']; ?></li>-->
+                        <li><strong>Verfügbar:</strong> <?php echo $car['count']; ?></li>
+                     <!--   <li><strong>ID:</strong> <?php //echo $car['type_id']; ?></li>-->
                     </ul>
+                    <div class="car_image">
+                        <?php include '../components/load_image.php'; ?>
+                    </div>
                     <a href="product_detail.php?type_id=<?php echo urlencode($car["type_id"]); ?>&pickup_date=<?php echo urlencode($pickup_date); ?>&return_date=<?php echo urlencode($return_date); ?>&count=<?php echo urlencode($car['count']); ?>" class="more_button">Fahrzeug anzeigen</a>
                     </div>
             </div>

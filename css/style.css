@@ -546,33 +546,38 @@ button {
 }
 
 .car_frame {
-  background: #131313;
+  background: url('../assets/images/background_showcase_car.jpg') no-repeat center center / cover;
   border-radius: 15px;
   padding: 20px;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   max-width: 500px;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 15px rgb(255, 255, 255);
   overflow: hidden;
 }
 
+
 .car_frame:hover {
   transform: scale(1.02);
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 40px rgb(255, 255, 255);
 }
 
 .car_image {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 250px;
-  margin-bottom: 15px;
-  background-color: #333;
-  border-radius: 15px;
+  height: 350px; /* Erhöhe die Höhe */
+  margin-top: 90px;
+  background-color: transparent;
+  border-radius: 0px;
 }
 
 .car_image img {
-  max-height: 100%;
+  max-width: 100%; /* Passt sich an die Containergröße an */
+  max-height: 100%; /* Damit das Bild nicht überläuft */
+  object-fit: cover; /* Schneidet das Bild passend zu */
+  border-radius: 15px;
 }
+
 
 .car_info h3 {
   font-size: 22px;
@@ -596,7 +601,7 @@ button {
 }
 
 .car_details li {
-  background: #333;
+  background: #33333362;
   padding: 6px 12px;
   border-radius: 8px;
 }
@@ -605,12 +610,12 @@ button {
   display: block;
   background-color: transparent;
   color: red;
-  border: 1px solid red;
+  border: 1px solid rgba(255, 0, 0, 0.507);
   text-align: center;
   padding: 12px;
   border-radius: 8px;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: lighter;
   transition: background 0.3s ease-in-out;
 }
 
