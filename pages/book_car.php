@@ -5,7 +5,9 @@ include '../components/header.php';
 
 // Prüfen, ob der Benutzer angemeldet ist
 if (!isset($_SESSION["user_id"])) {
-    die("Fehler: Sie müssen eingeloggt sein, um eine Buchung vorzunehmen.");
+    header("Location: product_list.php?error=unavailable&pickup_date=" . urlencode($pickup_date) . "&return_date=" . urlencode($return_date) . "&location=" . urlencode($location));
+    exit();
+    //Fehler: Sie müssen eingeloggt sein, um eine Buchung vorzunehmen
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -17,7 +19,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $use_loyalty = isset($_POST["use_loyalty"]) ? 1 : 0;
 
     if (strtotime($pickup_date) >= strtotime($return_date)) {
-        die("Fehler: Das Rückgabedatum muss nach dem Abholdatum liegen.");
+        header("Location: product_list.php?error=unavailable&pickup_date=" . urlencode($pickup_date) . "&return_date=" . urlencode($return_date) . "&location=" . urlencode($location));
+        exit();
+        //Fehler: Das Rückgabedatum muss nach dem Abholdatum liegen
     }
 
     $pickup = new DateTime($pickup_date);
@@ -25,7 +29,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $days = $pickup->diff($return)->days;
 
     if ($days < 1) {
-        die("Fehler: Ungültiger Mietzeitraum.");
+        header("Location: product_list.php?error=unavailable&pickup_date=" . urlencode($pickup_date) . "&return_date=" . urlencode($return_date) . "&location=" . urlencode($location));
+        exit();
+        //Fehler: Ungültiger Mietzeitraum
     }
 
     // Verfügbare `car_id` für die gegebene `type_id` suchen
@@ -49,7 +55,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt->close();
 
     if (!$car_id) {
-        die("Fehler: Kein verfügbares Fahrzeug.");
+        header("Location: product_list.php?error=unavailable&pickup_date=" . urlencode($pickup_date) . "&return_date=" . urlencode($return_date) . "&location=" . urlencode($location));
+        exit();
+        //Fehler: Kein verfügbares Fahrzeug
     }
 
     $total_price = $price_per_day * $days;

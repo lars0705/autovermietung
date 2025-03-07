@@ -130,6 +130,9 @@ $total_pages = ceil($total_vehicles / $vehicles_per_page);
 $displayed_cars = array_slice($grouped_cars, $offset, $vehicles_per_page, true);
 ?>
 
+<?php if (isset($_GET['error']) && $_GET['error'] === "unavailable"): ?>
+    <p class="error_message">⚠️ Leider ist kein Fahrzeug für den gewählten Zeitraum verfügbar. Bitte wähle ein anderes Datum oder einen anderen Standort.</p>
+<?php endif; ?>
 
 <!-- Fahrzeugkarten -->
 <div class="product_card_container">

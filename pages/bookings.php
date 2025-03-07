@@ -62,11 +62,146 @@ $conn->close();
     <meta charset="UTF-8">
     <title>Sigmacars | Meine Bestellungen</title>
     <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* High-End Animations-Container */
+        .booking-animation-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 9999;
+            opacity: 1;
+            animation: fadeOut 6s forwards 4s;
+            overflow: hidden;
+        }
+
+        /* Glückwunsch-Text */
+        .booking-success-text {
+            color: #FFD700;
+            font-size: 3em;
+            font-weight: bold;
+            text-shadow: 0 0 10px #FFD700, 0 0 20px #FFA500, 0 0 30px #FF4500;
+            opacity: 0;
+            margin-top: 100px;
+            transform: scale(0.8);
+            animation: glowText 1.5s ease-in-out forwards 2.5s;
+        }
+
+        /* Konfetti Explosion */
+        .confetti {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background-color: gold;
+            border-radius: 50%;
+            animation: explodeConfetti linear infinite;
+            opacity: 0;
+        }
+
+        /* Funkensprühende Partikeleffekte */
+        .spark {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            animation: sparkEffect linear infinite;
+        }
+
+        @keyframes flash {
+            to {
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes smokeEffect {
+            to {
+                opacity: 1;
+                transform: scale(2);
+            }
+        }
+
+        @keyframes glowText {
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes explodeConfetti {
+            0% {
+                opacity: 1;
+                transform: translateY(0) translateX(0) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) translateX(calc(100vw * (random() - 0.5))) rotate(720deg);
+            }
+        }
+
+        @keyframes sparkEffect {
+            0% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-50vh);
+            }
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+    </style>
 </head>
 <body>
 
 <?php include '../components/header.php'; ?>
+<?php if (isset($_GET['success']) && $_GET['success'] == 'true'): ?>
+    <div class="booking-animation-container">
+        <div class="flash-effect"></div>
+        <div class="smoke" style="left: 35%;"></div>
+        <div class="smoke" style="right: 35%;"></div>
+        <p class="booking-success-text">✅ Glückwunsch! Deine Buchung war erfolgreich!</p>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Erstelle Konfetti Explosion
+            for (let i = 0; i < 100; i++) {
+                let confetti = document.createElement("div");
+                confetti.classList.add("confetti");
+                confetti.style.left = Math.random() * 100 + "vw";
+                confetti.style.animationDuration = Math.random() * 3 + 2 + "s";
+                confetti.style.backgroundColor = ["red", "blue", "yellow", "green", "purple", "orange"][Math.floor(Math.random() * 6)];
+                confetti.style.animationDelay = Math.random() * 2 + "s";
+                document.querySelector(".booking-animation-container").appendChild(confetti);
+            }
 
+            // Erstelle Funkenpartikel
+            for (let i = 0; i < 50; i++) {
+                let spark = document.createElement("div");
+                spark.classList.add("spark");
+                spark.style.left = Math.random() * 100 + "vw";
+                spark.style.animationDuration = Math.random() * 2 + 1 + "s";
+                spark.style.animationDelay = Math.random() * 2 + "s";
+                document.querySelector(".booking-animation-container").appendChild(spark);
+            }
+        });
+    </script>
+<?php endif; ?>
 <div class="content_container">
     <div class="table_container">
         <h2>Meine Bestellungen</h2>
