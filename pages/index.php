@@ -15,7 +15,7 @@
     <div class="main_content">
       <?php include '../components/filterform_index.php'; ?> 
       <?php include '../components/index_categories.php'; ?>
-      <?php include '../components/index_treuepunkte.php'; ?>
+      <?php include '../components/index_ad.php'; ?>
       <?php include '../components/index_feedback.php'; ?>
       <?php include '../components/index_about_us.php'; ?>
     </div>
