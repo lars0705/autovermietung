@@ -14,12 +14,23 @@ while ($row = $result->fetch_assoc()) {
 $conn->close();
 ?>
 
-<div class="feedback_slider">
+<div class="feedback_section">
     <?php foreach ($feedbacks as $index => $fb): ?>
         <div class="feedback_slide <?php echo $index === 0 ? 'active' : ''; ?>">
+            <p class="feedback_rating">
+                <?php
+                $rating = (int) $fb["rating"];
+                for ($i = 1; $i <= 5; $i++) {
+                    if ($i <= $rating) {
+                        echo '<span class="star filled">★</span>'; // Gelbe Sterne
+                    } else {
+                        echo '<span class="star empty">☆</span>'; // Graue Sterne
+                    }
+                }
+                ?>
+            </p>
             <p class="feedback_text">"<?php echo htmlspecialchars($fb["feedback_text"]); ?>"</p>
-            <p class="feedback_user">- <?php echo htmlspecialchars($fb["username"]); ?></p>
-            <p class="feedback_rating"><?php echo str_repeat("⭐", $fb["rating"]); ?></p>
+            <p class="feedback_user">~ <?php echo htmlspecialchars($fb["username"]); ?></p>
         </div>
     <?php endforeach; ?>
 </div>

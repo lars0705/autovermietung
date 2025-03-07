@@ -76,8 +76,7 @@ ob_end_clean();
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Fahrzeugübersicht</title>
-    <link rel="stylesheet" href="../css/style_product_list.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 <?php 
@@ -160,13 +159,13 @@ $displayed_cars = array_slice($grouped_cars, $offset, $vehicles_per_page, true);
                     
                     <ul class="car_details">
                         <li><strong>Kategorie:</strong> <?php echo htmlspecialchars($car["type"]); ?></li>
-                        <li><strong>Antrieb:</strong> <?php echo htmlspecialchars($car["drive"]); ?></li>
-                        <li><strong>Getriebe:</strong> <?php echo htmlspecialchars($car["gear"]); ?></li>
                         <li><strong>Sitzplätze:</strong> <?php echo htmlspecialchars($car["seats"]); ?></li>
                         <li><strong>Türen:</strong> <?php echo htmlspecialchars($car["doors"]); ?></li>
-                        <li><strong>Klimaanlage:</strong> <?php echo $car["air_condition"] ? "Ja" : "Nein"; ?></li>
+                        <li><strong>Antrieb:</strong> <?php echo htmlspecialchars($car["drive"]); ?></li>
+                        <li><strong>Getriebe:</strong> <?php echo htmlspecialchars($car["gear"]); ?></li>
                         <li><strong>GPS:</strong> <?php echo $car["gps"] ? "Ja" : "Nein"; ?></li>
-                        <li><strong>Standort:</strong> <?php echo $_GET['location']; ?></li>
+                        <li><strong>Klimaanlage:</strong> <?php echo $car["air_condition"] ? "Ja" : "Nein"; ?></li>
+                    <!--<li><strong>Standort:</strong> <?php echo $_GET['location']; ?></li>-->
                         <li><strong>verfügbar:</strong> <?php echo $car['count']; ?></li>
                         <li><strong>ID:</strong> <?php echo $car['type_id']; ?></li>
                     </ul>

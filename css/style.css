@@ -57,6 +57,23 @@ button {
   cursor: pointer;
 }
 
+.pagination {
+  margin: 20px 0;
+  text-align: center;
+}
+.pagination a {
+  padding: 10px 15px;
+  text-decoration: none;
+  background: red;
+  color: white;
+  border-radius: 5px;
+  margin: 5px;
+  font-weight: bold;
+}
+.pagination a.active {
+  background: green;
+}
+
 /* ========== HEADER (header.php) ========== */
 
 .header {
@@ -338,27 +355,64 @@ button {
   font-size: 20px;
 }
 
-.feedback_slider {
-  max-width: 500px;
-  margin: 20px auto;
+.feedback_section {
+  max-width: 600px;
+  height: 200px;
+  margin: 40px auto;
   text-align: center;
-  position: relative;
+  padding: 20px;
+  background: #131313;
+  border-radius: 15px;
+  box-shadow: 0px 4px 10px rgba(255, 0, 0, 0.3);
+  border: 1px solid rgba(255, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .feedback_slide {
   display: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
 }
 
 .feedback_slide.active {
   display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.star {
+  font-size: 28px;
+  transition: transform 0.3s ease;
+}
+
+.star.filled {
+  color: gold;
+  text-shadow: 0px 0px 8px rgba(255, 215, 0, 0.7);
+}
+
+.star.empty {
+  color: #444;
 }
 
 .feedback_text {
   font-style: italic;
+  font-size: 20px;
+  color: #b1b1b1;
+  margin-bottom: 10px;
+  display: -webkit-box;
+  -webkit-line-clamp: 4; 
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.feedback_rating {
-  color: gold;
+.feedback_user {
+  font-size: 16px;
+  font-weight: 300;
+  color: red;
 }
 
 .city_recommendations {
@@ -482,6 +536,104 @@ button {
 
 .welcome_text p {
   font-size: 20px;
+}
+
+.product_card_container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 40px 48px;
+  gap: 96px;
+}
+
+.car_frame {
+  background: #131313;
+  border-radius: 15px;
+  padding: 20px;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  max-width: 500px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.car_frame:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.car_image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 250px;
+  margin-bottom: 15px;
+  background-color: #333;
+  border-radius: 15px;
+}
+
+.car_image img {
+  max-height: 100%;
+}
+
+.car_info h3 {
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+
+.car_price {
+  font-size: 20px;
+  font-weight: bold;
+  color: red;
+}
+
+.car_details {
+  list-style: none;
+  padding: 0;
+  color: #ddd;
+  font-size: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.car_details li {
+  background: #333;
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+
+.more_button {
+  display: block;
+  background-color: transparent;
+  color: red;
+  border: 1px solid red;
+  text-align: center;
+  padding: 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s ease-in-out;
+}
+
+.more_button:hover {
+  background-color: red;
+  color: white;
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(15px);
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+      opacity: 0;
+      transform: translateY(15px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
 }
 
 /* ========== FILTERFENSTER (filter_form.php) ========== */
@@ -626,22 +778,7 @@ select option {
   max-width: 100%;
   border-radius: 8px;
 }
-.pagination {
-  margin: 20px 0;
-  text-align: center;
-}
-.pagination a {
-  padding: 10px 15px;
-  text-decoration: none;
-  background: #007BFF;
-  color: white;
-  border-radius: 5px;
-  margin: 5px;
-  font-weight: bold;
-}
-.pagination a.active {
-  background: #0056b3;
-}
+
 .cancel_button {
   background: red;
   color: white;
