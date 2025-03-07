@@ -80,70 +80,7 @@ ob_end_clean();
     <link rel="stylesheet" href="../css/style_product_list.css">
 </head>
 <body>
-<?php /*
-<!-- 1️⃣ Tabelle: Alle verfügbaren Autos -->
-<h2>Verfügbare Fahrzeuge</h2>
-<table border="1">
-    <tr>
-        <th>Car ID</th>
-        <th>Type ID</th>
-        <th>Standort</th>
-        <th>Preis</th>
-        <th>Name</th>
-    </tr>
-    <?php foreach ($available_cars as $car): ?>
-    <tr>
-        <td><?php echo htmlspecialchars($car["car_id"]); ?></td>
-        <td><?php echo htmlspecialchars($car["type_id"]); ?></td>
-        <td><?php echo htmlspecialchars($car["loc_name"]); ?></td>
-        <td><?php echo htmlspecialchars($car["price"]); ?> €</td>
-        <td><?php echo htmlspecialchars($car["name"]); ?></td>
-    </tr>
-    <?php endforeach; ?>
-</table>
-
-<!-- 2️⃣ Tabelle: Alle Buchungen -->
-<h2>Bestehende Buchungen</h2>
-<table border="1">
-    <tr>
-        <th>Car ID</th>
-        <th>Type ID</th>
-        <th>Pickup Date</th>
-        <th>Return Date</th>
-        <th>Standort</th>
-    </tr>
-    <?php foreach ($bookings as $booking): ?>
-    <tr>
-        <td><?php echo htmlspecialchars($booking["car_id"]); ?></td>
-        <td><?php echo htmlspecialchars($booking["type_id"]); ?></td>
-        <td><?php echo htmlspecialchars($booking["pickup_date"]); ?></td>
-        <td><?php echo htmlspecialchars($booking["return_date"]); ?></td>
-        <td><?php echo htmlspecialchars($booking["car_location"]); ?></td>
-    </tr>
-    <?php endforeach; ?>
-</table>
-
-<!-- 3️⃣ Tabelle: Nicht verfügbare Fahrzeuge -->
-<h2>Nicht verfügbare Fahrzeuge</h2>
-<table border="1">
-    <tr>
-        <th>Car ID</th>
-        <th>Type ID</th>
-        <th>Standort</th>
-        <th>Preis</th>
-    </tr>
-    <?php foreach ($unavailable_cars as $car): ?>
-    <tr>
-        <td><?php echo htmlspecialchars($car["car_id"]); ?></td>
-        <td><?php echo htmlspecialchars($car["type_id"]); ?></td>
-        <td><?php echo htmlspecialchars($car["loc_name"]); ?></td>
-        <td><?php echo htmlspecialchars($car["price"]); ?> €</td>
-    </tr>
-    <?php endforeach; ?>
-</table>
-*/?>
 <?php 
-
 
 foreach ($available_cars as $car) {
     $key = $car['type_id'] . '|' . $car['loc_name'] . '|' . $car['price']; // Eindeutiger Schlüssel
@@ -240,17 +177,20 @@ $displayed_cars = array_slice($grouped_cars, $offset, $vehicles_per_page, true);
     <?php endif; ?>
 </div>
 <!-- Paging-Navigation -->
-<div class="pagination">
-    <?php if ($current_page > 1): ?>
-        <a href="?<?php echo http_build_query(array_merge($_GET, ['page' => $current_page - 1])); ?>" class="prev_button">« Zurück</a>
-    <?php endif; ?>
+<?php if ($total_pages > 1): ?>
+    <div class="pagination">
+        <?php if ($current_page > 1): ?>
+            <a href="?<?php echo http_build_query(array_merge($_GET, ['page' => $current_page - 1])); ?>" class="prev_button">« Zurück</a>
+        <?php endif; ?>
 
-    <span>Seite <?php echo $current_page; ?> von <?php echo $total_pages; ?></span>
+        <span>Seite <?php echo $current_page; ?> von <?php echo $total_pages; ?></span>
 
-    <?php if ($current_page < $total_pages): ?>
-        <a href="?<?php echo http_build_query(array_merge($_GET, ['page' => $current_page + 1])); ?>" class="next_button">Weiter »</a>
-    <?php endif; ?>
-</div>
+        <?php if ($current_page < $total_pages): ?>
+            <a href="?<?php echo http_build_query(array_merge($_GET, ['page' => $current_page + 1])); ?>" class="next_button">Weiter »</a>
+        <?php endif; ?>
+    </div>
+<?php endif; ?>
+
 
 </body>
 </html>

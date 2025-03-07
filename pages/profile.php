@@ -25,11 +25,10 @@ $stmt->bind_result($points);
 $stmt->fetch();
 $stmt->close();
 
-// Falls der User noch keine Punkte hat, setze sie auf 0
 $points = $points ?? 0;
 
-// 3️⃣ Feedbacks abrufen
-$stmt = $conn->prepare("SELECT feedback_id, feedback_text, created_at FROM feedback WHERE user_id = ? ORDER BY created_at DESC");
+// 3️⃣ Feedbacks mit Sternebewertung abrufen
+$stmt = $conn->prepare("SELECT feedback_id, feedback_text, rating, created_at FROM feedback WHERE user_id = ? ORDER BY created_at DESC");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $feedbacks = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -44,35 +43,14 @@ $conn->close();
     <meta charset="UTF-8">
     <title>Sigmacars | Mein Profil</title>
     <link rel="stylesheet" href="../css/style.css">
-    <style>
-        .feedback-list { margin-top: 20px; }
-        .feedback-item {
-            background: #f8f8f8;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .delete-feedback {
-            background: red;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .delete-feedback:hover {
-            background: darkred;
-        }
-    </style>
+    <link rel="stylesheet" href="../css/style_profile.css">
 </head>
 <body>
 
 <?php include '../components/header.php'; ?>
 
 <div class="main_content">
+    <!-- Linke Seite: Profildaten -->
     <div class="profile-container">
         <div class="profile-avatar">
             <?php echo strtoupper(substr($username, 0, 1)); ?>
@@ -86,15 +64,24 @@ $conn->close();
         </div>
         <a href="bookings.php" class="button orders">Meine Bestellungen</a>
         <a href="logout.php" class="button logout">Abmelden</a>
+    </div>
 
-        <!-- Feedbacks anzeigen -->
+    <!-- Rechte Seite: Feedbacks -->
+    <div class="feedback-container">
         <h3>Meine Feedbacks</h3>
         <div class="feedback-list">
             <?php if (!empty($feedbacks)): ?>
                 <?php foreach ($feedbacks as $feedback): ?>
                     <div class="feedback-item">
-                        <p><?php echo htmlspecialchars($feedback["feedback_text"]); ?> <br>
-                        <small>Abgegeben am: <?php echo date("d.m.Y H:i", strtotime($feedback["created_at"])); ?></small></p>
+                        <div class="feedback-text">
+                            <p><?php echo htmlspecialchars($feedback["feedback_text"]); ?></p>
+                            <small>Abgegeben am: <?php echo date("d.m.Y H:i", strtotime($feedback["created_at"])); ?></small>
+                            <div class="feedback-rating">
+                                <?php for ($i = 1; $i <= 5; $i++): ?>
+                                    <span class="star <?php echo ($i <= $feedback["rating"]) ? 'filled' : ''; ?>">★</span>
+                                <?php endfor; ?>
+                            </div>
+                        </div>
                         <button class="delete-feedback" onclick="deleteFeedback(<?php echo $feedback['feedback_id']; ?>)">Löschen</button>
                     </div>
                 <?php endforeach; ?>

@@ -69,10 +69,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // **Punkte verwenden, falls gewünscht**
     if ($use_loyalty && $loyalty_points > 0) {
         $max_discount = floor($loyalty_points / 10) * 10;  // Punkte in 10er-Schritten
-        $loyalty_discount = min($max_discount, floor($total_price / 10) * 10);  // Max. Rabatt in 10er-Schritten
+        $loyalty_discount = min($max_discount, $total_price);  // Rabatt nicht mehr als Gesamtpreis
         $points_used = $loyalty_discount;  // Gleiche Anzahl Punkte wie Rabatt
         $total_price -= $loyalty_discount;
     }
+
 
     // **Neue Punkte berechnen: 10 Punkte pro 100 € Umsatz**
     $points_earned = floor($total_price / 100) * 10;

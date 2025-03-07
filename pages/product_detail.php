@@ -43,6 +43,7 @@ $conn->close();
     <meta charset="UTF-8">
     <title>Sigmacars | <?php echo htmlspecialchars($car["vendor_name"]) . " " . htmlspecialchars($car["name"]); ?> - Details</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style_product_detail.css">
 </head>
 <body>
 
@@ -108,6 +109,10 @@ $conn->close();
             </form>
         <?php else: ?>
             <p class="warning">Bitte melden Sie sich an, um dieses Fahrzeug zu mieten.</p>
+            <div class="auth_buttons">
+                <a href="login.php?type_id=<?php echo $id; ?>&pickup_date=<?php echo $default_pickup; ?>&return_date=<?php echo $default_return; ?>&count=<?php echo $count; ?>" class="login_button">Anmelden</a>
+                <a href="register.php?type_id=<?php echo $id; ?>&pickup_date=<?php echo $default_pickup; ?>&return_date=<?php echo $default_return; ?>&count=<?php echo $count; ?>" class="register_button">Registrieren</a>
+            </div>
         <?php endif; ?>
     </div>
 

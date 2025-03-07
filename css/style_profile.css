@@ -1,137 +1,160 @@
-
-.form-container {
-    width: 100%;
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 20px;
-    background: linear-gradient(135deg, #1c1c1e, #2a2a2c);
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-    text-align: center;
-}
-
-h2 {
-    font-size: 24px;
-    margin-bottom: 15px;
-}
-
-input {
-    width: 90%;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
-    border: none;
-    background: #1c1c1e;
-    color: white;
-}
-
-button {
-    background-color: transparent;
-    border: 2px solid white;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-}
-
-button:hover {
-    background-color: white;
-    color: black;
-}
-
-p {
-    font-size: 14px;
-    margin-top: 10px;
-}
-
-a {
-    color: #ff4747;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-.error {
-    color: #ff4747;
-    font-weight: bold;
-}
-
-.success {
-    color: #4CAF50;
-    font-weight: bold;
-}
-
-
-/*Profilansicht*/
-h2 {
-    font-size: 24px;
-    margin-bottom: 15px;
-}
-
+/* Allgemeines Styling */
 body {
     font-family: Arial, sans-serif;
-    background-color: #2c2f33;
+    background-color: #2c2c2c;
+    color: white;
     margin: 0;
     padding: 0;
-    color: #ffffff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
 }
 
+/* Layout für die Hauptinhalte */
+.main_content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 30px;
+    padding: 40px;
+    min-height: 100vh;
+}
+
+/* Linke Seite: Profildaten */
 .profile-container {
-    background: #23272a;
-    border-radius: 15px;
-    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3), -5px -5px 15px rgba(255, 255, 255, 0.05);
+    background: #3b3b3b;
     padding: 30px;
-    width: 350px;
+    width: 400px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
-    padding-top: 100px; 
 }
 
 .profile-avatar {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background: #ffffff;
+    width: 90px;
+    height: 90px;
+    background: #007BFF;
+    color: white;
+    font-size: 36px;
+    font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 36px;
-    font-weight: bold;
-    color: #2c2f33;
-    margin: 0 auto 20px;
+    border-radius: 50%;
+    margin: 0 auto 15px;
 }
 
-.profile-info {
-    margin-bottom: 20px;
+h2 {
+    color: white;
+    margin-bottom: 10px;
 }
 
 .profile-info p {
+    margin: 8px 0;
     font-size: 16px;
-    color: #dcdcdc;
 }
 
+.profile-info p strong {
+    color: #007BFF;
+}
 
-.button.logout {
-    background-color: #ff4d4d;
+.button {
+    display: block;
+    text-decoration: none;
+    background: #007BFF;
     color: white;
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    margin: 10px 0;
+    transition: background 0.3s;
 }
 
-.button.logout:hover {
-    background-color: #e60000;
+.button:hover {
+    background: #0056b3;
 }
 
-.button.orders {
-    background-color: #4CAF50;
+.logout {
+    background: red;
+}
+
+.logout:hover {
+    background: darkred;
+}
+
+/* Rechte Seite: Feedback-Frame */
+.feedback-container {
+    background: #3b3b3b;
+    padding: 20px;
+    width: 500px;
+    height: 700px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Scrollbarer Feedback-Bereich */
+.feedback-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+    flex-grow: 1;
+    padding-right: 10px;
+    max-height: 700px;
+}
+
+.feedback-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.feedback-list::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 6px;
+}
+
+/* Styling der Feedback-Einträge */
+.feedback-item {
+    background: #555;
+    padding: 12px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.feedback-item p {
+    margin: 0;
+    font-size: 14px;
+    flex: 1;
+}
+
+.delete-feedback {
+    background: red;
     color: white;
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s;
 }
 
-.button.orders:hover {
-    background-color: #388E3C;
+.delete-feedback:hover {
+    background: darkred;
+}
+
+/* Sternebewertung */
+.feedback-rating {
+    font-size: 18px;
+    color: #ccc;
+    margin-top: 5px;
+}
+
+.feedback-rating .star {
+    display: inline-block;
+    transition: color 0.3s;
+}
+
+.feedback-rating .filled {
+    color: gold;
 }
