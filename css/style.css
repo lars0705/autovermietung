@@ -591,7 +591,6 @@ select option {
 .table_container {
   flex: 1;
   min-width: 500px;
-  position: fixed;
   left: 20px;
   top: 100px;
 }
@@ -610,7 +609,7 @@ select option {
 .frame_container {
   flex: 2;
   margin-top: 50px;
-  margin-left: 900px;
+  margin-left: 400px;
   overflow-y: auto;
   max-height: 80vh;
 }

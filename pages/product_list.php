@@ -1,3 +1,24 @@
+<?php
+ob_start();
+session_start();
+require_once "../components/db_connect.php"; 
+
+$show_welcome = !isset($_GET['pickup_date']) || !isset($_GET['return_date']) || 
+                empty($_GET['pickup_date']) || empty($_GET['return_date']);
+
+if (!$show_welcome) {
+    $current_date = date('Y-m-d');
+    if ($_GET['pickup_date'] < $current_date || $_GET['return_date'] < $current_date) {
+        // Datum ist ungültig, daher die Seite ohne Datum neu laden
+        $url = strtok($_SERVER["REQUEST_URI"], '?'); 
+        header("Location: $url");
+        exit();
+    }
+}
+
+ob_end_flush();
+?>
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -9,9 +30,6 @@
   <?php include '../components/header.php'; ?>
   <div class="main_content">
     <?php include '../components/filterform_list.php'; ?>
-    <?php
-    $show_welcome = !isset($_GET['pickup_date']) || !isset($_GET['return_date']) || empty($_GET['pickup_date']) || empty($_GET['return_date']);
-    ?>
 
     <?php if ($show_welcome): ?>
         <div class="welcome_section">
@@ -28,6 +46,3 @@
   <?php include '../components/footer.php'; ?>
   </body>
 </html>
-
-
-

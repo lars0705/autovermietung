@@ -14,23 +14,37 @@ $bookings_per_page = 10;
 $current_page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 $offset = ($current_page - 1) * $bookings_per_page;
 
-// Buchungen mit Fahrzeugdetails abrufen (nach `booked_date` absteigend sortiert)
+// 🔹 **Aktive Buchungen abrufen (Nicht stornierte)**  
 $sql = "
-    SELECT b.booking_id, b.pickup_date, b.return_date, b.booked_date, b.total_price, b.type_id,
+    SELECT b.booking_id, b.pickup_date, b.return_date, b.booked_date, b.total_price, b.type_id, 
+           b.loyalty_points_earned, b.loyalty_points_used, 
            c.vendor_name, c.name, c.type, c.price, c.img_file_name, c.loc_name
     FROM bookings b
     JOIN car_rental_data c ON b.car_id = c.car_id
-    WHERE b.user_id = ?
+    WHERE b.user_id = ? AND b.is_cancelled = FALSE
     ORDER BY b.booked_date DESC
     LIMIT ? OFFSET ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("iii", $user_id, $bookings_per_page, $offset);
 $stmt->execute();
-$bookings = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+$active_bookings = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 
-// Gesamtzahl der Buchungen für Paging berechnen
-$sql = "SELECT COUNT(*) AS total FROM bookings WHERE user_id = ?";
+// 🔹 **Stornierte Buchungen abrufen**  
+$sql = "
+    SELECT booking_id, pickup_date, return_date, booked_date, total_price, refund_amount, 
+           loyalty_points_earned, loyalty_points_used
+    FROM bookings
+    WHERE user_id = ? AND is_cancelled = TRUE
+    ORDER BY booked_date DESC";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$cancelled_bookings = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
+
+// Gesamtzahl der aktiven Buchungen für Paging berechnen
+$sql = "SELECT COUNT(*) AS total FROM bookings WHERE user_id = ? AND is_cancelled = FALSE";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
@@ -48,116 +62,26 @@ $conn->close();
     <meta charset="UTF-8">
     <title>Sigmacars | Meine Bestellungen</title>
     <link rel="stylesheet" href="../css/style.css">
-<<<<<<< HEAD
-    <style>
-        .content-container {
-            display: flex;
-            justify-content: space-between;
-            gap: 20px;
-            padding: 20px;
-        }
-        .table-container {
-            flex: 1;
-            min-width: 400px;
-            left: 20px;
-            top: 60px;
-        }
-        .bookings-table {
-            width: 80%;
-            border-collapse: collapse;
-        }
-        .bookings-table th, .bookings-table td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            text-align: center;
-        }
-        .bookings-table th {
-            background-color:rgb(100, 100, 100);
-        }
-        .frame-container {
-            flex: 2;
-            margin-top: 50px;
-            margin-left: 900px;
-            overflow-y: auto;
-            max-height: 80vh;
-        }
-        .booking-frame {
-            border: 1px solid #ddd;
-            padding: 15px;
-            margin-bottom: 15px;
-            background:rgb(100, 100, 100);
-            border-radius: 8px;
-        }
-        .booking-frame img {
-            max-width: 100%;
-            border-radius: 8px;
-        }
-        .pagination {
-            margin: 20px 0;
-            text-align: center;
-        }
-        .pagination a {
-            padding: 10px 15px;
-            text-decoration: none;
-            background: #007BFF;
-            color: white;
-            border-radius: 5px;
-            margin: 5px;
-            font-weight: bold;
-        }
-        .pagination a.active {
-            background: #0056b3;
-        }
-        .cancel-button {
-            background: red;
-            color: white;
-            padding: 10px;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .cancel-button:hover {
-            background: darkred;
-        }
-
-        .feedback_button {
-            display: inline-block;
-            background: #007BFF;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-        .feedback_button:hover {
-            background: #0056b3;
-        }
-    </style>
-=======
->>>>>>> 7c85a137021f772a6e3ab1733566faeacfc48279
 </head>
 <body>
 
 <?php include '../components/header.php'; ?>
 
 <div class="content_container">
-    <!-- Linke Seite: Tabelle mit Buchungen -->
     <div class="table_container">
         <h2>Meine Bestellungen</h2>
-        <?php if (!empty($bookings)): ?>
-            <a href="feedback.php" class="feedback_button">Feedback geben</a>
+        
+        <?php if (isset($_GET['success']) && $_GET['success'] == 'true'): ?>
+            <p class="success_message">✅ Vielen Dank für Ihre Buchung! Ihre Reservierung wurde erfolgreich gespeichert.</p>
         <?php endif; ?>
-        <?php if (isset($_GET['feedback_success'])): ?>
-            <p class="success_message">Danke für Ihr Feedback! Ihre Bewertung wurde erfolgreich gespeichert.</p>
+
+        <?php if (isset($_GET['cancelled']) && $_GET['cancelled'] == 'true'): ?>
+            <p class="success_message">⚠️ Ihre Buchung wurde storniert.</p>
         <?php endif; ?>
 
         <p>Gesamtbuchungen: <?php echo $total_bookings; ?> | Seiten: <?php echo $total_pages; ?></p>
 
-        <?php if (isset($_GET['success']) && $_GET['success'] == 'true'): ?>
-            <p class="success_message">Vielen Dank für Ihre Buchung! Ihre Reservierung wurde erfolgreich gespeichert.</p>
-        <?php endif; ?>
-
+        <h3>📌 Aktive Buchungen</h3>
         <table class="bookings_table">
             <tr>
                 <th>Booking ID</th>
@@ -167,10 +91,12 @@ $conn->close();
                 <th>Name</th>
                 <th>Buchung vom</th>
                 <th>Gesamtpreis</th>
+                <th>Treuepunkte erhalten</th>
+                <th>Treuepunkte genutzt</th>
                 <th>Aktion</th>
             </tr>
-            <?php if (!empty($bookings)): ?>
-                <?php foreach ($bookings as $order): ?>
+            <?php if (!empty($active_bookings)): ?>
+                <?php foreach ($active_bookings as $order): ?>
                     <tr>
                         <td><?php echo $order["booking_id"]; ?></td>
                         <td><?php echo $order["pickup_date"]; ?></td>
@@ -179,64 +105,72 @@ $conn->close();
                         <td><?php echo $order["name"]; ?></td>
                         <td><?php echo $order["booked_date"]; ?></td>
                         <td><?php echo number_format($order["total_price"], 2, ',', '.'); ?>€</td>
+                        <td><?php echo $order["loyalty_points_earned"]; ?> ⭐</td>
+                        <td><?php echo $order["loyalty_points_used"]; ?> ⭐</td>
                         <td>
                             <button class="cancel_button" onclick="cancelBooking(<?php echo $order['booking_id']; ?>)">Stornieren</button>
                         </td>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
-                <tr><td colspan="8">Keine Bestellungen gefunden.</td></tr>
+                <tr><td colspan="10">Keine aktiven Buchungen gefunden.</td></tr>
             <?php endif; ?>
         </table>
-        <!-- Paging-Navigation -->
+
+        <h3>❌ Stornierte Buchungen</h3>
+        <table class="bookings_table">
+            <tr>
+                <th>Booking ID</th>
+                <th>Von</th>
+                <th>Bis</th>
+                <th>Buchung vom</th>
+                <th>Gesamtpreis</th>
+                <th>Rückerstattung</th>
+                <th>Treuepunkte erhalten</th>
+                <th>Treuepunkte genutzt</th>
+                <th>Status</th>
+            </tr>
+            <?php if (!empty($cancelled_bookings)): ?>
+                <?php foreach ($cancelled_bookings as $order): ?>
+                    <tr>
+                        <td><?php echo $order["booking_id"]; ?></td>
+                        <td><?php echo $order["pickup_date"]; ?></td>
+                        <td><?php echo $order["return_date"]; ?></td>
+                        <td><?php echo $order["booked_date"]; ?></td>
+                        <td><?php echo number_format($order["total_price"], 2, ',', '.'); ?>€</td>
+                        <td><?php echo number_format($order["refund_amount"], 2, ',', '.'); ?>€</td>
+                        <td><?php echo $order["loyalty_points_earned"]; ?> ⭐</td>
+                        <td><?php echo $order["loyalty_points_used"]; ?> ⭐</td>
+                        <td>Storniert</td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr><td colspan="9">Keine stornierten Buchungen gefunden.</td></tr>
+            <?php endif; ?>
+        </table>
+
         <div class="pagination">
             <?php if ($current_page > 1): ?>
                 <a href="?<?php echo http_build_query(array_merge($_GET, ['page' => $current_page - 1])); ?>">« Zurück</a>
             <?php endif; ?>
-
             <span>Seite <?php echo $current_page; ?> von <?php echo $total_pages; ?></span>
-
             <?php if ($current_page < $total_pages): ?>
                 <a href="?<?php echo http_build_query(array_merge($_GET, ['page' => $current_page + 1])); ?>">Weiter »</a>
             <?php endif; ?>
         </div>
 
     </div>
-
-    <!-- Rechte Seite: Fahrzeugdetails -->
-    <div class="frame_container">
-        <?php foreach ($bookings as $order): ?>
-            <?php 
-                $now = new DateTime();
-                $pickup_time = new DateTime($order["pickup_date"]);
-                $interval = $now->diff($pickup_time);
-                $remaining_time = ($interval->invert) ? "Bereits begonnen" : $interval->format('%d Tage %h Stunden %i Minuten');
-            ?>
-            <div class="booking_frame">
-                <h3><?php echo htmlspecialchars($order["vendor_name"]) . " " . htmlspecialchars($order["name"]); ?></h3>
-                <p><strong>Fahrzeugtyp:</strong> <?php echo htmlspecialchars($order["type"]); ?></p>
-                <?php $imagePath = "../assets/images/cars/type_id_" . $order["type_id"] . ".png"; ?>
-                <img src="<?php echo htmlspecialchars($imagePath); ?>">
-                <p><strong>Mietbeginn:</strong> <?php echo htmlspecialchars($order["pickup_date"]); ?></p>
-                <p><strong>Mietende:</strong> <?php echo htmlspecialchars($order["return_date"]); ?></p>
-                <p><strong>Verbleibende Zeit bis Mietbeginn:</strong> <?php echo $remaining_time; ?></p>
-                <p><strong>Standort:</strong> <?php echo htmlspecialchars($order["loc_name"]); ?></p>
-                <p><strong>Preis pro Tag:</strong> <?php echo number_format($order["price"], 2, ',', '.'); ?>€</p>
-                <p><strong>Gesamtsumme:</strong> <?php echo number_format($order["total_price"], 2, ',', '.'); ?>€</p>
-                <button class="cancel_button" onclick="cancelBooking(<?php echo $order['booking_id']; ?>)">Stornieren</button>
-            </div>
-        <?php endforeach; ?>
-    </div>
 </div>
 
 <script>
 function cancelBooking(bookingId) {
-    if (confirm("Möchten Sie diese Buchung wirklich stornieren?")) {
+    if (confirm("⚠️ Möchten Sie diese Buchung wirklich stornieren?")) {
         fetch('cancel_booking.php?id=' + bookingId, { method: 'GET' })
         .then(response => response.ok ? location.reload() : alert("Fehler beim Stornieren der Buchung."));
     }
 }
 </script>
+
 <?php include '../components/footer.php'; ?>
 </body>
 </html>

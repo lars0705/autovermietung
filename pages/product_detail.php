@@ -21,10 +21,20 @@ if (!$car) {
 }
 
 $location = htmlspecialchars($car["loc_name"]);
-$conn->close();
 
-// Überprüfen, ob Benutzer sich gerade angemeldet hat
-$just_logged_in = isset($_GET['logged_in']);
+// 🔹 Treuepunkte abrufen
+$user_loyalty_points = 0;
+if (isset($_SESSION["user_id"])) {
+    $user_id = $_SESSION["user_id"];
+    $stmt = $conn->prepare("SELECT points FROM loyalty_program WHERE user_id = ?");
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $stmt->bind_result($user_loyalty_points);
+    $stmt->fetch();
+    $stmt->close();
+}
+
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -33,82 +43,12 @@ $just_logged_in = isset($_GET['logged_in']);
     <meta charset="UTF-8">
     <title>Sigmacars | <?php echo htmlspecialchars($car["vendor_name"]) . " " . htmlspecialchars($car["name"]); ?> - Details</title>
     <link rel="stylesheet" href="../css/style.css">
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            if (window.location.search.includes("logged_in=true")) {
-                // Entferne den Parameter aus der URL nach dem Laden der Seite
-                const url = new URL(window.location);
-                url.searchParams.delete("logged_in");
-                window.history.replaceState({}, document.title, url);
-            }
-        });
-    </script>
 </head>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const pickupDate = document.getElementById("pickup_date");
-    const returnDate = document.getElementById("return_date");
-    const totalPriceElement = document.getElementById("total_price");
-    const bookButton = document.getElementById("book_button");
-    const dateError = document.getElementById("date_error");
-    const bookingError = document.getElementById("booking_error");
-
-    const pricePerDay = <?php echo $car["price"]; ?>;
-    const carId = <?php echo $id; ?>;
-    
-    function calculatePrice() {
-        let startDate = new Date(pickupDate.value);
-        let endDate = new Date(returnDate.value);
-        let days = (endDate - startDate) / (1000 * 60 * 60 * 24);
-
-        if (days >= 1) {
-            totalPriceElement.innerText = (days * pricePerDay).toFixed(2);
-            if (dateError) dateError.style.display = "none";
-            checkAvailability();
-        } else {
-            totalPriceElement.innerText = "0";
-            if (dateError) dateError.style.display = "block";
-            if (bookButton) bookButton.disabled = true;
-        }
-    }
-
-    function checkAvailability() {
-        fetch(`check_availability.php?car_id=${carId}&pickup_date=${pickupDate.value}&return_date=${returnDate.value}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.available) {
-                    if (bookingError) bookingError.style.display = "none";
-                    if (bookButton) bookButton.disabled = false;
-                } else {
-                    if (bookingError) bookingError.style.display = "block";
-                    if (bookButton) bookButton.disabled = true;
-                }
-            });
-    }
-
-    if (pickupDate && returnDate) {
-        pickupDate.addEventListener("input", calculatePrice);
-        returnDate.addEventListener("input", calculatePrice);
-        calculatePrice();
-    }
-
-    document.getElementById("back_button").addEventListener("click", function () {
-        window.history.back();
-    });
-});
-</script>
-
 <body>
 
 <?php include '../components/header.php'; ?>
 
 <div class="product_detail_container">
-    <?php if ($just_logged_in): ?>
-        <div class="welcome_message">
-            <p>✅ Vielen Dank fürs Anmelden! Sie können nun dieses Fahrzeug mieten.</p>
-        </div>
-    <?php endif; ?>
-
     <div class="top_section">
         <h2><?php echo htmlspecialchars($car["vendor_name"]) . " " . htmlspecialchars($car["name"]); ?></h2>
         <div class="car_image">
@@ -148,23 +88,26 @@ document.addEventListener("DOMContentLoaded", function () {
                     <label><strong>Abholdatum:</strong> <span id="pickup_date_label"><?php echo $default_pickup; ?></span></label>
                     <input type="hidden" id="pickup_date" name="pickup_date" value="<?php echo $default_pickup; ?>">
 
-
                     <label><strong>Rückgabedatum:</strong> <span id="return_date_label"><?php echo $default_return; ?></span></label>
                     <input type="hidden" id="return_date" name="return_date" value="<?php echo $default_return; ?>">
 
-
                     <p><strong>Abhol- & Rückgabeort:</strong> <?php echo $location; ?></p>
-                    <p><strong>Gesamtpreis:</strong> <span id="total_price">0</span>€</p>
+                    
+                    <p><strong>Ihre aktuellen Treuepunkte:</strong> <?php echo $user_loyalty_points; ?> ⭐</p>
+                    
+                    <label><strong>Treuepunkte nutzen?</strong></label>
+                    <input type="checkbox" id="use_loyalty" name="use_loyalty" value="yes">
+                    
+                    <h3>Kostenübersicht:</h3>
+                    <p><strong>Grundpreis:</strong> <span id="base_price">0,00€</span></p>
+                    <p><strong>Treuepunkte-Rabatt:</strong> <span id="loyalty_discount">-0,00€</span></p>
+                    <p><strong>Endpreis:</strong> <span id="final_price">0,00€</span></p>
                 </div>
 
                 <button type="submit" id="book_button" class="book_button">Jetzt buchen</button>
             </form>
         <?php else: ?>
             <p class="warning">Bitte melden Sie sich an, um dieses Fahrzeug zu mieten.</p>
-            <div class="auth_buttons">
-                <a href="login.php?type_id=<?php echo $id; ?>&pickup_date=<?php echo $default_pickup; ?>&return_date=<?php echo $default_return; ?>" class="login_button">Anmelden</a>
-                <a href="register.php?type_id=<?php echo $id; ?>&pickup_date=<?php echo $default_pickup; ?>&return_date=<?php echo $default_return; ?>" class="register_button">Registrieren</a>
-            </div>
         <?php endif; ?>
     </div>
 
@@ -172,6 +115,46 @@ document.addEventListener("DOMContentLoaded", function () {
 </div>
 
 <?php include '../components/footer.php'; ?>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const pickupDate = document.getElementById("pickup_date");
+    const returnDate = document.getElementById("return_date");
+    const basePriceElement = document.getElementById("base_price");
+    const loyaltyDiscountElement = document.getElementById("loyalty_discount");
+    const finalPriceElement = document.getElementById("final_price");
+    const bookButton = document.getElementById("book_button");
+    const pricePerDay = <?php echo $car["price"]; ?>;
+    const useLoyaltyCheckbox = document.getElementById("use_loyalty");
+    let userLoyaltyPoints = <?php echo $user_loyalty_points; ?>;
+
+    function calculatePrice() {
+        let startDate = new Date(pickupDate.value);
+        let endDate = new Date(returnDate.value);
+        let days = (endDate - startDate) / (1000 * 60 * 60 * 24);
+        let totalPrice = days * pricePerDay;
+
+        let discount = 0;
+        if (useLoyaltyCheckbox.checked) {
+            let maxDiscount = Math.floor(userLoyaltyPoints / 10) * 10;
+            discount = Math.min(maxDiscount, Math.floor(totalPrice / 10) * 10);
+            totalPrice -= discount;
+        }
+
+        basePriceElement.innerText = (days * pricePerDay).toFixed(2).replace('.', ',') + "€";
+        loyaltyDiscountElement.innerText = discount > 0 ? "-" + discount.toFixed(2).replace('.', ',') + "€" : "-0,00€";
+        finalPriceElement.innerText = totalPrice.toFixed(2).replace('.', ',') + "€";
+
+        bookButton.disabled = (days < 1);
+    }
+
+    pickupDate.addEventListener("input", calculatePrice);
+    returnDate.addEventListener("input", calculatePrice);
+    useLoyaltyCheckbox.addEventListener("change", calculatePrice);
+
+    calculatePrice();
+});
+</script>
 
 </body>
 </html>

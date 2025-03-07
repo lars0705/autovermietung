@@ -2,6 +2,12 @@
 session_start();
 require_once "../components/db_connect.php";
 
+// Falls der Benutzer bereits eingeloggt ist, direkt zur Profilseite weiterleiten
+if (isset($_SESSION["user_id"]) || isset($_COOKIE["user_id"])) {
+    header("Location: profile.php");
+    exit();
+}
+
 $return_url = isset($_GET['type_id']) ? "type_id=" . $_GET['type_id'] . "&pickup_date=" . $_GET['pickup_date'] . "&return_date=" . $_GET['return_date'] : "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

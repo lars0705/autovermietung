@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 session_start();
 require_once "../components/db_connect.php"; 
@@ -15,13 +14,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $pickup_date = $_POST["pickup_date"];
     $return_date = $_POST["return_date"];
     $location = $_POST["car_location"];
+    $use_loyalty = isset($_POST["use_loyalty"]) ? 1 : 0;
 
-    // Validierung der Datumsangaben
     if (strtotime($pickup_date) >= strtotime($return_date)) {
         die("Fehler: Das Rückgabedatum muss nach dem Abholdatum liegen.");
     }
 
-    // Anzahl der Miettage berechnen
     $pickup = new DateTime($pickup_date);
     $return = new DateTime($return_date);
     $days = $pickup->diff($return)->days;
@@ -30,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         die("Fehler: Ungültiger Mietzeitraum.");
     }
 
-    // Verfügbare `car_id` für die gegebene `type_id` an der Location suchen
+    // Verfügbare `car_id` für die gegebene `type_id` suchen
     $stmt = $conn->prepare("
         SELECT car_id, price FROM car_rental_data 
         WHERE type_id = ? AND loc_name = ? 
@@ -40,7 +38,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 (pickup_date <= ? AND return_date >= ?) OR
                 (pickup_date >= ? AND return_date <= ?)
             )
-        ) LIMIT 1
+        )
+        ORDER BY RAND()
+        LIMIT 1
     ");
     $stmt->bind_param("isssssss", $type_id, $location, $pickup_date, $pickup_date, $return_date, $return_date, $pickup_date, $return_date);
     $stmt->execute();
@@ -48,29 +48,54 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt->fetch();
     $stmt->close();
 
-    // Falls keine freie `car_id` gefunden wurde
     if (!$car_id) {
-        die("Fehler: Kein verfügbares Fahrzeug dieses Typs im gewünschten Zeitraum an diesem Standort.");
+        die("Fehler: Kein verfügbares Fahrzeug.");
     }
 
     $total_price = $price_per_day * $days;
-    $booked_date = date("Y-m-d H:i:s"); // Aktuelle Zeit für die Buchung
-
-    // Buchung in die Datenbank einfügen
-    $stmt = $conn->prepare("
-        INSERT INTO bookings (user_id, car_id, type_id, pickup_date, return_date, car_location, total_price, booked_date) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    ");
-    $stmt->bind_param("iiisssis", $user_id, $car_id, $type_id, $pickup_date, $return_date, $location, $total_price, $booked_date);
-
-    if ($stmt->execute()) {
-        // Erfolgreiche Buchung → Weiterleitung zur Buchungsseite mit Erfolgsmeldung
-        header("Location: bookings.php?success=true");
-        exit();
-    } else {
-        echo "Fehler bei der Buchung: " . $stmt->error;
-    }
+    
+    // **Loyalty-Punkte abrufen**
+    $stmt = $conn->prepare("SELECT points FROM loyalty_program WHERE user_id = ?");
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $stmt->bind_result($loyalty_points);
+    $stmt->fetch();
     $stmt->close();
+
+    $loyalty_points = $loyalty_points ?? 0;
+    $loyalty_discount = 0;
+    $points_used = 0;
+
+    // **Punkte verwenden, falls gewünscht**
+    if ($use_loyalty && $loyalty_points > 0) {
+        $max_discount = floor($loyalty_points / 10) * 10;  // Punkte in 10er-Schritten
+        $loyalty_discount = min($max_discount, floor($total_price / 10) * 10);  // Max. Rabatt in 10er-Schritten
+        $points_used = $loyalty_discount;  // Gleiche Anzahl Punkte wie Rabatt
+        $total_price -= $loyalty_discount;
+    }
+
+    // **Neue Punkte berechnen: 10 Punkte pro 100 € Umsatz**
+    $points_earned = floor($total_price / 100) * 10;
+
+    // **Buchung speichern**
+    $booked_date = date("Y-m-d H:i:s");
+
+    $stmt = $conn->prepare("
+        INSERT INTO bookings (user_id, car_id, type_id, pickup_date, return_date, car_location, total_price, booked_date, loyalty_points_earned, loyalty_points_used) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ");
+    $stmt->bind_param("iiisssisii", $user_id, $car_id, $type_id, $pickup_date, $return_date, $location, $total_price, $booked_date, $points_earned, $points_used);
+    $stmt->execute();
+    $stmt->close();
+
+    // **Treuepunkte aktualisieren**
+    $stmt = $conn->prepare("UPDATE loyalty_program SET points = points - ? + ? WHERE user_id = ?");
+    $stmt->bind_param("iii", $points_used, $points_earned, $user_id);
+    $stmt->execute();
+    $stmt->close();
+
+    header("Location: bookings.php?success=true");
+    exit();
 }
 
 $conn->close();
