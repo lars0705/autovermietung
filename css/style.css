@@ -591,7 +591,6 @@ select option {
 .table_container {
   flex: 1;
   min-width: 500px;
-  position: fixed;
   left: 20px;
   top: 100px;
 }
