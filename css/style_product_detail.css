@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 
-          /* Allgemeine Stile */
+/* Allgemeine Stile */
 body {
   margin: 0;
   padding: 0;
@@ -17,19 +17,25 @@ body {
 
 /* Hauptcontainer */
 .product_detail_container {
-  max-width: 800px;
-  margin: 20px auto;
-  padding: 20px;
+  max-width: 900px;
+  margin: 100px auto 40px;
+  padding: 30px;
 }
 
-/* Oberer Bereich mit Fahrzeugbild & Preis */
+/* 🚗 Oberer Bereich mit Fahrzeugbild & Preis */
 .top_section {
   text-align: center;
 }
 
-.car_image_large {
+.car_image {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.car_image img {
   width: 100%;
-  max-width: 600px;
+  max-width: 450px;
   border-radius: 10px;
 }
 
@@ -43,291 +49,220 @@ body {
   color: #aaa;
 }
 
-.book_button {
-  background-color: transparent;
-  border: 2px solid white;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.book_button:hover {
-  background-color: white;
-  color: black;
-}
-
-/* Abhol- & Rückgabedatum */
-.rental_info {
-  background: linear-gradient(135deg, #1c1c1e, #2a2a2c);
-  padding: 15px;
-  border-radius: 10px;
+/* 📌 Buchungsdetails Container (Einspaltig & Mittig) */
+.booking_details {
+  background: linear-gradient(135deg, #2a2a2c, #1c1c1e);
+  padding: 25px;
+  border-radius: 15px;
+  margin-top: 30px;
   text-align: center;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.rental_info input {
-  padding: 8px;
-  border-radius: 5px;
-  border: none;
-  background: #1c1c1e;
-  color: white;
-}
-
-.price_summary {
+.booking_details h3 {
   font-size: 22px;
   font-weight: bold;
+  margin-bottom: 15px;
 }
 
-.small_text {
-  font-size: 14px;
-  color: #aaa;
+.booking_details p {
+  margin: 8px 0;
+  font-size: 16px;
 }
 
-/* Extras */
-.extras_section {
-  background: linear-gradient(135deg, #1c1c1e, #2a2a2c);
+.booking_details strong {
+  font-weight: bold;
+  color: #fff;
+}
+
+/* ✅ Treuepunkte Checkbox */
+.loyalty_section {
+  background: rgba(255, 255, 255, 0.1);
   padding: 15px;
   border-radius: 10px;
-}
-
-.extras_options {
   display: flex;
   justify-content: space-between;
-}
-
-.extra_item {
-  padding: 10px;
-  border: 2px solid white;
-  border-radius: 10px;
-  text-align: center;
-  width: 48%;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.extra_item:hover,
-.extra_item.active {
-  background-color: white;
-  color: black;
-}
-
-.dot {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  background-color: white;
-  border-radius: 50%;
-  margin-top: 5px;
-}
-
-.dot.red {
-  background-color: red;
-}
-
-/* Technische Daten & Ausstattung */
-.details_section {
-  background-color: #1c1c1e;
-  padding: 15px;
-  border-radius: 10px;
+  align-items: center;
   margin-top: 15px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.loyalty_section:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 223, 0, 0.5);
+}
+
+.loyalty_checkbox {
+  position: relative;
+  width: 50px;
+  height: 26px;
+  background: #444;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.loyalty_checkbox::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease-in-out;
+}
+
+input[type="checkbox"]:checked + .loyalty_checkbox {
+  background: #FFD700;
+}
+
+input[type="checkbox"]:checked + .loyalty_checkbox::before {
+  transform: translateX(24px);
+}
+
+/* 📊 Technische Daten (Zweispaltig) */
+.details_section {
+  background: linear-gradient(135deg, #2a2a2c, #1c1c1e);
+  padding: 25px;
+  border-radius: 15px;
+  margin-top: 30px;
+  text-align: left;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.details_section h3 {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 15px;
 }
 
 .details_grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
 }
 
-/* Produktkacheln (Frames) */
-.product_card_container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  padding: 20px;
+.details_grid p {
+  margin: 5px 0;
+  font-size: 16px;
 }
 
-.car_link {
-  text-decoration: none;
-  color: inherit;
-  display: block;
-  width: 45%;
-  max-width: 600px;
-  min-width: 400px;
-}
-
-/* Fahrzeug-Frame mit verbessertem Farbverlauf */
-.car_frame {
-  display: flex;
-  align-items: center;
-  background: linear-gradient(135deg, #050505, #272727, #050505); /* Dunkel → Hell → Dunkel */
+/* ✅ Kostenübersicht (Mittig) */
+.cost_summary {
+  background: linear-gradient(135deg, #ffeb3b, #fdd835);
+  padding: 25px;
   border-radius: 15px;
-  padding: 20px;
-  transition: transform 0.3s ease-in-out, border 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  box-shadow: 0px 10px 20px rgba(255, 223, 0, 0.3);
+  margin: 40px auto 40px;
+  text-align: center;
   position: relative;
-  border: 3px solid transparent;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  max-width: 500px;
 }
 
-/* Hover-Effekt: Weiße Umrandung mit Abstand */
-.car_frame:hover {
-  transform: scale(1.02);
-  border: 3px solid white; /* Weiße Umrandung */
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); /* Optional: Leichter Glow */
+.cost_summary:hover {
+  transform: scale(1.03);
+  box-shadow: 0px 15px 30px rgba(255, 223, 0, 0.5);
 }
 
-.car_image {
-  flex: 1;
-  padding-right: 20px;
-}
-
-.car_image img {
-  width: 100%;
-  border-radius: 10px;
-}
-
-.car_info {
-  flex: 2;
-  color: #fff;
-}
-
-.car_info h3 {
-  font-size: 22px;
-  margin-bottom: 10px;
-}
-
-.car_details {
-  display: flex;
-  justify-content: space-between;
-}
-
-.car_price {
+.cost_summary h3 {
   font-size: 22px;
   font-weight: bold;
-  margin-top: 10px;
+  color: #222;
+  margin-bottom: 15px;
 }
 
+.cost_section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  font-size: 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.cost_value {
+  font-weight: bold;
+  color: #222;
+}
+
+.discount {
+  color: #d32f2f;
+  font-weight: bold;
+}
+
+.total {
+  font-weight: bold;
+  font-size: 20px;
+  padding-top: 15px;
+}
+
+.total_price {
+  font-size: 24px;
+  color: #222;
+  font-weight: bold;
+}
+
+/* 🎯 "Jetzt Buchen"-Button optimieren */
 .book_button {
-  background-color: transparent;
-  border: 2px solid white;
-  color: white;
-  padding: 8px 20px;
-  border-radius: 5px;
-  font-size: 14px;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  border: none;
+  color: black;
+  padding: 14px 30px;
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 10px;
   cursor: pointer;
-  margin-top: 10px;
-  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  display: block;
+  margin: 30px auto 10px;
 }
 
 .book_button:hover {
-  background-color: white;
+  transform: scale(1.05);
+  box-shadow: 0px 15px 30px rgba(255, 223, 0, 0.6);
+}
+
+/* ⬅️ "Zurück zur Fahrzeugübersicht"-Button */
+.back_button {
+  background: transparent;
+  border: 2px solid white;
+  color: white;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  display: block;
+  margin: 30px auto 30px;
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.back_button:hover {
+  background: white;
   color: black;
 }
 
-/* Fade-In Effekt */
-.fade-in {
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 0.8s ease-out forwards;
-}
-
-@keyframes fadeInUp {
-  from {
-      opacity: 0;
-      transform: translateY(20px);
-  }
-  to {
-      opacity: 1;
-      transform: translateY(0);
-  }
-}
-
-/* Responsive Anpassung für kleinere Bildschirme */
-@media (max-width: 900px) {
-  .product_card_container {
-      flex-direction: column;
-      align-items: center;
-  }
-  .car_link {
-      width: 90%;
-  }
-}
-
-/* Responsive Anpassungen */
+/* 📱 Responsive Anpassungen */
 @media (max-width: 600px) {
   .details_grid {
       grid-template-columns: 1fr;
   }
-  .extras_options {
-      flex-direction: column;
-      gap: 10px;
+  .cost_summary {
+      max-width: 90%;
   }
-}
-
-/* Allgemeine Stile */
-.product_detail_container {
-  max-width: 900px;
-  margin: 40px auto;
-  padding: 30px;
-}
-
-/* Größere Abstände zwischen Frames */
-.details_section,
-.rental_info,
-.extras_section {
-  margin-bottom: 30px;
-  padding: 20px;
-}
-
-/* Fahrzeugbild */
-.car_image_large {
-  width: 100%;
-  max-width: 700px;
-  border-radius: 10px;
-}
-
-/* Technische Daten */
-.details_grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-
-/* Zurück-Button */
-.back_button {
-  background-color: transparent;
-  border: 2px solid white;
-  color: white;
-  padding: 12px 24px;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  display: block;
-  margin: 30px auto;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.back_button:hover {
-  background-color: white;
-  color: black;
-}
-
-/* Größere Abstände zwischen Frames */
-.details_section,
-.rental_info {
-    margin-bottom: 40px;
-    padding: 25px;
-}
-
-/* Fading für Frames */
-.car_frame {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-
-/* Fade-In-Effekt aktivieren */
-.car_frame.fade-in {
-    opacity: 1;
-    transform: translateY(0);
+  .booking_details {
+      flex-direction: column;
+      align-items: center;
+  }
 }

@@ -99,13 +99,26 @@ $conn->close();
                     <label><strong>Treuepunkte nutzen?</strong></label>
                     <input type="checkbox" id="use_loyalty" name="use_loyalty" value="yes">
                     
-                    <h3>Kostenübersicht:</h3>
-                    <p><strong>Grundpreis:</strong> <span id="base_price">0,00€</span></p>
-                    <p><strong>Treuepunkte-Rabatt:</strong> <span id="loyalty_discount">-0,00€</span></p>
-                    <p><strong>Endpreis:</strong> <span id="final_price">0,00€</span></p>
-                </div>
+                    <div class="cost_summary">
+                        <h3>Kostenübersicht</h3>            
+                        <div class="cost_section">
+                            <p class="cost_title">Basispreis:</p>
+                            <p class="cost_value"><span id="base_price">0,00€</span></p>
+                        </div>
 
+                        <div class="cost_section">
+                            <p>Treuepunkte-Rabatt:</p>
+                            <p class="cost_value discount"><span id="loyalty_discount">-0,00€</span></p>
+                        </div>
+
+                        <div class="cost_section total">
+                            <p>Gesamtsumme inkl. MwSt.:</p>
+                            <p class="cost_value total_price"><span id="final_price">0,00€</span></p>
+                        </div>
+                    </div>
+                </div>
                 <button type="submit" id="book_button" class="book_button">Jetzt buchen</button>
+                <button id="back_button" class="back_button">Zurück zur Fahrzeugübersicht</button>
             </form>
         <?php else: ?>
             <p class="warning">Bitte melden Sie sich an, um dieses Fahrzeug zu mieten.</p>
@@ -115,8 +128,6 @@ $conn->close();
             </div>
         <?php endif; ?>
     </div>
-
-    <button id="back_button" class="back_button">Zurück zur Fahrzeugübersicht</button>
 </div>
 
 <?php include '../components/footer.php'; ?>
