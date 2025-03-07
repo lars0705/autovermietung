@@ -12,7 +12,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     const pickupDate = document.getElementById("pickup_date");
     const returnDate = document.getElementById("return_date");
-    const locationInput = document.getElementById("location");
+    const locationInput = document.getElementById("location"); 
     const errorMessage = document.getElementById("error_message");
     const categoryCards = document.querySelectorAll(".category_card");
 

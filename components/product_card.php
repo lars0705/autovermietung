@@ -199,17 +199,17 @@ $displayed_cars = array_slice($grouped_cars, $offset, $vehicles_per_page, true);
     <?php if (!empty($displayed_cars)): ?>
         <?php foreach ($displayed_cars as $car): ?>
             <?php if (
-    ($doors === null || ($car["doors"] ?? null) == $doors) &&
-    ($seats === null || ($car["seats"] ?? null) == $seats) &&
-    ($min_age === null || ($car["min_age"] ?? null) <= $min_age) &&
-    ($ac === null || ($car["air_condition"] ?? null) == 1) &&  
-    ($gps === null || ($car["gps"] ?? null) == 1) &&  
-    ($category === null || stripos(strtolower($car["type"] ?? ''), strtolower($category)) !== false) &&
-    ($brand === null || stripos(strtolower($car["vendor_name"] ?? ''), strtolower($brand)) !== false) &&
-    ($max_price === null || ($car["price"] ?? null) <= $max_price) &&
-    ($drivetrain === null || stripos(strtolower($car["drive"] ?? ''), strtolower($drivetrain)) !== false) &&
-    ($transmission === null || stripos(strtolower($car["gear"] ?? ''), strtolower($transmission)) !== false)
-): ?>
+            ($doors === null || ($car["doors"] ?? null) == $doors) &&
+            ($seats === null || ($car["seats"] ?? null) == $seats) &&
+            ($min_age === null || ($car["min_age"] ?? null) <= $min_age) &&
+            ($ac === null || ($car["air_condition"] ?? null) == 1) &&  
+            ($gps === null || ($car["gps"] ?? null) == 1) &&  
+            ($category === null || stripos(strtolower($car["type"] ?? ''), strtolower($category)) !== false) &&
+            ($brand === null || stripos(strtolower($car["vendor_name"] ?? ''), strtolower($brand)) !== false) &&
+            ($max_price === null || ($car["price"] ?? null) <= $max_price) &&
+            ($drivetrain === null || stripos(strtolower($car["drive"] ?? ''), strtolower($drivetrain)) !== false) &&
+            ($transmission === null || stripos(strtolower($car["gear"] ?? ''), strtolower($transmission)) !== false)
+            ): ?>
             <div class="car_frame fade-in">
                 <div class="car_image">
                 <?php include '../components/load_image.php'; ?>
@@ -239,5 +239,18 @@ $displayed_cars = array_slice($grouped_cars, $offset, $vehicles_per_page, true);
         <p>Keine Fahrzeuge am gewählten Standort verfügbar.</p>
     <?php endif; ?>
 </div>
+<!-- Paging-Navigation -->
+<div class="pagination">
+    <?php if ($current_page > 1): ?>
+        <a href="?<?php echo http_build_query(array_merge($_GET, ['page' => $current_page - 1])); ?>" class="prev_button">« Zurück</a>
+    <?php endif; ?>
+
+    <span>Seite <?php echo $current_page; ?> von <?php echo $total_pages; ?></span>
+
+    <?php if ($current_page < $total_pages): ?>
+        <a href="?<?php echo http_build_query(array_merge($_GET, ['page' => $current_page + 1])); ?>" class="next_button">Weiter »</a>
+    <?php endif; ?>
+</div>
+
 </body>
 </html>
