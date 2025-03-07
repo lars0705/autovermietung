@@ -39,39 +39,124 @@ $conn->close();
     <title>Feedback geben</title>
     <link rel="stylesheet" href="../css/style.css">
 <style>
-.feedback-container {
-    max-width: 600px;
-    margin: 50px auto;
-    padding: 20px;
-    background: #f9f9f9;
-    border-radius: 8px;
+/* 🌌 Hintergrund und Layout */
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url("../assets/images/hintergrund.jpg");
+    background-size: cover;
+    background-position: center;
+    color: white;
+    font-family: "Inter", sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
+/* 🚀 Feedback-Container */
+.feedback-container {
+    max-width: 500px;
+    margin: auto;
+    margin-top: 100px;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.15); /* Transparenter Effekt */
+    border-radius: 15px;
+    backdrop-filter: blur(10px); /* Glas-Effekt */
+    box-shadow: 0px 10px 20px rgba(255, 255, 255, 0.2);
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* ✨ Überschrift */
+.feedback-container h2 {
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* 📝 Eingabefelder */
 textarea {
     width: 100%;
-    height: 100px;
+    height: 120px;
     resize: none;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 16px;
+    outline: none;
 }
 
+/* 🟡 Sterne-Bewertung */
+.star-rating {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.star {
+    font-size: 30px;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, color 0.3s;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.star:hover,
+.star.active {
+    color: #FFD700;
+    transform: scale(1.2);
+}
+
+/* ✅ Absenden-Button */
 .submit_button {
     display: block;
     width: 100%;
-    padding: 10px;
-    background: #28a745;
-    color: white;
+    padding: 12px;
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: black;
     border: none;
-    border-radius: 5px;
-    font-size: 16px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
     cursor: pointer;
+    margin-top: 10px;
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .submit_button:hover {
-    background: #218838;
+    transform: scale(1.05);
+    box-shadow: 0px 10px 20px rgba(255, 215, 0, 0.5);
 }
 
+/* ⚠️ Fehleranzeige */
 .error {
-    color: red;
+    color: #ff4d4d;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
+
+/* 📌 Footer fixieren */
+footer {
+    margin-top: auto;
+    background: #111;
+    padding: 20px 0;
+    text-align: center;
+}
+
+/* 🌟 Animation für sanftes Einblenden */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 </style>
 </head>
 <body>

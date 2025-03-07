@@ -3,7 +3,13 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$istAngemeldet = isset($_SESSION['user']); // Prüfen, ob der Nutzer angemeldet ist
+if (!isset($_SESSION["user_id"]) && isset($_COOKIE["user_id"])) {
+    $_SESSION["user_id"] = $_COOKIE["user_id"];
+    $_SESSION["username"] = $_COOKIE["username"];
+}
+
+$istAngemeldet = isset($_SESSION["user_id"]);
+
 ?>
 
 <header class="header">

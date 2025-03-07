@@ -100,8 +100,44 @@ $conn->close();
     </script>
 <?php endif; ?>
 <div class="content_container">
+<div class="upcoming_bookings_container">
+        <h3>📅 Anstehend</h3>
+        <div class="scrolling_frame">
+            <?php 
+            // Filter: Nur zukünftige Buchungen
+            $upcoming_bookings = array_filter($active_bookings, function($booking) {
+                return strtotime($booking["pickup_date"]) >= strtotime(date("Y-m-d"));
+            });
+
+            // Sortiere die Buchungen nach Mietbeginn (aufsteigend)
+            usort($upcoming_bookings, function($a, $b) {
+                return strtotime($a["pickup_date"]) - strtotime($b["pickup_date"]);
+            });
+
+            if (!empty($upcoming_bookings)): ?>
+                <?php foreach ($upcoming_bookings as $booking): 
+                    $days_left = (strtotime($booking["pickup_date"]) - strtotime(date("Y-m-d"))) / 86400;
+                    $days_text = $days_left == 1 ? "Tag" : "Tagen";
+                    ?>
+                    <div class="upcoming_booking_frame">
+                        <img src="../assets/images/cars/<?php echo htmlspecialchars($booking["img_file_name"]); ?>.png" alt="Fahrzeugbild">
+                        <div class="upcoming_booking_info">
+                            <p class="vehicle_name"><strong><?php echo htmlspecialchars($booking["vendor_name"] . " " . $booking["name"]); ?></strong></p>
+                            <p class="start_date">Start in: <?php echo $days_left; ?> <?php echo $days_text; ?></p>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>Keine anstehenden Buchungen</p>
+            <?php endif; ?>
+        </div>     
+        <div class="feedback_button_container">
+            <a href="feedback.php" class="feedback_button">Feedback abgeben</a>
+        </div>
+    </div>
+
     <div class="table_container">
-        <h2>Meine Bestellungen</h2>
+        <h2>Meine Buchungen</h2>
         
         <?php if (isset($_GET['success']) && $_GET['success'] == 'true'): ?>
             <p class="success_message">✅ Vielen Dank für Ihre Buchung! Ihre Reservierung wurde erfolgreich gespeichert.</p>

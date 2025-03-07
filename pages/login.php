@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (!empty($_POST["return_url"])) {
                 header("Location: product_detail.php?" . $_POST["return_url"] . "&logged_in=true");
             } else {
-                header("Location: bookings.php");
+                header("Location: profile.php");
             }
             exit();
         } else {

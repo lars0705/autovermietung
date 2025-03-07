@@ -119,3 +119,115 @@ h2, h3 {
 .details_button:hover {
     background: #117A8B;
 }
+
+/* Feedback Button */
+.feedback_button_container {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.feedback_button {
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: black;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.feedback_button:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 15px 30px rgba(255, 223, 0, 0.6);
+}
+
+/* upcoming bookings */
+/* 📅 Container für anstehende Buchungen */
+.upcoming_bookings_container {
+    background: linear-gradient(135deg, #2a2a2c, #1c1c1e);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Scrollrahmen für anstehende Buchungen */
+.scrolling_frame {
+    max-height: 80%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-right: 10px;
+}
+
+/* Einzelner anstehender Buchungsrahmen */
+.upcoming_booking_frame {
+    display: flex;
+    align-items: center;
+    background: #1e1e20;
+    padding: 10px;
+    border-radius: 8px;
+    border: 2px solid #444;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.upcoming_booking_frame:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2);
+}
+
+/* Fahrzeugbild */
+.upcoming_booking_frame img {
+    width: 90px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+/* Fahrzeuginfo */
+.upcoming_booking_info {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Fahrzeugname */
+.vehicle_name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+}
+
+/* Startdatum */
+.start_date {
+    font-size: 14px;
+    color: #aaa;
+}
+
+/* 🎯 Feedback-Button unterhalb des Scrollframes */
+.feedback_button_container {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.feedback_button {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.feedback_button:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 4px 10px rgba(0, 123, 255, 0.5);
+}
+
+

@@ -62,7 +62,7 @@ $conn->close();
             <p><strong>Mitglied seit:</strong> <?php echo date("d.m.Y", strtotime($created_at)); ?></p>
             <p><strong>Loyalty-Punkte:</strong> <?php echo $points; ?> ⭐</p>
         </div>
-        <a href="bookings.php" class="button orders">Meine Bestellungen</a>
+        <a href="bookings.php" class="button orders">Meine Buchungen</a>
         <a href="logout.php" class="button logout">Abmelden</a>
     </div>
 
