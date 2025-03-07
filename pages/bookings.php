@@ -16,7 +16,7 @@ $offset = ($current_page - 1) * $bookings_per_page;
 
 // Buchungen mit Fahrzeugdetails abrufen (nach `booked_date` absteigend sortiert)
 $sql = "
-    SELECT b.booking_id, b.pickup_date, b.return_date, b.booked_date, b.total_price,
+    SELECT b.booking_id, b.pickup_date, b.return_date, b.booked_date, b.total_price, b.type_id,
            c.vendor_name, c.name, c.type, c.price, c.img_file_name, c.loc_name
     FROM bookings b
     JOIN car_rental_data c ON b.car_id = c.car_id
@@ -57,13 +57,12 @@ $conn->close();
         }
         .table-container {
             flex: 1;
-            min-width: 500px;
-            position: fixed;
+            min-width: 400px;
             left: 20px;
-            top: 100px;
+            top: 60px;
         }
         .bookings-table {
-            width: 100%;
+            width: 80%;
             border-collapse: collapse;
         }
         .bookings-table th, .bookings-table td {
@@ -72,7 +71,7 @@ $conn->close();
             text-align: center;
         }
         .bookings-table th {
-            background-color: #f4f4f4;
+            background-color:rgb(100, 100, 100);
         }
         .frame-container {
             flex: 2;
@@ -85,7 +84,7 @@ $conn->close();
             border: 1px solid #ddd;
             padding: 15px;
             margin-bottom: 15px;
-            background:rgb(51, 44, 44);
+            background:rgb(100, 100, 100);
             border-radius: 8px;
         }
         .booking-frame img {
@@ -186,6 +185,19 @@ $conn->close();
                 <tr><td colspan="8">Keine Bestellungen gefunden.</td></tr>
             <?php endif; ?>
         </table>
+        <!-- Paging-Navigation -->
+        <div class="pagination">
+            <?php if ($current_page > 1): ?>
+                <a href="?<?php echo http_build_query(array_merge($_GET, ['page' => $current_page - 1])); ?>">« Zurück</a>
+            <?php endif; ?>
+
+            <span>Seite <?php echo $current_page; ?> von <?php echo $total_pages; ?></span>
+
+            <?php if ($current_page < $total_pages): ?>
+                <a href="?<?php echo http_build_query(array_merge($_GET, ['page' => $current_page + 1])); ?>">Weiter »</a>
+            <?php endif; ?>
+        </div>
+
     </div>
 
     <!-- Rechte Seite: Fahrzeugdetails -->
@@ -200,7 +212,8 @@ $conn->close();
             <div class="booking-frame">
                 <h3><?php echo htmlspecialchars($order["vendor_name"]) . " " . htmlspecialchars($order["name"]); ?></h3>
                 <p><strong>Fahrzeugtyp:</strong> <?php echo htmlspecialchars($order["type"]); ?></p>
-                <img src="../images/<?php echo htmlspecialchars($order["img_file_name"]); ?>" alt="Fahrzeugbild">
+                <?php $imagePath = "../assets/images/cars/type_id_" . $order["type_id"] . ".png"; ?>
+                <img src="<?php echo htmlspecialchars($imagePath); ?>">
                 <p><strong>Mietbeginn:</strong> <?php echo htmlspecialchars($order["pickup_date"]); ?></p>
                 <p><strong>Mietende:</strong> <?php echo htmlspecialchars($order["return_date"]); ?></p>
                 <p><strong>Verbleibende Zeit bis Mietbeginn:</strong> <?php echo $remaining_time; ?></p>
