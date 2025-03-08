@@ -37,13 +37,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Verfügbare `car_id` für die gegebene `type_id` suchen
     $stmt = $conn->prepare("
         SELECT car_id, price FROM car_rental_data 
-        WHERE type_id = ? AND loc_name = ? 
+        WHERE type_id = ? AND loc_name = ?
         AND car_id NOT IN (
             SELECT car_id FROM bookings WHERE (
                 (pickup_date <= ? AND return_date >= ?) OR
                 (pickup_date <= ? AND return_date >= ?) OR
                 (pickup_date >= ? AND return_date <= ?)
-            )
+            ) AND is_cancelled = 0
         )
         ORDER BY RAND()
         LIMIT 1
@@ -76,11 +76,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     // **Punkte verwenden, falls gewünscht**
     if ($use_loyalty && $loyalty_points > 0) {
-        $max_discount = floor($loyalty_points / 10) * 10;  // Punkte in 10er-Schritten
-        $loyalty_discount = min($max_discount, $total_price);  // Rabatt nicht mehr als Gesamtpreis
-        $points_used = $loyalty_discount;  // Gleiche Anzahl Punkte wie Rabatt
+        $max_discount = floor($loyalty_points / 10) * 10; // Punkte in 10er-Schritten
+        $allowed_discount = floor($total_price / 10) * 10; // Maximaler Rabatt in 10er-Schritten des Gesamtpreises
+        $loyalty_discount = min($max_discount, $allowed_discount); // Rabatt ist das Minimum aus beiden Werten
+        $points_used = $loyalty_discount; // Punkte entsprechend dem gewährten Rabatt
         $total_price -= $loyalty_discount;
     }
+    
 
 
     // **Neue Punkte berechnen: 10 Punkte pro 100 € Umsatz**

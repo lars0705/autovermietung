@@ -40,7 +40,7 @@ while ($row = $result->fetch_assoc()) {
 $stmt->close();
 
 // 4️⃣ Alle Buchungen aus `bookings` abrufen
-$sql = "SELECT car_id, type_id, pickup_date, return_date, car_location FROM bookings WHERE car_location = ? 
+$sql = "SELECT car_id, type_id, pickup_date, return_date, car_location FROM bookings WHERE car_location = ? AND is_cancelled = 0
         AND (
             (? BETWEEN pickup_date AND return_date) OR
             (? BETWEEN pickup_date AND return_date) OR
