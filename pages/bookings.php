@@ -9,12 +9,12 @@ require_once "../components/db_connect.php";
 
 $user_id = $_SESSION["user_id"] ?? $_COOKIE["user_id"];
 
-// Paging-Variablen
+// Paging-Variablen für aktive Buchungen
 $bookings_per_page = 10;
 $current_page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 $offset = ($current_page - 1) * $bookings_per_page;
 
-// 🔹 **Aktive Buchungen abrufen (Nicht stornierte)**  
+// Aktive Buchungen abrufen (Nicht stornierte)
 $sql = "
     SELECT b.booking_id, b.pickup_date, b.return_date, b.booked_date, b.total_price, b.type_id, 
            b.loyalty_points_earned, b.loyalty_points_used, 
@@ -30,19 +30,6 @@ $stmt->execute();
 $active_bookings = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 
-// 🔹 **Stornierte Buchungen abrufen**  
-$sql = "
-    SELECT booking_id, pickup_date, return_date, booked_date, total_price, refund_amount, 
-           loyalty_points_earned, loyalty_points_used
-    FROM bookings
-    WHERE user_id = ? AND is_cancelled = TRUE
-    ORDER BY booked_date DESC";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$cancelled_bookings = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-$stmt->close();
-
 // Gesamtzahl der aktiven Buchungen für Paging berechnen
 $sql = "SELECT COUNT(*) AS total FROM bookings WHERE user_id = ? AND is_cancelled = FALSE";
 $stmt = $conn->prepare($sql);
@@ -51,6 +38,35 @@ $stmt->execute();
 $total_result = $stmt->get_result()->fetch_assoc();
 $total_bookings = $total_result["total"];
 $total_pages = ceil($total_bookings / $bookings_per_page);
+$stmt->close();
+
+// Paging-Variablen für stornierte Buchungen
+$cancelled_bookings_per_page = 10;
+$cancelled_current_page = isset($_GET['cancelled_page']) ? max(1, intval($_GET['cancelled_page'])) : 1;
+$cancelled_offset = ($cancelled_current_page - 1) * $cancelled_bookings_per_page;
+
+// Stornierte Buchungen abrufen
+$sql = "
+    SELECT booking_id, pickup_date, return_date, booked_date, total_price, refund_amount, 
+           loyalty_points_earned, loyalty_points_used
+    FROM bookings
+    WHERE user_id = ? AND is_cancelled = TRUE
+    ORDER BY booked_date DESC
+    LIMIT ? OFFSET ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("iii", $user_id, $cancelled_bookings_per_page, $cancelled_offset);
+$stmt->execute();
+$cancelled_bookings = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
+
+// Gesamtzahl der stornierten Buchungen für Paging berechnen
+$sql = "SELECT COUNT(*) AS total FROM bookings WHERE user_id = ? AND is_cancelled = TRUE";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$total_cancelled_result = $stmt->get_result()->fetch_assoc();
+$total_cancelled_bookings = $total_cancelled_result["total"];
+$total_cancelled_pages = ceil($total_cancelled_bookings / $cancelled_bookings_per_page);
 $stmt->close();
 
 $conn->close();
@@ -62,45 +78,17 @@ $conn->close();
     <meta charset="UTF-8">
     <title>Sigmacars | Meine Bestellungen</title>
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/style_bookings.css">
 </head>
 <body>
 
 <?php include '../components/header.php'; ?>
 <?php if (isset($_GET['success']) && $_GET['success'] == 'true'): ?>
     <div class="booking-animation-container">
-        <div class="flash-effect"></div>
-        <div class="smoke" style="left: 35%;"></div>
-        <div class="smoke" style="right: 35%;"></div>
         <p class="booking-success-text">✅ Glückwunsch! Deine Buchung war erfolgreich!</p>
     </div>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Erstelle Konfetti Explosion
-            for (let i = 0; i < 100; i++) {
-                let confetti = document.createElement("div");
-                confetti.classList.add("confetti");
-                confetti.style.left = Math.random() * 100 + "vw";
-                confetti.style.animationDuration = Math.random() * 3 + 2 + "s";
-                confetti.style.backgroundColor = ["red", "blue", "yellow", "green", "purple", "orange"][Math.floor(Math.random() * 6)];
-                confetti.style.animationDelay = Math.random() * 2 + "s";
-                document.querySelector(".booking-animation-container").appendChild(confetti);
-            }
-
-            // Erstelle Funkenpartikel
-            for (let i = 0; i < 50; i++) {
-                let spark = document.createElement("div");
-                spark.classList.add("spark");
-                spark.style.left = Math.random() * 100 + "vw";
-                spark.style.animationDuration = Math.random() * 2 + 1 + "s";
-                spark.style.animationDelay = Math.random() * 2 + "s";
-                document.querySelector(".booking-animation-container").appendChild(spark);
-            }
-        });
-    </script>
 <?php endif; ?>
 <div class="content_container">
-<div class="upcoming_bookings_container">
+    <div class="upcoming_bookings_container">
         <h3>📅 Anstehend</h3>
         <div class="scrolling_frame">
             <?php 
@@ -115,10 +103,15 @@ $conn->close();
             });
 
             if (!empty($upcoming_bookings)): ?>
-                <?php foreach ($upcoming_bookings as $booking): 
-                    $days_left = (strtotime($booking["pickup_date"]) - strtotime(date("Y-m-d"))) / 86400;
-                    $days_text = $days_left == 1 ? "Tag" : "Tagen";
-                    ?>
+                <?php
+                foreach ($upcoming_bookings as $booking): 
+                $today = strtotime("today"); // Mitternacht heute
+                $pickup = strtotime($booking["pickup_date"]); // Datum des Pickups
+
+                $days_left = floor(($pickup - $today) / 86400); // Ganze Tage berechnen
+
+                $days_text = $days_left == 1 ? "Tag" : "Tagen";
+                ?>
                     <div class="upcoming_booking_frame">
                         <img src="../assets/images/cars/<?php echo htmlspecialchars($booking["img_file_name"]); ?>.png" alt="Fahrzeugbild">
                         <div class="upcoming_booking_info">
@@ -130,7 +123,7 @@ $conn->close();
             <?php else: ?>
                 <p>Keine anstehenden Buchungen</p>
             <?php endif; ?>
-        </div>     
+        </div>
         <div class="feedback_button_container">
             <a href="feedback.php" class="feedback_button">Feedback abgeben</a>
         </div>
@@ -152,15 +145,15 @@ $conn->close();
         <h3>📌 Aktive Buchungen</h3>
         <table class="bookings_table">
             <tr>
-                <th>Booking ID</th>
-                <th>Von</th>
-                <th>Bis</th>
-                <th>Hersteller</th>
-                <th>Name</th>
-                <th>Buchung vom</th>
-                <th>Gesamtpreis</th>
+                <th>Buchungs-<br>ID</th>
+                <th>Abhol-<br>datum</th>
+                <th>Rückgabe-<br>datum</th>
+                <th>Marke</th>
+                <th>Modell</th>
+                <th>Buchungs-<br>datum</th>
+                <th>Treuepunkte-<br>rabatt</th>
+                <th>Rechnungs-<br>betrag</th>
                 <th>Treuepunkte erhalten</th>
-                <th>Treuepunkte genutzt</th>
                 <th>Aktion</th>
             </tr>
             <?php if (!empty($active_bookings)): ?>
@@ -172,9 +165,9 @@ $conn->close();
                         <td><?php echo $order["vendor_name"]; ?></td>
                         <td><?php echo $order["name"]; ?></td>
                         <td><?php echo $order["booked_date"]; ?></td>
+                        <td><?php echo number_format($order["loyalty_points_used"], 2, ',', '.'); ?>€</td>
                         <td><?php echo number_format($order["total_price"], 2, ',', '.'); ?>€</td>
                         <td><?php echo $order["loyalty_points_earned"]; ?> ⭐</td>
-                        <td><?php echo $order["loyalty_points_used"]; ?> ⭐</td>
                         <td>
                             <button class="cancel_button" onclick="cancelBooking(<?php echo $order['booking_id']; ?>)">Stornieren</button>
                         </td>
@@ -185,17 +178,28 @@ $conn->close();
             <?php endif; ?>
         </table>
 
+        <div class="pagination">
+            <?php if ($current_page > 1): ?>
+                <a href="?<?php echo http_build_query(array_merge($_GET, ['page' => $current_page - 1])); ?>">« Zurück</a>
+            <?php endif; ?>
+            <span>Seite <?php echo $current_page; ?> von <?php echo $total_pages; ?></span>
+            <?php if ($current_page < $total_pages): ?>
+                <a href="?<?php echo http_build_query(array_merge($_GET, ['page' => $current_page + 1])); ?>">Weiter »</a>
+            <?php endif; ?>
+        </div>
+
         <h3>❌ Stornierte Buchungen</h3>
+        <p>Gesamtbuchungen: <?php echo $total_cancelled_bookings; ?> | Seiten: <?php echo $total_cancelled_pages; ?></p>
         <table class="bookings_table">
             <tr>
-                <th>Booking ID</th>
-                <th>Von</th>
-                <th>Bis</th>
-                <th>Buchung vom</th>
-                <th>Gesamtpreis</th>
-                <th>Rückerstattung</th>
-                <th>Treuepunkte erhalten</th>
-                <th>Treuepunkte genutzt</th>
+                <th>Buchungs-<br>ID</th>
+                <th>Abhol-<br>datum</th>
+                <th>Rückgabe-<br>datum</th>
+                <th>Buchungs-<br>datum</th>
+                <th>Treuepunkte-<br>rabatt</th>
+                <th>Rechnungs-<br>betrag</th>
+                <th>Rückerstattung<br>€</th>
+                <th>Rückerstattung<br>Treuepunkte</th>
                 <th>Status</th>
             </tr>
             <?php if (!empty($cancelled_bookings)): ?>
@@ -205,9 +209,9 @@ $conn->close();
                         <td><?php echo $order["pickup_date"]; ?></td>
                         <td><?php echo $order["return_date"]; ?></td>
                         <td><?php echo $order["booked_date"]; ?></td>
+                        <td><?php echo number_format($order["loyalty_points_used"], 2, ',', '.'); ?>€</td>
                         <td><?php echo number_format($order["total_price"], 2, ',', '.'); ?>€</td>
                         <td><?php echo number_format($order["refund_amount"], 2, ',', '.'); ?>€</td>
-                        <td><?php echo $order["loyalty_points_earned"]; ?> ⭐</td>
                         <td><?php echo $order["loyalty_points_used"]; ?> ⭐</td>
                         <td>Storniert</td>
                     </tr>
@@ -218,12 +222,12 @@ $conn->close();
         </table>
 
         <div class="pagination">
-            <?php if ($current_page > 1): ?>
-                <a href="?<?php echo http_build_query(array_merge($_GET, ['page' => $current_page - 1])); ?>">« Zurück</a>
+            <?php if ($cancelled_current_page > 1): ?>
+                <a href="?<?php echo http_build_query(array_merge($_GET, ['cancelled_page' => $cancelled_current_page - 1])); ?>">« Zurück</a>
             <?php endif; ?>
-            <span>Seite <?php echo $current_page; ?> von <?php echo $total_pages; ?></span>
-            <?php if ($current_page < $total_pages): ?>
-                <a href="?<?php echo http_build_query(array_merge($_GET, ['page' => $current_page + 1])); ?>">Weiter »</a>
+            <span>Seite <?php echo $cancelled_current_page; ?> von <?php echo $total_cancelled_pages; ?></span>
+            <?php if ($cancelled_current_page < $total_cancelled_pages): ?>
+                <a href="?<?php echo http_build_query(array_merge($_GET, ['cancelled_page' => $cancelled_current_page + 1])); ?>">Weiter »</a>
             <?php endif; ?>
         </div>
 

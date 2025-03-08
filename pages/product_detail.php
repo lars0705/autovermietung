@@ -5,12 +5,13 @@ require_once "../components/db_connect.php";
 $id = isset($_GET['type_id']) ? intval($_GET['type_id']) : 0;
 
 // Standardwerte für Datumsübernahme aus product_list.php
+$location = isset ($_GET['car_location']) ? $_GET['car_location'] : '';
 $default_pickup = isset($_GET['pickup_date']) ? $_GET['pickup_date'] : date('Y-m-d', strtotime('+1 day'));
 $default_return = isset($_GET['return_date']) ? $_GET['return_date'] : date('Y-m-d', strtotime('+2 days'));
 $count = isset($_GET['count']) ? intval($_GET['count']) : 0;
 
-$stmt = $conn->prepare("SELECT * FROM car_rental_data WHERE type_id = ?");
-$stmt->bind_param("i", $id);
+$stmt = $conn->prepare("SELECT * FROM car_rental_data WHERE type_id = ? AND loc_name = ?");
+$stmt->bind_param("is", $id, $location);
 $stmt->execute();
 $result = $stmt->get_result();
 $car = $result->fetch_assoc();

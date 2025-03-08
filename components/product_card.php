@@ -164,14 +164,14 @@ $displayed_cars = array_slice($grouped_cars, $offset, $vehicles_per_page, true);
                         <li><strong>Koffer:</strong> <?php echo $car['trunk']; ?></li>
                         <li><strong>GPS:</strong> <?php echo $car["gps"] ? "Ja" : "Nein"; ?></li>
                         <li><strong>Klimaanlage:</strong> <?php echo $car["air_condition"] ? "Ja" : "Nein"; ?></li>
-                    <!--<li><strong>Standort:</strong> <?php //echo $_GET['location']; ?></li>-->
+                        <li><strong>Standort:</strong> <?php echo $_GET['location']; ?></li>
                         <li><strong>Verfügbar:</strong> <?php echo $car['count']; ?></li>
-                     <!--   <li><strong>ID:</strong> <?php //echo $car['type_id']; ?></li>-->
+                    <!--<li><strong>ID:</strong> <?php //echo $car['type_id']; ?></li>-->
                     </ul>
                     <div class="car_image">
                         <?php include '../components/load_image.php'; ?>
                     </div>
-                    <a href="product_detail.php?type_id=<?php echo urlencode($car["type_id"]); ?>&pickup_date=<?php echo urlencode($pickup_date); ?>&return_date=<?php echo urlencode($return_date); ?>&count=<?php echo urlencode($car['count']); ?>" class="more_button">Fahrzeug anzeigen</a>
+                    <a href="product_detail.php?type_id=<?php echo urlencode($car["type_id"]);?>&car_location=<?php echo urlencode($location) ?>&pickup_date=<?php echo urlencode($pickup_date); ?>&return_date=<?php echo urlencode($return_date); ?>&count=<?php echo urlencode($car['count']); ?>" class="more_button">Fahrzeug anzeigen</a>
                     </div>
             </div>
             <?php endif; ?>
