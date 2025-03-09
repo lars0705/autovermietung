@@ -213,7 +213,7 @@ function translate($value, $translations) {
     <?php endif; ?>
 </div>
 <!-- Paging-Navigation -->
-<?php if ($total_pages > 1): ?>
+<?php if ($total_pages > 1 && $hasCars): ?>
     <div class="pagination">
         <?php if ($current_page > 1): ?>
             <a href="?<?php echo http_build_query(array_merge($_GET, ['page' => $current_page - 1])); ?>" class="prev_button">« Zurück</a>
