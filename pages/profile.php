@@ -43,13 +43,12 @@ $conn->close();
     <meta charset="UTF-8">
     <title>Sigmacars | Mein Profil</title>
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/style_profile.css">
 </head>
 <body>
 
 <?php include '../components/header.php'; ?>
 
-<div class="main_content">
+<div class="profile_content">
     <!-- Linke Seite: Profildaten -->
     <div class="profile-container">
         <div class="profile-avatar">

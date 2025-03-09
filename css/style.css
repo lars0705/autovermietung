@@ -803,162 +803,8 @@ select option {
   color: red;
 }
 
-/* ========== PRODUKTDETAILSEITE (product_list.php) ========== */
-
-
-/* ---------- Produktkarten Container ---------- */
-.product_card_container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(600px, 1fr)); /* Erhöht Breite auf 600px */
-  gap: 15px;
-  padding: 15px 10%;
-  justify-content: center;
-}
-
-/* ---------- Fahrzeugrahmen ---------- */
-.car_frame {
-  background: linear-gradient(135deg, #1a1a1a, #292929);
-  border-radius: 15px;
-  padding: 20px;
-  text-align: center;
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-  max-width: 500px;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.08);
-  overflow: hidden;
-}
-
-.car_frame:hover {
-  transform: scale(1.02);
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-}
-
-/* ---------- Fahrzeugbild ---------- */
-.car_image {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 250px; /* Einheitliche Bildhöhe */
-  margin-bottom: 15px;
-  background-color: #333;
-  border-radius: 10px;
-}
-
-.car_image img {
-  max-width: 100%;
-  max-height: 100%;
-  border-radius: 10px;
-  object-fit: contain;
-}
-
-/* ---------- Fahrzeuginformationen ---------- */
-.car_info {
-  text-align: left;
-  padding: 0 10px;
-}
-
-/* Fahrzeugtitel */
-.car_info h3 {
-  font-size: 22px;
-  font-weight: bold;
-  margin-bottom: 8px;
-  color: white;
-}
-
-/* Preis */
-.car_price {
-  font-size: 20px;
-  font-weight: bold;
-  color: #ff5733;
-  margin-bottom: 10px;
-}
-
-/* ---------- Technische Details ---------- */
-.car_details {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 15px;
-  color: #ddd;
-  font-size: 15px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: space-between;
-}
-
-.car_details li {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 6px 12px;
-  border-radius: 8px;
-}
-
-/* ---------- "Mehr erfahren" Button ---------- */
-.more_button {
-  display: block;
-  background: #ff5733;
-  color: white;
-  text-align: center;
-  padding: 12px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-size: 16px;
-  font-weight: bold;
-  transition: background 0.3s ease-in-out;
-  width: 100%;
-  margin-top: 10px;
-}
-
-.more_button:hover {
-  background: #e64a19;
-}
-
-/* ---------- Fade-In Effekt ---------- */
-.fade-in {
-  opacity: 0;
-  transform: translateY(15px);
-  animation: fadeInUp 0.5s ease-out forwards;
-}
-
-@keyframes fadeInUp {
-  from {
-      opacity: 0;
-      transform: translateY(15px);
-  }
-  to {
-      opacity: 1;
-      transform: translateY(0);
-  }
-}
-
-/* ---------- Responsive Anpassungen ---------- */
-@media (max-width: 900px) {
-  .product_card_container {
-      grid-template-columns: 1fr;
-      padding: 20px;
-  }
-
-  .car_frame {
-      max-width: 100%;
-  }
-}
-
 /* ========== PRODUKTDETAILSEITE (product_detail.php) ========== */
 
-@import url('fonts.css');
-
-* {
-  box-sizing: border-box;
-}
-
-/* Allgemeine Stile */
-body {
-  margin: 0;
-  padding: 0;
-  background-image: url("../assets/images/hintergrund.jpg");
-  background-size: cover;
-  background-position: center;
-  color: #fff;
-  font-family: "Inter", sans-serif;
-}
 
 /* Hauptcontainer */
 .product_detail_container {
@@ -1214,7 +1060,6 @@ input[type="checkbox"]:checked + .loyalty_checkbox::before {
 
 
 /* ========== LOGIN & REGISTRIERUNG (login.php & register.php) ========== */
-
 /* Registrierungsformular */
 .form-container {
   background: #2b2b2b;
@@ -1414,8 +1259,8 @@ input[type="checkbox"]:checked + .loyalty_checkbox::before {
 }
 
 
-/* ========== PROFILSEITE (profile.php) ========== */
 
+/* ========== PROFILSEITE (profile.php) ========== */
 /* Allgemeines Styling */
 body {
   font-family: Arial, sans-serif;
@@ -1426,13 +1271,14 @@ body {
 }
 
 /* Layout für die Hauptinhalte */
-.main_content {
+.profile_content {
   display: flex;
   justify-content: center;
   align-items: flex-start;
   gap: 30px;
   padding: 40px;
   min-height: 100vh;
+  margin-top: 75px;
 }
 
 /* Linke Seite: Profildaten */
@@ -1762,9 +1608,7 @@ h2 {
     text-align: center;
 }
 
-
-/* ========== PAGING ========== */
-
+/*PAGING*/
 .pagination {
   text-align: center;
   margin: 20px 0;

@@ -8,7 +8,7 @@ body {
 }
 
 /* Layout für die Hauptinhalte */
-.main_content {
+.profile_content {
     display: flex;
     justify-content: center;
     align-items: flex-start;
