@@ -14,6 +14,7 @@
 
     <div class="main_content">
       <?php include '../components/filterform_index.php'; ?> 
+      <?php include '../components/index_hero.php'; ?>
       <?php include '../components/index_categories.php'; ?>
       <?php include '../components/index_ad.php'; ?>
       <?php include '../components/index_locations.php'; ?>
