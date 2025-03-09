@@ -44,7 +44,6 @@ $conn->close();
     <meta charset="UTF-8">
     <title>Sigmacars | <?php echo htmlspecialchars($car["vendor_name"]) . " " . htmlspecialchars($car["name"]); ?> - Details</title>
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/style_product_detail.css">
 </head>
 <body>
 

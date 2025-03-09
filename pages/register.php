@@ -48,7 +48,6 @@ $conn->close();
     <meta charset="UTF-8">
     <title>Sigmacars | Registrierung</title>
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/style_register.css">
 </head>
 <body>
 
