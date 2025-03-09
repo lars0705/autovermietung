@@ -24,7 +24,7 @@
             <section>
                 <h2>Vertreten durch:</h2>
                 <p>Lars Kehrhahn</p>
-                <p>Leo Konitzer</p>
+                <p>Leo Duc Tàn Konitzer</p>
                 <p>Linus Krieg</p>
             </section>
 

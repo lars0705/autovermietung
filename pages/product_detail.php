@@ -52,7 +52,7 @@ $conn->close();
 <div class="product_detail_container">
     <div class="top_section">
         <h2><?php echo htmlspecialchars($car["vendor_name"]) . " " . htmlspecialchars($car["name"]); ?></h2>
-        <div class="car_image">
+        <div class="pd_car_image">
             <?php include '../components/load_image.php'; ?>
         </div>
         <p class="car_price_large"><?php echo number_format($car["price"], 2, ',', '.'); ?>€ / Tag <span class="km_info">300km / Tag</span></p>
