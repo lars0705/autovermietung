@@ -184,8 +184,8 @@ $sort_order = $_GET['order'] ?? 'asc';
       <div class="filter_group">
         <label for="sort">Sortierung</label>
         <select id="sort" name="order">
-          <option value="asc" selected>Preis: Aufsteigend</option>
-          <option value="desc" >Preis: Absteigend</option>
+          <option value="asc" <?php echo ($sort_order === 'asc') ? 'selected' : ''; ?>>Preis: Aufsteigend</option>
+          <option value="desc" <?php echo ($sort_order === 'desc') ? 'selected' : ''; ?>>Preis: Absteigend</option>
         </select>   
       </div>
     </div>
@@ -247,20 +247,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Filter zurücksetzen, aber Abhol-/Rückgabedatum und Standort beibehalten
     resetButton.addEventListener("click", function() {
-        const filterFields = form.querySelectorAll("select, input:not([type='date']):not([type='hidden'])");
+      const filterFields = form.querySelectorAll("select, input:not([type='date']):not([type='hidden'])");
 
-        filterFields.forEach(field => {
-            if (field.tagName === "SELECT") {
-                field.value = "";
-            } else if (field.type === "checkbox" || field.type === "radio") {
-                field.checked = false;
-            } else if (field.type === "range") {
-                field.value = field.min;
-                priceValue.textContent = field.min;
-            }
-        });
+    filterFields.forEach(field => {
+        if (field.tagName === "SELECT" && field.id !== "location") {
+            field.value = ""; // Setzt Select-Felder auf "Beliebig"
+        } else if (field.type === "checkbox") {
+            field.checked = false; // Entfernt Haken bei Checkboxen
+        } else if (field.type === "range") {
+            field.value = 900; // Setzt Max-Preis auf 900€
+            priceValue.textContent = 900;
+        }
+    });
 
-        form.submit();
+    document.getElementById("sort").value = "asc";
+
+    form.submit();
     });
 });
 </script>

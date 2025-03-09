@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         INSERT INTO bookings (user_id, car_id, type_id, pickup_date, return_date, car_location, total_price, booked_date, loyalty_points_earned, loyalty_points_used) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ");
-    $stmt->bind_param("iiisssisii", $user_id, $car_id, $type_id, $pickup_date, $return_date, $location, $total_price, $booked_date, $points_earned, $points_used);
+    $stmt->bind_param("iiisssdsii", $user_id, $car_id, $type_id, $pickup_date, $return_date, $location, $total_price, $booked_date, $points_earned, $points_used);
     $stmt->execute();
     $stmt->close();
 

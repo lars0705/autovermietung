@@ -1,6 +1,6 @@
 <h1 class="section_title">Kategorien</h1>
 <div class="categorie_container">
-    <button class="item category_card" data-category="limousine"><img src="../assets/images/limousine_cat.png" alt="Limousine"></button>
+    <button class="item category_card" data-category="limousine"><img src="../assets/images/limousine_cat.png" alt="Limousine">Limousine</button>
     <button class="item category_card" data-category="suv"><img src="../assets/images/suv_cat.png" alt="SUV"></button>
     <button class="item category_card" data-category="cabrio"><img src="../assets/images/cabrio_cat.png" alt="Cabrio"></button>
     <button class="item category_card" data-category="coupé"><img src="../assets/images/coupe_cat.png" alt="Coupé"></button>

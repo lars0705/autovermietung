@@ -40,6 +40,8 @@ html, body {
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .main_content {
@@ -124,7 +126,7 @@ button {
 
 .footer {
   background-color: #131313;
-  padding: 40px 40px;
+  padding: 20px 20px;
   border-top: 2px solid #b1b1b1;
   color: #b1b1b1;
   font-family: Arial, sans-serif;
@@ -132,7 +134,7 @@ button {
 
 .footer_container {
   display: flex;
-  justify-content: space-between;
+  justify-content:space-between;
   flex-wrap: wrap;
   gap: 30px;
   max-width: 1200px;
@@ -223,7 +225,7 @@ button {
 
 .footer_bottom {
   text-align: center;
-  margin-top: 30px;
+  margin-top: 15px;
   font-size: 14px;
   color: #b1b1b1;
 }
@@ -233,17 +235,21 @@ button {
 /* ========== STARTSEITE (index.php) ========== */
 /* Video-Hintergrund */
 .video-container {
-  position: relative;  /* Relativ zur normalen Position */
   width: 100vw;
   height: 100vh;  /* Hero-Video nimmt gesamte Bildschirmhöhe ein */
   overflow: hidden;
   margin-top: -100px;
+  position: relative;
 }
 
 .video-container video {
-  width: 100%;
-  height: 100%;
   object-fit: cover; /* Stellt sicher, dass das Video den Bildschirm füllt */
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .video-overlay {
@@ -404,7 +410,7 @@ button {
   height: auto;
   display: block;
   border-radius: 20px;
-  filter: brightness(0.5);
+  filter: brightness(0.3);
 }
 
 .ad_text {
@@ -423,6 +429,30 @@ button {
 .ad_text p {
   font-size: 20px;
 }
+
+.ad_section a {
+  position: absolute;
+  bottom: 15px; /* Etwas mehr Abstand für bessere Lesbarkeit */
+  right: 15px;
+  display: inline-block;
+  background-color: transparent;
+  border: 1px solid #b1b1b1; /* Dezentes Grau statt Weiß */
+  color: #d1d1d1; /* Sanftes Hellgrau für den Text */
+  padding: 10px 22px;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s ease-in-out;
+  z-index: 2;
+}
+
+.ad_section a:hover {
+  background-color: rgba(255, 0, 0, 0.1); /* Sehr dezente rote Schattierung */
+  color: white;
+  border-color: white;
+}
+
 
 .feedback_section {
   max-width: 600px;
@@ -667,12 +697,14 @@ button {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  align-content: flex-start;
 }
 
 .car_details li {
   background: #33333362;
   padding: 6px 12px;
   border-radius: 8px;
+  max-height: 19px;
 }
 
 .more_button {
@@ -697,6 +729,11 @@ button {
   opacity: 0;
   transform: translateY(15px);
   animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.product_card_container .error_message {
+  text-align: center;
+  color: red;
 }
 
 @keyframes fadeInUp {
@@ -806,140 +843,125 @@ select option {
 /* ========== PRODUKTDETAILSEITE (product_detail.php) ========== */
 
 
-/* Hauptcontainer */
+/* Hauptcontainer - Zentriert & 90% Breite */
 .product_detail_container {
-  max-width: 900px;
-  margin: 100px auto 40px;
-  padding: 30px;
-}
-
-/* 🚗 Oberer Bereich mit Fahrzeugbild & Preis */
-.top_section {
-  text-align: center;
-}
-
-.pd_car_image {
   display: flex;
-  justify-content: center;
-  margin: 20px 0;
+  flex-direction: column;
+  align-items: center;
+  min-width: 80%;
+  margin: 100px auto;
+  padding: 20px;
+  background: rgba(27, 27, 27, 0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
 }
 
-.pd_car_image img {
+/* Hauptlayout: Zwei Spalten (Links: Bild | Rechts: Infos) */
+.detail_layout {
+  display: flex;
+  gap: 20px;
   width: 100%;
-  max-width: 450px;
-  border-radius: 10px;
+}
+
+/* 🚗 Linke Seite (Bild & Preis) */
+/* 🚗 Linke Seite (Hintergrundbild) */
+.left_section {
+  flex: 1;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  border-radius: 15px;
+  min-height: 500px;
+}
+
+/* 🔹 Overlay, um den Text auf dem Bild lesbarer zu machen */
+.left_section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* Dunkler Overlay */
+  border-radius: 15px;
+  z-index: 1; /* Über das Hintergrundbild, aber unter dem Text */
+}
+
+.left_section h2 {
+  position: absolute;
+  top: 20px; /* Abstand von oben */
+  margin-top: 0px;
+  left: 20px; /* Abstand von links */
+  font-size: 36px;
+  font-weight: bold;
+  color: white;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+  z-index: 2;
 }
 
 .car_price_large {
-  font-size: 24px;
+  position: absolute;
+  bottom: 50px; /* Abstand vom unteren Rand */
+  margin-bottom: 0px;
+  left: 20px;
+  font-size: 28px;
   font-weight: bold;
+  color: red;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+  z-index: 2;
 }
 
 .km_info {
-  font-size: 16px;
-  color: #aaa;
-}
-
-/* 📌 Buchungsdetails Container (Einspaltig & Mittig) */
-.booking_details {
-  background: linear-gradient(135deg, #2a2a2c, #1c1c1e);
-  padding: 25px;
-  border-radius: 15px;
-  margin-top: 30px;
-  text-align: center;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  max-width: 500px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.booking_details h3 {
-  font-size: 22px;
-  font-weight: bold;
-  margin-bottom: 15px;
-}
-
-.booking_details p {
-  margin: 8px 0;
-  font-size: 16px;
-}
-
-.booking_details strong {
-  font-weight: bold;
-  color: #fff;
-}
-
-/* ✅ Treuepunkte Checkbox */
-.loyalty_section {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 15px;
-  border-radius: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 15px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-}
-
-.loyalty_section:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px rgba(255, 223, 0, 0.5);
-}
-
-.loyalty_checkbox {
-  position: relative;
-  width: 50px;
-  height: 26px;
-  background: #444;
-  border-radius: 15px;
-  cursor: pointer;
-  transition: background 0.3s ease-in-out;
-}
-
-.loyalty_checkbox::before {
-  content: "";
   position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 20px;
-  height: 20px;
-  background: white;
-  border-radius: 50%;
-  transition: transform 0.3s ease-in-out;
+  bottom: 20px; /* Direkt unter dem Preis */
+  margin-bottom: 0px;
+  left: 20px;
+  font-size: 20px;
+  color: #ddd;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+  z-index: 2;
 }
 
-input[type="checkbox"]:checked + .loyalty_checkbox {
-  background: #FFD700;
+.availability_info {
+  position: absolute;
+  bottom: 20px;
+  margin-bottom: 0px;
+  right: 20px;
+  font-size: 16px;
+  color: #ddd;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+  z-index: 2;
 }
 
-input[type="checkbox"]:checked + .loyalty_checkbox::before {
-  transform: translateX(24px);
+
+
+/* 📊 Rechte Seite (Technische Daten & Buchungsdetails) */
+.right_section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-/* 📊 Technische Daten (Zweispaltig) */
+/* Box für Technische Daten & Buchungsdetails */
 .details_section {
-  background: linear-gradient(135deg, #2a2a2c, #1c1c1e);
-  padding: 25px;
+  background: #0b0b0b;
+  padding: 20px;
   border-radius: 15px;
-  margin-top: 30px;
-  text-align: left;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .details_section h3 {
   font-size: 22px;
   font-weight: bold;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
+  margin-top: 0px;
 }
 
+/* 📌 Zweispaltiges Grid für Technische Daten */
 .details_grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
+  gap: 10px;
 }
 
 .details_grid p {
@@ -947,81 +969,13 @@ input[type="checkbox"]:checked + .loyalty_checkbox::before {
   font-size: 16px;
 }
 
-/* ✅ Kostenübersicht (Mittig) */
-.cost_summary {
-  background: linear-gradient(135deg, #ffeb3b, #fdd835);
-  padding: 25px;
-  border-radius: 15px;
-  box-shadow: 0px 10px 20px rgba(255, 223, 0, 0.3);
-  margin: 40px auto 40px;
-  text-align: center;
-  position: relative;
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-  max-width: 500px;
-}
-
-.cost_summary:hover {
-  transform: scale(1.03);
-  box-shadow: 0px 15px 30px rgba(255, 223, 0, 0.5);
-}
-
-.cost_summary h3 {
-  font-size: 22px;
-  font-weight: bold;
-  color: #222;
-  margin-bottom: 15px;
-}
-
-.cost_section {
+.button_section {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  font-size: 16px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-}
-
-.cost_value {
-  font-weight: bold;
-  color: #222;
-}
-
-.discount {
-  color: #d32f2f;
-  font-weight: bold;
-}
-
-.total {
-  font-weight: bold;
-  font-size: 20px;
-  padding-top: 15px;
-}
-
-.total_price {
-  font-size: 24px;
-  color: #222;
-  font-weight: bold;
-}
-
-/* 🎯 "Jetzt Buchen"-Button optimieren */
-.book_button {
-  background: linear-gradient(135deg, #FFD700, #FFA500);
-  border: none;
-  color: black;
-  padding: 14px 30px;
-  font-size: 18px;
-  font-weight: bold;
-  text-transform: uppercase;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-  display: block;
-  margin: 30px auto 10px;
-}
-
-.book_button:hover {
-  transform: scale(1.05);
-  box-shadow: 0px 15px 30px rgba(255, 223, 0, 0.6);
+  margin-top: 20px;
+  background: #0b0b0b;
+  border-radius: 15px;
+  padding: 20px;
+  gap: 500px;
 }
 
 /* ⬅️ "Zurück zur Fahrzeugübersicht"-Button */
@@ -1034,9 +988,10 @@ input[type="checkbox"]:checked + .loyalty_checkbox::before {
   font-weight: bold;
   border-radius: 10px;
   cursor: pointer;
-  display: block;
-  margin: 30px auto 30px;
+  text-align: center;
   transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+  max-height: 53px;
+  text-decoration: none;
 }
 
 .back_button:hover {
@@ -1044,18 +999,50 @@ input[type="checkbox"]:checked + .loyalty_checkbox::before {
   color: black;
 }
 
-/* 📱 Responsive Anpassungen */
-@media (max-width: 600px) {
-  .details_grid {
-      grid-template-columns: 1fr;
-  }
-  .cost_summary {
-      max-width: 90%;
-  }
-  .booking_details {
-      flex-direction: column;
-      align-items: center;
-  }
+.button_section form {
+  display: flex;
+  gap: 20px;
+}
+
+/* 🏆 Treuepunkte nutzen */
+.loyalty_button {
+  background: transparent;
+  border: 2px solid #FFD700;
+  color: #FFD700;
+  padding: 14px 20px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+
+}
+
+.loyalty_button:hover {
+  background: #FFD700;
+  color: black;
+}
+
+/* 🎯 "Jetzt Buchen"-Button */
+.book_button {
+  background: red;
+  border: none;
+  color: white;
+  padding: 14px 30px;
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+  text-align: center;
+  height: 53px;
+}
+
+.book_button:hover {
+  background: #cc0000;
+  transform: scale(1.05);
 }
 
 

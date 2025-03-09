@@ -164,7 +164,7 @@ $conn->close();
                         <td><?php echo $order["return_date"]; ?></td>
                         <td><?php echo $order["vendor_name"]; ?></td>
                         <td><?php echo $order["name"]; ?></td>
-                        <td><?php echo $order["booked_date"]; ?></td>
+                        <td><?php echo date("d.m.Y", strtotime($order["booked_date"])); ?></td>
                         <td><?php echo number_format($order["loyalty_points_used"], 2, ',', '.'); ?>€</td>
                         <td><?php echo number_format($order["total_price"], 2, ',', '.'); ?>€</td>
                         <td><?php echo $order["loyalty_points_earned"]; ?> ⭐</td>
@@ -208,7 +208,7 @@ $conn->close();
                         <td><?php echo $order["booking_id"]; ?></td>
                         <td><?php echo $order["pickup_date"]; ?></td>
                         <td><?php echo $order["return_date"]; ?></td>
-                        <td><?php echo $order["booked_date"]; ?></td>
+                        <td><?php echo date("d.m.Y", strtotime($order["booked_date"])); ?></td>
                         <td><?php echo number_format($order["loyalty_points_used"], 2, ',', '.'); ?>€</td>
                         <td><?php echo number_format($order["total_price"], 2, ',', '.'); ?>€</td>
                         <td><?php echo number_format($order["refund_amount"], 2, ',', '.'); ?>€</td>

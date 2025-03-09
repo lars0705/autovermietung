@@ -19,6 +19,7 @@
                 <li><a href="../pages/terms.php">AGB's</a></li>
                 <li><a href="../pages/imprint.php">Impressum</a></li>
                 <li><a href="../pages/privacy_policy.php">Datenschutz</a></li>
+                <li><a href="../pages/loyalty_system.php">Treuepunkte-System</a></li>
                 <li><a href="../pages/feedback.php">Feedback</a></li>
             </ul>
         </div>

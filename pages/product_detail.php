@@ -38,6 +38,21 @@ if (isset($_SESSION["user_id"])) {
 $conn->close();
 ?>
 
+<?php 
+// Mapping-Array für Übersetzungen
+$translations = [
+    "Combuster" => "Verbrenner",
+    "Electric" => "Elektro",
+    "automatic" => "Automatik",
+    "manually" => "Schaltung",
+];
+
+// Funktion für sicheres Mapping mit Fallback
+function translate($value, $translations) {
+    return $translations[$value] ?? ucfirst($value); // Falls kein Mapping existiert, ersten Buchstaben groß schreiben
+}
+?>
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -50,128 +65,135 @@ $conn->close();
 <?php include '../components/header.php'; ?>
 
 <div class="product_detail_container">
-    <div class="top_section">
-        <h2><?php echo htmlspecialchars($car["vendor_name"]) . " " . htmlspecialchars($car["name"]); ?></h2>
-        <div class="pd_car_image">
-            <?php include '../components/load_image.php'; ?>
+
+    <div class="detail_layout">
+        <!-- 🚗 Linke Seite: Fahrzeugbild & Preis -->
+        <div class="left_section" style="background-image: url('../assets/images/cars/<?php echo htmlspecialchars($car["img_file_name"]); ?>.png');">
+            <h2><?php echo htmlspecialchars($car["vendor_name"]) . " " . htmlspecialchars($car["name"]); ?></h2>
+            <p class="car_price_large"><?php echo number_format($car["price"], 2, ',', '.'); ?>€ / Tag</p>
+            <p class="km_info">Inkl. 300km</p>
+            <p class="availability_info">
+                <?php echo $count; ?>
+                <?php echo ($count == 1) ? ' Fahrzeug in' : ' Fahrzeuge in'; ?>
+                <?php echo htmlspecialchars($location); ?>
+                <?php echo ' verfügbar'; ?>
+            </p>
         </div>
-        <p class="car_price_large"><?php echo number_format($car["price"], 2, ',', '.'); ?>€ / Tag <span class="km_info">300km / Tag</span></p>
-        <p class="availability_large">
-            <?php echo $count; ?>
-            <strong>verfügbare<?php echo ($count == 1) ? 's Fahrzeug' : ' Fahrzeuge'; ?> in </strong>
-            <?php echo htmlspecialchars($location); ?>
-        </p>
+
+        <!-- 📊 Rechte Seite: Technische Daten & Buchungsdetails -->
+        <div class="right_section">
+            <div class="details_section">
+                <h3>Technische Daten</h3>
+                <div class="details_grid">
+                    <p><strong>Type:</strong> <?php echo htmlspecialchars($car["type"]); ?></p>
+                    <p><strong>Antrieb:</strong> <?php echo translate($car["drive"], $translations); ?></p>
+                    <p><strong>Getriebe:</strong> <?php echo translate($car["gear"], $translations); ?></p>
+                    <p><strong>Sitze:</strong> <?php echo htmlspecialchars($car["seats"]); ?></p>
+                    <p><strong>Türen:</strong> <?php echo htmlspecialchars($car["doors"]); ?></p>
+                    <p><strong>Platz für Koffer:</strong> <?php echo htmlspecialchars($car["trunk"]); ?></p>
+                    <p><strong>Klimaanlage:</strong> <?php echo $car["air_condition"] ? "Ja" : "Nein"; ?></p>
+                    <p><strong>GPS:</strong> <?php echo $car["gps"] ? "Ja" : "Nein"; ?></p>
+                    <p><strong>Mindestalter:</strong> <?php echo htmlspecialchars($car["min_age"]); ?> Jahre</p>
+                </div>
+            </div>
+
+            <div class="details_section">
+                <h3>Buchungsdetails</h3>
+                <div class="details_grid">
+                    <p><strong>Abholdatum:</strong> <?php echo date("d.m.Y", strtotime($default_pickup)); ?></p>
+                    <p><strong>Rückgabedatum:</strong> <?php echo date("d.m.Y", strtotime($default_return)); ?></p>
+                    <p><strong>Abhol- & Rückgabeort:</strong> <?php echo $location; ?></p>
+                    <p><strong>Ihre aktuellen Treuepunkte:</strong> <?php echo $user_loyalty_points; ?> ⭐</p>
+                    <p><strong>Basispreis:</strong> <span id="base_price">0,00€</span></p>
+                    <p><strong>Treuepunkte-Rabatt:</strong> <span id="loyalty_discount">-0,00€</span></p>
+                    <p><strong>Endsumme:</strong> <span id="final_price">0,00€</span></p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="details_section">
-        <h3>Technische Daten</h3>
-        <div class="details_grid">
-            <p><strong>Type:</strong> <?php echo htmlspecialchars($car["type"]); ?></p>
-            <p><strong>Antrieb:</strong> <?php echo htmlspecialchars($car["drive"]); ?></p>
-            <p><strong>Getriebe:</strong> <?php echo htmlspecialchars($car["gear"]); ?></p>
-            <p><strong>Sitze:</strong> <?php echo htmlspecialchars($car["seats"]); ?></p>
-            <p><strong>Türen:</strong> <?php echo htmlspecialchars($car["doors"]); ?></p>
-            <p><strong>Platz für Koffer:</strong> <?php echo htmlspecialchars($car["trunk"]); ?></p>
-            <p><strong>Klimaanlage:</strong> <?php echo $car["air_condition"] ? "Ja" : "Nein"; ?></p>
-            <p><strong>GPS:</strong> <?php echo $car["gps"] ? "Ja" : "Nein"; ?></p>
-            <p><strong>Mindestalter:</strong> <?php echo htmlspecialchars($car["min_age"]); ?> Jahre</p>
-        </div>
-    </div>
+    <!-- 📝 Formularfelder für Buchung -->
+    <input type="hidden" name="type_id" value="<?php echo $id; ?>">
+    <input type="hidden" name="car_location" value="<?php echo $location; ?>">
+    <input type="hidden" id="pickup_date" name="pickup_date" value="<?php echo $default_pickup; ?>">
+    <input type="hidden" id="return_date" name="return_date" value="<?php echo $default_return; ?>">
+    <input type="hidden" id="price_per_day" value="<?php echo $car["price"]; ?>">
 
-    <div class="details_section">
-        <h3>Buchungsdetails</h3>
+    <!-- 🎯 Button-Sektion -->
+    <div class="button_section">
+        <button id="back_button" class="back_button">Zurück zur Fahrzeugübersicht</button>
 
         <?php if (isset($_SESSION["user_id"])): ?>
             <form action="book_car.php" method="POST" id="booking-form">
-                <input type="hidden" name="type_id" value="<?php echo $id; ?>">
-                <input type="hidden" name="car_location" value="<?php echo $location; ?>">
-
-                <div class="details_grid">
-                    <label><strong>Abholdatum:</strong> <span id="pickup_date_label"><?php echo $default_pickup; ?></span></label>
-                    <input type="hidden" id="pickup_date" name="pickup_date" value="<?php echo $default_pickup; ?>">
-
-                    <label><strong>Rückgabedatum:</strong> <span id="return_date_label"><?php echo $default_return; ?></span></label>
-                    <input type="hidden" id="return_date" name="return_date" value="<?php echo $default_return; ?>">
-
-                    <p><strong>Abhol- & Rückgabeort:</strong> <?php echo $location; ?></p>
-                    
-                    <p><strong>Ihre aktuellen Treuepunkte:</strong> <?php echo $user_loyalty_points; ?> ⭐</p>
-                    
-                    <label><strong>Treuepunkte nutzen?</strong></label>
-                    <input type="checkbox" id="use_loyalty" name="use_loyalty" value="yes">
-                    
-                    <div class="cost_summary">
-                        <h3>Kostenübersicht</h3>            
-                        <div class="cost_section">
-                            <p class="cost_title">Basispreis:</p>
-                            <p class="cost_value"><span id="base_price">0,00€</span></p>
-                        </div>
-
-                        <div class="cost_section">
-                            <p>Treuepunkte-Rabatt:</p>
-                            <p class="cost_value discount"><span id="loyalty_discount">-0,00€</span></p>
-                        </div>
-
-                        <div class="cost_section total">
-                            <p>Gesamtsumme inkl. MwSt.:</p>
-                            <p class="cost_value total_price"><span id="final_price">0,00€</span></p>
-                        </div>
-                    </div>
-                </div>
-                <button type="submit" id="book_button" class="book_button">Jetzt buchen</button>
-                <button id="back_button" class="back_button">Zurück zur Fahrzeugübersicht</button>
-            </form>
+            <input type="hidden" name="type_id" value="<?php echo $id; ?>">
+            <input type="hidden" name="car_location" value="<?php echo $location; ?>">
+            <input type="hidden" id="pickup_date" name="pickup_date" value="<?php echo $default_pickup; ?>">
+            <input type="hidden" id="return_date" name="return_date" value="<?php echo $default_return; ?>">
+            <input type="hidden" id="price_per_day" value="<?php echo $car["price"]; ?>">
+        <label class="loyalty_button"><strong>Treuepunkte einlösen?</strong> <input type="checkbox" id="use_loyalty" name="use_loyalty" value="yes"></label>
+        <button type="submit" id="book_button" class="book_button">Jetzt buchen</button>
+        </form>
         <?php else: ?>
-            <p class="warning">Bitte melden Sie sich an, um dieses Fahrzeug zu mieten.</p>
-            <div class="auth_buttons">
-                <a href="login.php?type_id=<?php echo $id; ?>&pickup_date=<?php echo $default_pickup; ?>&return_date=<?php echo $default_return; ?>&count=<?php echo $count; ?>" class="login_button">Anmelden</a>
-                <a href="register.php?type_id=<?php echo $id; ?>&pickup_date=<?php echo $default_pickup; ?>&return_date=<?php echo $default_return; ?>&count=<?php echo $count; ?>" class="register_button">Registrieren</a>
-            </div>
+            <p class="login_info">Bitte <a href="../pages/login.php">melden Sie sich an</a>, um ein Fahrzeug zu buchen.</p>
         <?php endif; ?>
     </div>
 </div>
 
+
 <?php include '../components/footer.php'; ?>
 
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const pickupDate = document.getElementById("pickup_date");
-    const returnDate = document.getElementById("return_date");
-    const basePriceElement = document.getElementById("base_price");
-    const loyaltyDiscountElement = document.getElementById("loyalty_discount");
-    const finalPriceElement = document.getElementById("final_price");
-    const bookButton = document.getElementById("book_button");
-    const pricePerDay = <?php echo $car["price"]; ?>;
-    const useLoyaltyCheckbox = document.getElementById("use_loyalty");
-    let userLoyaltyPoints = <?php echo $user_loyalty_points; ?>;
-
-    function calculatePrice() {
-        let startDate = new Date(pickupDate.value);
-        let endDate = new Date(returnDate.value);
-        let days = (endDate - startDate) / (1000 * 60 * 60 * 24);
-        let totalPrice = days * pricePerDay;
-
-        let discount = 0;
-        if (useLoyaltyCheckbox.checked) {
-            let maxDiscount = Math.floor(userLoyaltyPoints / 10) * 10;
-            discount = Math.min(maxDiscount, Math.floor(totalPrice / 10) * 10);
-            totalPrice -= discount;
-        }
-
-        basePriceElement.innerText = (days * pricePerDay).toFixed(2).replace('.', ',') + "€";
-        loyaltyDiscountElement.innerText = discount > 0 ? "-" + discount.toFixed(2).replace('.', ',') + "€" : "-0,00€";
-        finalPriceElement.innerText = totalPrice.toFixed(2).replace('.', ',') + "€";
-
-        bookButton.disabled = (days < 1);
-    }
-
-    pickupDate.addEventListener("input", calculatePrice);
-    returnDate.addEventListener("input", calculatePrice);
-    useLoyaltyCheckbox.addEventListener("change", calculatePrice);
-
-    calculatePrice();
-});
-</script>
 
 </body>
 </html>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const basePriceElement = document.getElementById("base_price");
+    const loyaltyDiscountElement = document.getElementById("loyalty_discount");
+    const finalPriceElement = document.getElementById("final_price");
+    const useLoyaltyCheckbox = document.getElementById("use_loyalty");
+    const pricePerDay = parseFloat(document.getElementById("price_per_day").value); // Preis als Float holen
+
+    const pickupDate = new Date(document.getElementById("pickup_date").value);
+    const returnDate = new Date(document.getElementById("return_date").value);
+    
+    if (!pickupDate || !returnDate || isNaN(pricePerDay)) {
+        console.error("Fehler: Ungültige Werte für Datum oder Preis.");
+        return;
+    }
+
+    const userLoyaltyPoints = <?php echo $user_loyalty_points; ?>;
+
+    function calculatePrice() {
+        let days = (returnDate - pickupDate) / (1000 * 60 * 60 * 24);
+        if (days < 1) days = 1; // Falls es zu einer ungültigen Berechnung kommt, min. 1 Tag setzen
+
+        let originalTotalPrice = days * pricePerDay;
+        let discount = 0;
+        let totalPrice = originalTotalPrice;
+
+        if (useLoyaltyCheckbox && useLoyaltyCheckbox.checked) {
+            let maxDiscount = Math.floor(userLoyaltyPoints / 10) * 10;
+            discount = Math.min(maxDiscount, Math.floor(originalTotalPrice / 10) * 10);
+            totalPrice -= discount;
+        }
+
+        basePriceElement.innerText = originalTotalPrice.toFixed(2).replace('.', ',') + "€";
+        loyaltyDiscountElement.innerText = discount > 0 ? "-" + discount.toFixed(2).replace('.', ',') + "€" : "-0,00€";
+        finalPriceElement.innerText = totalPrice.toFixed(2).replace('.', ',') + "€";
+    }
+
+    // Automatische Initialisierung
+    calculatePrice();
+
+    // Falls der Benutzer Treuepunkte aktiviert/deaktiviert, sofort berechnen
+    if (useLoyaltyCheckbox) {
+        useLoyaltyCheckbox.addEventListener("change", calculatePrice);
+    }
+});
+
+document.getElementById("back_button").addEventListener("click", function() {
+    history.back();
+});
+
+</script>

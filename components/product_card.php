@@ -114,7 +114,7 @@ foreach ($available_cars as $car) {
 }
 
 // Anzahl der Fahrzeuge pro Seite
-$vehicles_per_page = 10;
+$vehicles_per_page = 9;
 
 // Aktuelle Seite aus der URL holen (Standard: 1)
 $current_page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
@@ -126,16 +126,44 @@ $offset = ($current_page - 1) * $vehicles_per_page;
 $total_vehicles = count($grouped_cars);
 $total_pages = ceil($total_vehicles / $vehicles_per_page);
 
+// Preissortierung anwenden
+if ($order === 'asc') {
+    uasort($grouped_cars, function($a, $b) {
+        return $a['price'] <=> $b['price']; // Aufsteigend sortieren
+    });
+} elseif ($order === 'desc') {
+    uasort($grouped_cars, function($a, $b) {
+        return $b['price'] <=> $a['price']; // Absteigend sortieren
+    });
+}
+
 // Fahrzeuge für die aktuelle Seite extrahieren
 $displayed_cars = array_slice($grouped_cars, $offset, $vehicles_per_page, true);
+
 ?>
 
 <?php if (isset($_GET['error']) && $_GET['error'] === "unavailable"): ?>
     <p class="error_message">⚠️ Leider ist kein Fahrzeug für den gewählten Zeitraum verfügbar. Bitte wähle ein anderes Datum oder einen anderen Standort.</p>
 <?php endif; ?>
 
+<?php
+// Mapping-Array für Übersetzungen
+$translations = [
+    "Combuster" => "Verbrenner",
+    "Electric" => "Elektro",
+    "automatic" => "Automatik",
+    "manually" => "Schaltung",
+];
+
+// Funktion für sicheres Mapping mit Fallback
+function translate($value, $translations) {
+    return $translations[$value] ?? ucfirst($value); // Falls kein Mapping existiert, ersten Buchstaben groß schreiben
+}
+?>
+
 <!-- Fahrzeugkarten -->
 <div class="product_card_container">
+    <?php $hasCars = false; ?>
     <?php if (!empty($displayed_cars)): ?>
         <?php foreach ($displayed_cars as $car): ?>
             <?php if (
@@ -150,6 +178,7 @@ $displayed_cars = array_slice($grouped_cars, $offset, $vehicles_per_page, true);
             ($drivetrain === null || stripos(strtolower($car["drive"] ?? ''), strtolower($drivetrain)) !== false) &&
             ($transmission === null || stripos(strtolower($car["gear"] ?? ''), strtolower($transmission)) !== false)
             ): ?>
+            <?php $hasCars = true; ?>
             <div class="car_frame fade-in">
                 <div class="car_info">
                     <h3><?php echo htmlspecialchars($car["vendor_name"]) . " " . htmlspecialchars($car["name"]); ?></h3>
@@ -159,12 +188,12 @@ $displayed_cars = array_slice($grouped_cars, $offset, $vehicles_per_page, true);
                         <li><strong>Kategorie:</strong> <?php echo htmlspecialchars($car["type"]); ?></li>
                         <li><strong>Sitzplätze:</strong> <?php echo htmlspecialchars($car["seats"]); ?></li>
                         <li><strong>Türen:</strong> <?php echo htmlspecialchars($car["doors"]); ?></li>
-                        <li><strong>Antrieb:</strong> <?php echo htmlspecialchars($car["drive"]); ?></li>
-                        <li><strong>Getriebe:</strong> <?php echo htmlspecialchars($car["gear"]); ?></li>
+                        <li><strong>Antrieb:</strong> <?php echo translate($car["drive"], $translations); ?></li>
+                        <li><strong>Getriebe:</strong> <?php echo translate($car["gear"], $translations); ?></li>
                         <li><strong>Koffer:</strong> <?php echo $car['trunk']; ?></li>
                         <li><strong>GPS:</strong> <?php echo $car["gps"] ? "Ja" : "Nein"; ?></li>
                         <li><strong>Klimaanlage:</strong> <?php echo $car["air_condition"] ? "Ja" : "Nein"; ?></li>
-                        <li><strong>Standort:</strong> <?php echo $_GET['location']; ?></li>
+                    <!--<li><strong>Standort:</strong> <?php echo $_GET['location']; ?></li>-->
                         <li><strong>Verfügbar:</strong> <?php echo $car['count']; ?></li>
                     <!--<li><strong>ID:</strong> <?php //echo $car['type_id']; ?></li>-->
                     </ul>
@@ -176,8 +205,11 @@ $displayed_cars = array_slice($grouped_cars, $offset, $vehicles_per_page, true);
             </div>
             <?php endif; ?>
         <?php endforeach; ?>
-    <?php else: ?>
-        <p>Keine Fahrzeuge am gewählten Standort verfügbar.</p>
+        <?php if (!$hasCars) : ?>
+            <p class="error_message">Keine Fahrzeuge mit den gewählten Filtern verfügbar.</p>
+        <?php endif; ?>
+    <?php else : ?>
+        <p class="error_message">Keine Fahrzeuge mit den gewählten Filtern verfügbar.</p>
     <?php endif; ?>
 </div>
 <!-- Paging-Navigation -->
