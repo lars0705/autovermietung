@@ -59,14 +59,14 @@ $conn->close();
             <p><strong>Benutzername:</strong> <?php echo htmlspecialchars($username); ?></p>
             <p><strong>E-Mail:</strong> <?php echo htmlspecialchars($email); ?></p>
             <p><strong>Mitglied seit:</strong> <?php echo date("d.m.Y", strtotime($created_at)); ?></p>
-            <p><strong>Loyalty-Punkte:</strong> <?php echo $points; ?> ⭐</p>
+            <p><strong>Treuepunkte:</strong> <?php echo $points; ?> ⭐</p>
         </div>
         <a href="bookings.php" class="button orders">Meine Buchungen</a>
         <a href="logout.php" class="button logout">Abmelden</a>
     </div>
 
     <!-- Rechte Seite: Feedbacks -->
-    <div class="feedback-container">
+    <div class="my-feedback-container">
         <h3>Meine Feedbacks</h3>
         <div class="feedback-list">
             <?php if (!empty($feedbacks)): ?>

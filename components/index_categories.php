@@ -1,11 +1,11 @@
 <h1 class="section_title">Kategorien</h1>
 <div class="categorie_container">
-    <button class="item category_card" data-category="limousine"><img src="../assets/images/limousine_cat.png" alt="Limousine">Limousine</button>
-    <button class="item category_card" data-category="suv"><img src="../assets/images/suv_cat.png" alt="SUV"></button>
-    <button class="item category_card" data-category="cabrio"><img src="../assets/images/cabrio_cat.png" alt="Cabrio"></button>
-    <button class="item category_card" data-category="coupé"><img src="../assets/images/coupe_cat.png" alt="Coupé"></button>
-    <button class="item category_card" data-category="kombi"><img src="../assets/images/kombi_cat.png" alt="Kombi"></button>
-    <button class="item category_card" data-category="mehrsitzer"><img src="../assets/images/mehrsitzer_cat.png" alt="Mehrsitzer"></button>
+    <button class="item category_card" data-category="limousine"><img src="../assets/images/limousine_cat.png" alt="Limousine"><p>Limousine</p></button>
+    <button class="item category_card" data-category="suv"><img src="../assets/images/suv_cat.png" alt="SUV"><p>SUV</p></button>
+    <button class="item category_card" data-category="cabrio"><img src="../assets/images/cabrio_cat.png" alt="Cabrio"><p>Cabrio</p</button>
+    <button class="item category_card" data-category="coupé"><img src="../assets/images/coupe_cat.png" alt="Coupé"><p>Coupé</p</button>
+    <button class="item category_card" data-category="kombi"><img src="../assets/images/kombi_cat.png" alt="Kombi"><p>Kombi</p</button>
+    <button class="item category_card" data-category="mehrsitzer"><img src="../assets/images/mehrsitzer_cat.png" alt="Mehrsitzer"><p>Mehrsitzer</p</button>
 </div>
 
 <script>
