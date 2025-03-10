@@ -96,6 +96,11 @@ button {
   height: 24px; /* Kleineres Logo */
 }
 
+.logo a:hover img {
+  transform: scale(1.1);
+  transition: transform 0.3s ease-in-out;
+}
+
 .nav_buttons {
   display: flex;
   align-items: center;
