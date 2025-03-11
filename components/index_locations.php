@@ -1,3 +1,4 @@
+<!-- recommended locations section in index.php -->
 <h1 class="section_title">Unsere Standort-Empfehlungen</h1>
 
 <div class="city_recommendations">
@@ -37,12 +38,14 @@
             const video = city.querySelector(".city_video");
             const img = city.querySelector("img");
     
+            // show video and hide image on hover
             city.addEventListener("mouseenter", () => {
                 video.style.opacity = "1";  
                 img.style.opacity = "0";   
                 video.play();
             });
     
+            // hide video and show image when hover ends
             city.addEventListener("mouseleave", () => {
                 video.style.opacity = "0"; 
                 img.style.opacity = "1";   
@@ -51,4 +54,4 @@
             });
         });
     });
-    </script>
+</script>

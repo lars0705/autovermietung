@@ -1,3 +1,4 @@
+<!-- about us section in index.php -->
 <div class="about_container">
     <div class="about_text">
         <h2>Über Uns</h2>

@@ -1,5 +1,7 @@
 <?php
 session_start();
+
+// redirect to login if user is not logged in
 if (!isset($_SESSION["user_id"]) && !isset($_COOKIE["user_id"])) {
     header("Location: login.php");
     exit();
@@ -7,14 +9,15 @@ if (!isset($_SESSION["user_id"]) && !isset($_COOKIE["user_id"])) {
 
 require_once "../components/db_connect.php";
 
+// determine user ID from session or cookie
 $user_id = $_SESSION["user_id"] ?? $_COOKIE["user_id"];
 
-// Paging-Variablen für aktive Buchungen
+// pagination settings for active bookings 
 $bookings_per_page = 10;
 $current_page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 $offset = ($current_page - 1) * $bookings_per_page;
 
-// Aktive Buchungen abrufen (Nicht stornierte)
+// fetch active bookings
 $sql = "
     SELECT b.booking_id, b.pickup_date, b.return_date, b.booked_date, b.total_price, b.type_id, 
            b.loyalty_points_earned, b.loyalty_points_used, 
@@ -30,7 +33,7 @@ $stmt->execute();
 $active_bookings = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 
-// Gesamtzahl der aktiven Buchungen für Paging berechnen
+// count total active bookings
 $sql = "SELECT COUNT(*) AS total FROM bookings WHERE user_id = ? AND is_cancelled = FALSE";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id);
@@ -40,12 +43,12 @@ $total_bookings = $total_result["total"];
 $total_pages = ceil($total_bookings / $bookings_per_page);
 $stmt->close();
 
-// Paging-Variablen für stornierte Buchungen
+// pagination settings for cancelled bookings
 $cancelled_bookings_per_page = 10;
 $cancelled_current_page = isset($_GET['cancelled_page']) ? max(1, intval($_GET['cancelled_page'])) : 1;
 $cancelled_offset = ($cancelled_current_page - 1) * $cancelled_bookings_per_page;
 
-// Stornierte Buchungen abrufen
+// fetch cancelled bookings
 $sql = "
     SELECT booking_id, pickup_date, return_date, booked_date, total_price, refund_amount, 
            loyalty_points_earned, loyalty_points_used
@@ -59,7 +62,7 @@ $stmt->execute();
 $cancelled_bookings = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 
-// Gesamtzahl der stornierten Buchungen für Paging berechnen
+// count total cancelled bookings
 $sql = "SELECT COUNT(*) AS total FROM bookings WHERE user_id = ? AND is_cancelled = TRUE";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id);
@@ -82,33 +85,30 @@ $conn->close();
 <body>
 
 <?php include '../components/header.php'; ?>
-<?php if (isset($_GET['success']) && $_GET['success'] == 'true'): ?>
-    <div class="booking-animation-container">
-        <p class="booking-success-text">✅ Glückwunsch! Deine Buchung war erfolgreich!</p>
-    </div>
-<?php endif; ?>
 <div class="content_container">
     <div class="upcoming_bookings_container">
         <h3>📅 Anstehend</h3>
         <div class="scrolling_frame">
             <?php 
-            // Filter: Nur zukünftige Buchungen
+
+            // filter upcoming bookings
             $upcoming_bookings = array_filter($active_bookings, function($booking) {
                 return strtotime($booking["pickup_date"]) >= strtotime(date("Y-m-d"));
             });
 
-            // Sortiere die Buchungen nach Mietbeginn (aufsteigend)
+            // sort by pickup date
             usort($upcoming_bookings, function($a, $b) {
                 return strtotime($a["pickup_date"]) - strtotime($b["pickup_date"]);
             });
 
+            // calculate remaining days
             if (!empty($upcoming_bookings)): ?>
                 <?php
                 foreach ($upcoming_bookings as $booking): 
-                $today = strtotime("today"); // Mitternacht heute
-                $pickup = strtotime($booking["pickup_date"]); // Datum des Pickups
+                $today = strtotime("today"); 
+                $pickup = strtotime($booking["pickup_date"]); 
 
-                $days_left = floor(($pickup - $today) / 86400); // Ganze Tage berechnen
+                $days_left = floor(($pickup - $today) / 86400);
 
                 $days_text = $days_left == 1 ? "Tag" : "Tagen";
                 ?>
@@ -132,17 +132,18 @@ $conn->close();
     <div class="table_container">
         <h2>Meine Buchungen</h2>
         
+        <!-- success message after booking -->
         <?php if (isset($_GET['success']) && $_GET['success'] == 'true'): ?>
             <p class="success_message">✅ Vielen Dank für Ihre Buchung! Ihre Reservierung wurde erfolgreich gespeichert.</p>
         <?php endif; ?>
 
+        <!-- success message after cancelling -->
         <?php if (isset($_GET['cancelled']) && $_GET['cancelled'] == 'true'): ?>
             <p class="success_message">⚠️ Ihre Buchung wurde storniert.</p>
         <?php endif; ?>
 
-        <p>Gesamtbuchungen: <?php echo $total_bookings; ?> | Seiten: <?php echo $total_pages; ?></p>
-
         <h3>📌 Aktive Buchungen</h3>
+        <p>Einträge: <?php echo $total_bookings; ?> | Seiten: <?php echo $total_pages; ?></p>
         <table class="bookings_table">
             <tr>
                 <th>Buchungs-<br>ID</th>
@@ -157,6 +158,8 @@ $conn->close();
                 <th>Aktion</th>
             </tr>
             <?php if (!empty($active_bookings)): ?>
+
+                <!-- show active bookings -->
                 <?php foreach ($active_bookings as $order): ?>
                     <tr>
                         <td><?php echo $order["booking_id"]; ?></td>
@@ -174,6 +177,8 @@ $conn->close();
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
+
+                <!-- show no active bookings message -->
                 <tr><td colspan="10">Keine aktiven Buchungen gefunden.</td></tr>
             <?php endif; ?>
         </table>
@@ -189,7 +194,7 @@ $conn->close();
         </div>
 
         <h3>❌ Stornierte Buchungen</h3>
-        <p>Gesamtbuchungen: <?php echo $total_cancelled_bookings; ?> | Seiten: <?php echo $total_cancelled_pages; ?></p>
+        <p>Einträge: <?php echo $total_cancelled_bookings; ?> | Seiten: <?php echo $total_cancelled_pages; ?></p>
         <table class="bookings_table">
             <tr>
                 <th>Buchungs-<br>ID</th>
@@ -203,6 +208,8 @@ $conn->close();
                 <th>Status</th>
             </tr>
             <?php if (!empty($cancelled_bookings)): ?>
+
+                <!-- show cancelled bookings -->
                 <?php foreach ($cancelled_bookings as $order): ?>
                     <tr>
                         <td><?php echo $order["booking_id"]; ?></td>
@@ -217,6 +224,8 @@ $conn->close();
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
+
+                <!-- show no cancelled bookings message -->
                 <tr><td colspan="9">Keine stornierten Buchungen gefunden.</td></tr>
             <?php endif; ?>
         </table>
@@ -233,8 +242,13 @@ $conn->close();
 
     </div>
 </div>
+<?php include '../components/footer.php'; ?>
+</body>
+</html>
 
 <script>
+
+// cancel booking via AJAX request
 function cancelBooking(bookingId) {
     if (confirm("⚠️ Möchten Sie diese Buchung wirklich stornieren?")) {
         fetch('cancel_booking.php?id=' + bookingId, { method: 'GET' })
@@ -242,7 +256,3 @@ function cancelBooking(bookingId) {
     }
 }
 </script>
-
-<?php include '../components/footer.php'; ?>
-</body>
-</html>

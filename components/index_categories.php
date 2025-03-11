@@ -1,5 +1,8 @@
+<!-- categorie-cards section in index.php -->
 <h1 class="section_title">Kategorien</h1>
 <div class="categorie_container">
+
+    <!-- category-cards with images and labels -->
     <button class="item category_card" data-category="limousine"><img src="../assets/images/limousine_cat.png" alt="Limousine"><p>Limousine</p></button>
     <button class="item category_card" data-category="suv"><img src="../assets/images/suv_cat.png" alt="SUV"><p>SUV</p></button>
     <button class="item category_card" data-category="cabrio"><img src="../assets/images/cabrio_cat.png" alt="Cabrio"><p>Cabrio</p</button>
@@ -16,10 +19,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const errorMessage = document.getElementById("error_message");
     const categoryCards = document.querySelectorAll(".category_card");
 
+    // Validate inputs before form submission 
     function checkDates(showError = false) {
         errorMessage.style.display = "none";
         errorMessage.textContent = "";
 
+        // validate if input fields are both filled out
         if (!pickupDate.value || !returnDate.value) {
             if (showError) {
                 errorMessage.textContent = "Bitte Abhol- und Rückgabedatum eingeben.";
@@ -29,10 +34,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         const today = new Date();
-        today.setHours(0, 0, 0, 0);
+        today.setHours(0, 0, 0, 0); // remove time for accurate comparision
         const pickupValue = new Date(pickupDate.value);
         const returnValue = new Date(returnDate.value);
 
+        // validate if pick up date is not in the past
         if (pickupValue < today) {
             if (showError) {
                 errorMessage.textContent = "Das Abholdatum darf nicht in der Vergangenheit liegen.";
@@ -41,6 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return false;
         }
 
+        // validate if return date is set before pickup date
         if (returnValue <= pickupValue) {
             if (showError) {
                 errorMessage.textContent = "Das Rückgabedatum muss nach dem Abholdatum liegen.";
@@ -52,6 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return true;
     }
 
+    // redirects to product_list.php with selected category, location and dates
     function selectCategory(category) {
         if (!checkDates(true)) return;
 
@@ -64,6 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.href = url;
     }
 
+    // add event listener to category cards
     categoryCards.forEach(card => {
         card.addEventListener("click", function () {
             const category = this.getAttribute("data-category");

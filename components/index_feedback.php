@@ -1,7 +1,8 @@
+<!-- feedback section in index.php -->
 <?php
 require_once "db_connect.php";
 
-// Zufällige 5 Feedbacks abrufen
+// retrieve 5 random feedback entries with user information
 $sql = "SELECT f.feedback_text, f.rating, u.username FROM feedback f 
         JOIN users u ON f.user_id = u.user_id 
         ORDER BY RAND() LIMIT 5";
@@ -20,11 +21,13 @@ $conn->close();
             <p class="feedback_rating">
                 <?php
                 $rating = (int) $fb["rating"];
+
+                // generate star rating display with filled and empty stars
                 for ($i = 1; $i <= 5; $i++) {
                     if ($i <= $rating) {
-                        echo '<span class="star filled">★</span>'; // Gelbe Sterne
+                        echo '<span class="star filled">★</span>';
                     } else {
-                        echo '<span class="star empty">☆</span>'; // Graue Sterne
+                        echo '<span class="star empty">☆</span>';
                     }
                 }
                 ?>
@@ -39,12 +42,14 @@ $conn->close();
     const slides = document.querySelectorAll(".feedback_slide");
     let currentIndex = 0;
 
+    // rotate to the next feedback slide
     function showNextSlide() {
         slides[currentIndex].classList.remove("active");
         currentIndex = (currentIndex + 1) % slides.length;
         slides[currentIndex].classList.add("active");
     }
 
+    // automatically slide after 5 seconds
     setInterval(showNextSlide, 5000);
 });
 </script>

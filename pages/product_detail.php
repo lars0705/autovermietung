@@ -2,14 +2,17 @@
 session_start();
 require_once "../components/db_connect.php"; 
 
+// get selected car type ID from URL, default to 0 if not set
 $id = isset($_GET['type_id']) ? intval($_GET['type_id']) : 0;
 
-// Standardwerte für Datumsübernahme aus product_list.php
+
+// retrieve location and date parameters from URL or set defaults
 $location = isset ($_GET['car_location']) ? $_GET['car_location'] : '';
 $default_pickup = isset($_GET['pickup_date']) ? $_GET['pickup_date'] : date('Y-m-d', strtotime('+1 day'));
 $default_return = isset($_GET['return_date']) ? $_GET['return_date'] : date('Y-m-d', strtotime('+2 days'));
 $count = isset($_GET['count']) ? intval($_GET['count']) : 0;
 
+// fetch car details from database based on type and location
 $stmt = $conn->prepare("SELECT * FROM car_rental_data WHERE type_id = ? AND loc_name = ?");
 $stmt->bind_param("is", $id, $location);
 $stmt->execute();
@@ -17,13 +20,14 @@ $result = $stmt->get_result();
 $car = $result->fetch_assoc();
 $stmt->close();
 
+// show error message if no car is found
 if (!$car) {
     die("Fahrzeug nicht gefunden.");
 }
 
 $location = htmlspecialchars($car["loc_name"]);
 
-// 🔹 Treuepunkte abrufen
+// retrieve user's loyalty points if logged in
 $user_loyalty_points = 0;
 if (isset($_SESSION["user_id"])) {
     $user_id = $_SESSION["user_id"];
@@ -36,10 +40,8 @@ if (isset($_SESSION["user_id"])) {
 }
 
 $conn->close();
-?>
 
-<?php 
-// Mapping-Array für Übersetzungen
+// translation mapping for vehicle attributes
 $translations = [
     "Combuster" => "Verbrenner",
     "Electric" => "Elektro",
@@ -47,9 +49,8 @@ $translations = [
     "manually" => "Schaltung",
 ];
 
-// Funktion für sicheres Mapping mit Fallback
 function translate($value, $translations) {
-    return $translations[$value] ?? ucfirst($value); // Falls kein Mapping existiert, ersten Buchstaben groß schreiben
+    return $translations[$value] ?? ucfirst($value);
 }
 ?>
 
@@ -67,7 +68,8 @@ function translate($value, $translations) {
 <div class="product_detail_container">
 
     <div class="detail_layout">
-        <!-- 🚗 Linke Seite: Fahrzeugbild & Preis -->
+
+        <!-- car image and price -->
         <div class="left_section" style="background-image: url('../assets/images/cars/<?php echo htmlspecialchars($car["img_file_name"]); ?>.png');">
             <h2><?php echo htmlspecialchars($car["vendor_name"]) . " " . htmlspecialchars($car["name"]); ?></h2>
             <p class="car_price_large"><?php echo number_format($car["price"], 2, ',', '.'); ?>€ / Tag</p>
@@ -80,7 +82,7 @@ function translate($value, $translations) {
             </p>
         </div>
 
-        <!-- 📊 Rechte Seite: Technische Daten & Buchungsdetails -->
+        <!-- technical details and booking information -->
         <div class="right_section">
             <div class="details_section">
                 <h3>Technische Daten</h3>
@@ -112,18 +114,18 @@ function translate($value, $translations) {
         </div>
     </div>
 
-    <!-- 📝 Formularfelder für Buchung -->
     <input type="hidden" name="type_id" value="<?php echo $id; ?>">
     <input type="hidden" name="car_location" value="<?php echo $location; ?>">
     <input type="hidden" id="pickup_date" name="pickup_date" value="<?php echo $default_pickup; ?>">
     <input type="hidden" id="return_date" name="return_date" value="<?php echo $default_return; ?>">
     <input type="hidden" id="price_per_day" value="<?php echo $car["price"]; ?>">
 
-    <!-- 🎯 Button-Sektion -->
     <div class="button_section">
         <button id="back_button" class="back_button">Zurück zur Fahrzeugübersicht</button>
 
         <?php if (isset($_SESSION["user_id"])): ?>
+            
+            <!-- booking form if logged in -->
             <form action="book_car.php" method="POST" id="booking-form">
             <input type="hidden" name="type_id" value="<?php echo $id; ?>">
             <input type="hidden" name="car_location" value="<?php echo $location; ?>">
@@ -134,7 +136,13 @@ function translate($value, $translations) {
         <button type="submit" id="book_button" class="book_button">Jetzt buchen</button>
         </form>
         <?php else: ?>
-            <p class="login_info">Bitte <a href="../pages/login.php">melden Sie sich an</a>, um ein Fahrzeug zu buchen.</p>
+
+            <!-- login / register buttons if not logged in -->
+            <p class="login_info">Bitte 
+            <a href="../pages/login.php?type_id=<?php echo $id; ?>&car_location=<?php echo $location; ?>&pickup_date=<?php echo $default_pickup; ?>&return_date=<?php echo $default_return; ?>&count=<?php echo $count; ?>">melden Sie sich an</a> 
+            oder 
+            <a href="../pages/register.php?type_id=<?php echo $id; ?>&car_location=<?php echo $location; ?>&pickup_date=<?php echo $default_pickup; ?>&return_date=<?php echo $default_return; ?>&count=<?php echo $count; ?>">registrieren Sie sich</a>
+            , um ein Fahrzeug zu buchen.</p>
         <?php endif; ?>
     </div>
 </div>
@@ -152,46 +160,44 @@ document.addEventListener("DOMContentLoaded", function () {
     const loyaltyDiscountElement = document.getElementById("loyalty_discount");
     const finalPriceElement = document.getElementById("final_price");
     const useLoyaltyCheckbox = document.getElementById("use_loyalty");
-    const pricePerDay = parseFloat(document.getElementById("price_per_day").value); // Preis als Float holen
-
+    const pricePerDay = parseFloat(document.getElementById("price_per_day").value);
     const pickupDate = new Date(document.getElementById("pickup_date").value);
     const returnDate = new Date(document.getElementById("return_date").value);
-    
-    if (!pickupDate || !returnDate || isNaN(pricePerDay)) {
-        console.error("Fehler: Ungültige Werte für Datum oder Preis.");
-        return;
-    }
-
     const userLoyaltyPoints = <?php echo $user_loyalty_points; ?>;
 
     function calculatePrice() {
+
+        // calculate number of rental days
         let days = (returnDate - pickupDate) / (1000 * 60 * 60 * 24);
-        if (days < 1) days = 1; // Falls es zu einer ungültigen Berechnung kommt, min. 1 Tag setzen
+        if (days < 1) days = 1; // ensure at least 1 day is charged
 
         let originalTotalPrice = days * pricePerDay;
         let discount = 0;
         let totalPrice = originalTotalPrice;
 
+        // apply loyalty points discount if checkbox is checked
         if (useLoyaltyCheckbox && useLoyaltyCheckbox.checked) {
             let maxDiscount = Math.floor(userLoyaltyPoints / 10) * 10;
             discount = Math.min(maxDiscount, Math.floor(originalTotalPrice / 10) * 10);
             totalPrice -= discount;
         }
 
+        // update price elements
         basePriceElement.innerText = originalTotalPrice.toFixed(2).replace('.', ',') + "€";
         loyaltyDiscountElement.innerText = discount > 0 ? "-" + discount.toFixed(2).replace('.', ',') + "€" : "-0,00€";
         finalPriceElement.innerText = totalPrice.toFixed(2).replace('.', ',') + "€";
     }
 
-    // Automatische Initialisierung
+    // initial price calculation on page load
     calculatePrice();
 
-    // Falls der Benutzer Treuepunkte aktiviert/deaktiviert, sofort berechnen
+    // recalculate price when loyalty points checkbox is toggled
     if (useLoyaltyCheckbox) {
         useLoyaltyCheckbox.addEventListener("change", calculatePrice);
     }
 });
 
+// handle back button functionality
 document.getElementById("back_button").addEventListener("click", function() {
     history.back();
 });

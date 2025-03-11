@@ -1,6 +1,6 @@
 <footer class="footer">
     <div class="footer_container">
-        <!-- Kontaktinformationen -->
+        <!-- contact section -->
         <div class="footer_section">
             <h3>Kontakt</h3>
             <ul>
@@ -10,7 +10,7 @@
             </ul>
         </div>
 
-        <!-- Schnellnavigation -->
+        <!-- navigation section -->
         <div class="footer_section">
             <h3>Navigation</h3>
             <ul>
@@ -24,7 +24,7 @@
             </ul>
         </div>
 
-        <!-- Social Media -->
+        <!-- Social Media section -->
         <div class="footer_section">
             <h3>Folge uns</h3>
             <div class="social_media">
@@ -35,7 +35,7 @@
             </div>
         </div>
 
-        <!-- Newsletter -->
+        <!-- Newsletter section -->
         <div class="footer_section newsletter">
             <h3>Newsletter</h3>
             <p>Erhalte die neuesten Angebote und Updates direkt in deinen Posteingang.</p>
@@ -46,6 +46,7 @@
         </div>
     </div>
 
+    <!-- disclaimer -->
     <div class="footer_bottom">
         <p>&copy; 2025 Sigmacars GmbH. Alle Rechte vorbehalten.</p>
     </div>

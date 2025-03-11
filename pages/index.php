@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="../css/style.css" />
   </head>
   <body>
+
+    <!-- start animation with logo-overlay -->
     <div id="intro_overlay" class="intro_overlay">
       <img src="../assets/images/sigmacars_logo.png" alt="Sigmacars Logo" id="intro_logo" class="intro_logo" />
     </div>
@@ -31,17 +33,17 @@
           const overlay = document.getElementById("intro_overlay");
           const logo = document.getElementById("intro_logo");
 
-          // Logo fade-in (0.3s Verzögerung)
+          // show logo after short delay
           setTimeout(() => {
               logo.style.opacity = "1";
           }, 300);
 
-          // Logo fade-out  (1.2s nach Start)
+          // hide logo after short delay
           setTimeout(() => {
               logo.style.opacity = "0";
           }, 1200);
 
-          // Schwarzer Bildschirm ausblenden  (1.8s nach Start)
+          // completely remove overlay
           setTimeout(() => {
               overlay.style.opacity = "0";
               setTimeout(() => {

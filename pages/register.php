@@ -2,29 +2,36 @@
 session_start();
 require_once "../components/db_connect.php";
 
-// Falls der Benutzer bereits eingeloggt ist, direkt zur Profilseite weiterleiten
+// redirect if user is already logged in
 if (isset($_SESSION["user_id"]) || isset($_COOKIE["user_id"])) {
     header("Location: profile.php");
     exit();
 }
 
-$return_url = isset($_GET['type_id']) ? "type_id=" . $_GET['type_id'] . "&pickup_date=" . $_GET['pickup_date'] . "&return_date=" . $_GET['return_date'] : "";
+// preserve return URL parameters for redirection after registration
+$return_url = isset($_GET['type_id']) ? "type_id=" . $_GET['type_id'] . "&car_location=" . $_GET['car_location'] . "&pickup_date=" . $_GET['pickup_date'] . "&return_date=" . $_GET['return_date'] . "&count=" . $_GET['count'] : "";
 
+// handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $conn->real_escape_string(trim($_POST["username"]));
     $email = $conn->real_escape_string(trim($_POST["email"]));
     $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
 
+    // check if email is already registered
     $stmt = $conn->prepare("SELECT user_id FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $stmt->store_result();
 
     if ($stmt->num_rows == 0) {
+
+        // insert new user into database
         $stmt = $conn->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
         $stmt->bind_param("sss", $username, $email, $password);
 
         if ($stmt->execute()) {
+            
+            // redirect user to login page after successful registration
             $redirect_url = "login.php?registered=true";
             if (!empty($return_url)) {
                 $redirect_url .= "&" . $return_url;
@@ -57,8 +64,10 @@ $conn->close();
     <div class="form-container">
         <h2>Registrieren</h2>
 
+        <!-- show error message if registration fails -->
         <?php if (isset($error)) echo "<p class='error'>$error</p>"; ?>
 
+        <!-- registration form -->
         <form action="register.php<?php echo $return_url ? '?' . $return_url : ''; ?>" method="POST">
             <input type="hidden" name="return_url" value="<?php echo htmlspecialchars($return_url); ?>">
 

@@ -7,7 +7,6 @@
   font-style: normal;
 }
 
-/* Scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -36,6 +35,9 @@ html, body {
   margin: 0;
   padding: 0;
   background-image: url("../assets/images/background.jpg");
+  background-size: cover;
+  background-repeat: repeat-y;
+  background-position: center top;
   color: white;
   display: flex;
   flex-direction: column;
@@ -82,18 +84,18 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 15px; /* Weniger Padding */
+  padding: 5px 15px;
   background-color: #131313;
   position: fixed;
   z-index: 1000;
   left: 0;
   right: 0;
   top: 0;
-  height: 40px; /* Reduzierte Höhe */
+  height: 40px;
 }
 
 .logo img {
-  height: 24px; /* Kleineres Logo */
+  height: 24px; 
 }
 
 .logo a:hover img {
@@ -107,7 +109,7 @@ button {
 }
 
 .nav_button {
-  font-size: 16px; /* Kleinere Schrift */
+  font-size: 16px; 
   font-weight: 300;
   text-decoration: none;
   transition: all 0.3s ease-in-out;
@@ -115,10 +117,11 @@ button {
   color: #b1b1b1;
 }
 
+/* for the bars between the nav buttons */
 .nav_button:not(:last-child)::after {
   content: "|";
   color: #b1b1b1;
-  margin-left: 20px; /* Weniger Abstand */
+  margin-left: 20px; 
   margin-right: 20px;
 }
 
@@ -238,17 +241,23 @@ button {
 
 
 /* ========== STARTSEITE (index.php) ========== */
-/* Video-Hintergrund */
+
+.section_title {
+  text-align: center;
+  padding-top: 100px;
+}
+
+/* for the hero-video */
 .video-container {
   width: 100vw;
-  height: 100vh;  /* Hero-Video nimmt gesamte Bildschirmhöhe ein */
+  height: 100vh;
   overflow: hidden;
   margin-top: -100px;
   position: relative;
 }
 
 .video-container video {
-  object-fit: cover; /* Stellt sicher, dass das Video den Bildschirm füllt */
+  object-fit: cover;
   width: 100vw;
   height: 100vh;
   position: absolute;
@@ -261,19 +270,18 @@ button {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); /* Zentriert das Logo */
+  transform: translate(-50%, -50%);
   text-align: center;
 }
 
 .hero-logo {
-  width: 250px; /* Logo-Größe anpassen */
+  width: 250px;
   max-width: 100%;
   opacity: 1;
   transition: opacity 0.5s ease-in-out;
 }
 
-
-/* Overlay-Text */
+/* for the start-animation */
 .overlay {
   position: absolute;
   top: 50%;
@@ -317,6 +325,7 @@ button {
   transition: opacity 0.8s ease-in-out;
 }
 
+/* specific style for the filter-form in index.php */
 .filter_container.index{
   width: 30%;
   position: fixed;
@@ -324,11 +333,7 @@ button {
   transform: translateX(-50%);
 }
 
-.section_title {
-  text-align: center;
-  padding-top: 100px;
-}
-
+/* for the categorie-cards */
 .categorie_container{
   padding: 50px 0;
   display: flex;
@@ -348,14 +353,12 @@ button {
   border-radius: 20px;
 }
 
-/* Animation für gehoverte Kachel */
 .categorie_container .item:hover{
   filter: brightness(1);
   transform: translateZ(240px);
   background-color: #420b0b;
 }
 
-/*Animation für die Kacheln, die sich links und rechts von der gehoverten Kachel befinden */
 .categorie_container .item:hover + *{
   filter: brightness(0.6);
   transform: translateZ(150px) rotateY(40deg);
@@ -390,6 +393,7 @@ button {
   color: white;
 }
 
+/* for the ad-section */
 .ad_section {
   position: relative;
   margin: 0px auto;
@@ -428,12 +432,12 @@ button {
 
 .ad_section a {
   position: absolute;
-  bottom: 15px; /* Etwas mehr Abstand für bessere Lesbarkeit */
+  bottom: 15px;
   right: 15px;
   display: inline-block;
   background-color: transparent;
-  border: 1px solid #b1b1b1; /* Dezentes Grau statt Weiß */
-  color: #d1d1d1; /* Sanftes Hellgrau für den Text */
+  border: 1px solid #b1b1b1;
+  color: #d1d1d1;
   padding: 10px 22px;
   font-size: 16px;
   font-weight: 500;
@@ -444,12 +448,12 @@ button {
 }
 
 .ad_section a:hover {
-  background-color: rgba(255, 0, 0, 0.1); /* Sehr dezente rote Schattierung */
+  background-color: rgba(255, 0, 0, 0.1); 
   color: white;
   border-color: white;
 }
 
-
+/* for the feedback-section */
 .feedback_section {
   max-width: 600px;
   height: 200px;
@@ -510,6 +514,7 @@ button {
   color: red;
 }
 
+/* for the recommended-cities-section*/
 .city_recommendations {
   display: flex;
   justify-content: center;
@@ -556,6 +561,7 @@ button {
   width: 80%;
 }
 
+/* for the about-us-section*/
 .about_container {
   display: flex;
   align-items: center;
@@ -594,10 +600,12 @@ button {
 
 /* ========== PRODUKTÜBERSICHT (product_list.php) ========== */
 
+/* specific style for the filter-form in product_list.php */
 .filter_container.product_list {
   width: 60%;
 }
 
+/* for the image, if page is loaded initially */
 .welcome_section {
   position: relative;
   margin: 50px auto;
@@ -633,6 +641,7 @@ button {
   font-size: 20px;
 }
 
+/* for the product-cards */
 .product_card_container {
   display: flex;
   flex-wrap: wrap;
@@ -660,16 +669,16 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 350px; /* Erhöhe die Höhe */
+  height: 350px;
   margin-top: 90px;
   background-color: transparent;
   border-radius: 0px;
 }
 
 .car_image img {
-  max-width: 100%; /* Passt sich an die Containergröße an */
-  max-height: 100%; /* Damit das Bild nicht überläuft */
-  object-fit: cover; /* Schneidet das Bild passend zu */
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
   border-radius: 15px;
 }
 
@@ -745,6 +754,7 @@ button {
 
 /* ========== FILTERFENSTER (filter_form.php) ========== */
 
+/* general style for both filter-forms */
 .filter_container {
   z-index: 1000;
   margin: 0 auto;
@@ -838,8 +848,6 @@ select option {
 
 /* ========== PRODUKTDETAILSEITE (product_detail.php) ========== */
 
-
-/* Hauptcontainer - Zentriert & 90% Breite */
 .product_detail_container {
   display: flex;
   flex-direction: column;
@@ -852,15 +860,12 @@ select option {
   border-radius: 15px;
 }
 
-/* Hauptlayout: Zwei Spalten (Links: Bild | Rechts: Infos) */
 .detail_layout {
   display: flex;
   gap: 20px;
   width: 100%;
 }
 
-/* 🚗 Linke Seite (Bild & Preis) */
-/* 🚗 Linke Seite (Hintergrundbild) */
 .left_section {
   flex: 1;
   position: relative;
@@ -870,7 +875,7 @@ select option {
   min-height: 500px;
 }
 
-/* 🔹 Overlay, um den Text auf dem Bild lesbarer zu machen */
+/* Overlay for better text visibility */
 .left_section::before {
   content: "";
   position: absolute;
@@ -878,16 +883,16 @@ select option {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.4); /* Dunkler Overlay */
+  background: rgba(0, 0, 0, 0.4);
   border-radius: 15px;
-  z-index: 1; /* Über das Hintergrundbild, aber unter dem Text */
+  z-index: 1; /* Above the background-picture, but below the text */
 }
 
 .left_section h2 {
   position: absolute;
-  top: 20px; /* Abstand von oben */
+  top: 20px; 
   margin-top: 0px;
-  left: 20px; /* Abstand von links */
+  left: 20px; 
   font-size: 36px;
   font-weight: bold;
   color: white;
@@ -897,7 +902,7 @@ select option {
 
 .car_price_large {
   position: absolute;
-  bottom: 50px; /* Abstand vom unteren Rand */
+  bottom: 50px; 
   margin-bottom: 0px;
   left: 20px;
   font-size: 28px;
@@ -909,7 +914,7 @@ select option {
 
 .km_info {
   position: absolute;
-  bottom: 20px; /* Direkt unter dem Preis */
+  bottom: 20px; 
   margin-bottom: 0px;
   left: 20px;
   font-size: 20px;
@@ -929,9 +934,6 @@ select option {
   z-index: 2;
 }
 
-
-
-/* 📊 Rechte Seite (Technische Daten & Buchungsdetails) */
 .right_section {
   flex: 1;
   display: flex;
@@ -939,7 +941,6 @@ select option {
   gap: 20px;
 }
 
-/* Box für Technische Daten & Buchungsdetails */
 .details_section {
   background: #0b0b0b;
   padding: 20px;
@@ -953,7 +954,6 @@ select option {
   margin-top: 0px;
 }
 
-/* 📌 Zweispaltiges Grid für Technische Daten */
 .details_grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -974,7 +974,6 @@ select option {
   gap: 500px;
 }
 
-/* ⬅️ "Zurück zur Fahrzeugübersicht"-Button */
 .back_button {
   background: transparent;
   border: 2px solid white;
@@ -1000,7 +999,6 @@ select option {
   gap: 20px;
 }
 
-/* 🏆 Treuepunkte nutzen */
 .loyalty_button {
   background: transparent;
   border: 2px solid #FFD700;
@@ -1020,7 +1018,6 @@ select option {
   color: black;
 }
 
-/* 🎯 "Jetzt Buchen"-Button */
 .book_button {
   background: red;
   border: none;
@@ -1056,7 +1053,8 @@ select option {
 }
 
 /* ========== LOGIN & REGISTRIERUNG (login.php & register.php) ========== */
-/* Registrierungsformular */
+
+/* shared styles for login.php and register.php */
 .form-container {
   background: #2b2b2b;
   padding: 30px;
@@ -1067,10 +1065,9 @@ select option {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 80px auto; /* Zentriert das Formular */
+  margin: 40px auto;
 }
 
-/* Titel */
 .form-container h2 {
   margin-bottom: 20px;
   font-size: 24px;
@@ -1078,7 +1075,6 @@ select option {
   color: #ffffff;
 }
 
-/* Input-Felder */
 .form-container input[type="text"],
 .form-container input[type="email"],
 .form-container input[type="password"] {
@@ -1090,13 +1086,12 @@ select option {
   background: #333;
   color: #ffffff;
   font-size: 16px;
-  text-align: center;  /* Zentriert den Text im Input */
+  text-align: center; 
 }
 
-/* Registrieren-Button */
 .form-container button {
   width: 100%;
-  background: #28a745;
+  background: red;
   color: white;
   font-size: 18px;
   padding: 12px;
@@ -1108,10 +1103,9 @@ select option {
 }
 
 .form-container button:hover {
-  background: #218838;
+  background: darkred;
 }
 
-/* Erfolgsmeldung */
 .success {
   background: #28a745;
   color: white;
@@ -1120,16 +1114,14 @@ select option {
   margin-bottom: 15px;
 }
 
-/* Fehlermeldung */
 .error {
-  background: #dc3545;
+  background: red;
   color: white;
   padding: 10px;
   border-radius: 5px;
   margin-bottom: 15px;
 }
 
-/* Login-Link */
 .form-container p {
   margin-top: 15px;
   font-size: 14px;
@@ -1137,7 +1129,7 @@ select option {
 }
 
 .form-container a {
-  color: #007bff;
+  color: red;
   text-decoration: none;
   font-weight: bold;
 }
@@ -1145,120 +1137,9 @@ select option {
 .form-container a:hover {
   text-decoration: underline;
 }
-
-/* Container für das Login-Formular */
-.form-container {
-  background: #2b2b2b;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-  width: 350px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: auto; /* Zentriert das Formular auf der Seite */
-}
-
-/* Titel */
-.form-container h2 {
-  margin-bottom: 20px;
-  font-size: 24px;
-  font-weight: bold;
-  color: #ffffff;
-}
-
-/* Input-Container für perfekte Ausrichtung */
-.input-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
-/* Input-Felder */
-.form-container input[type="email"],
-.form-container input[type="password"] {
-  width: 90%;
-  padding: 12px;
-  margin: 10px 0;
-  border: 1px solid #444;
-  border-radius: 5px;
-  background: #333;
-  color: #ffffff;
-  font-size: 16px;
-  text-align: center;  /* Zentriert den Text im Input */
-}
-
-/* Checkbox für "Angemeldet bleiben" */
-.form-container label {
-  font-size: 14px;
-  color: #ccc;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  margin-top: 5px;
-}
-
-/* Login-Button */
-.form-container button {
-  width: 100%;
-  background: #007bff;
-  color: white;
-  font-size: 18px;
-  padding: 12px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  margin-top: 15px;
-}
-
-.form-container button:hover {
-  background: #0056b3;
-}
-
-/* Erfolgsmeldung */
-.success {
-  background: #28a745;
-  color: white;
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 15px;
-}
-
-/* Fehlermeldung */
-.error {
-  background: #dc3545;
-  color: white;
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 15px;
-}
-
-/* Registrierungslink */
-.form-container p {
-  margin-top: 15px;
-  font-size: 14px;
-  color: #ccc;
-}
-
-.form-container a {
-  color: #007bff;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.form-container a:hover {
-  text-decoration: underline;
-}
-
-
 
 /* ========== PROFILSEITE (profile.php) ========== */
 
-/* Layout für die Hauptinhalte */
 .profile_content {
   position: relative;
   margin-top: 60px;
@@ -1266,7 +1147,6 @@ select option {
   height: 700px;
 }
 
-/* Linke Seite: Profildaten */
 .profile-container {
   background: #3b3b3b;
   padding: 30px;
@@ -1309,7 +1189,7 @@ h2 {
 .button {
   display: block;
   text-decoration: none;
-  background: #444; /* Dunkles Grau für besseren Kontrast */
+  background: #444;
   color: white;
   padding: 12px;
   border-radius: 6px;
@@ -1326,7 +1206,6 @@ h2 {
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
 }
 
-/* Spezieller Logout-Button in Rot */
 .logout {
   background: #a40000;
   border: 2px solid #ff0000;
@@ -1338,8 +1217,6 @@ h2 {
   box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
 }
 
-
-/* Rechte Seite: Feedback-Frame */
 .my-feedback-container {
   background: #3b3b3b;
   padding: 20px;
@@ -1354,7 +1231,6 @@ h2 {
   height: 400px;
 }
 
-/* Scrollbarer Feedback-Bereich */
 .feedback-list {
   display: flex;
   flex-direction: column;
@@ -1374,7 +1250,6 @@ h2 {
   border-radius: 6px;
 }
 
-/* Styling der Feedback-Einträge */
 .feedback-item {
   background: #555;
   padding: 12px;
@@ -1405,7 +1280,6 @@ h2 {
   background: darkred;
 }
 
-/* Sternebewertung */
 .feedback-rating {
   font-size: 18px;
   color: #ccc;
@@ -1428,8 +1302,8 @@ h2 {
   gap: 20px;
   padding: 20px;
   max-width: 90%;
-  margin: 100px auto; /* Abstand nach unten & oben für den Header */
-  background: #131313; /* Dunkleres Grau für modernen Look */
+  margin: 100px auto;
+  background: #131313;
   border-radius: 15px;
 }
 
@@ -1474,7 +1348,6 @@ h2 {
   margin-right: 10px;
 }
 
-/* Startdatum */
 .start_date {
   font-size: 14px;
   color: #aaa;
@@ -1516,7 +1389,7 @@ h2 {
 .bookings_table {
   width: 100%;
   border-spacing: 0;
-  background: #2b2b2b; /* Dunkleres Grau für einen edlen Look */
+  background: #2b2b2b;
   overflow: hidden;
 }
 
@@ -1530,7 +1403,7 @@ h2 {
   border: 1px solid #ddd;
   padding: 12px;
   font-size: 14px;
-  color: #ddd; /* Helles Grau für bessere Lesbarkeit */
+  color: #ddd;
 }
 
 .bookings_table tr:hover {
@@ -1549,8 +1422,9 @@ h2 {
   border: 1px solid white;
 }
 
-/* ========== STATISCHE SEITEN (terms.php / privacy_policy.php / imprint.php) ========== */
+/* ========== STATISCHE SEITEN (terms.php / privacy_policy.php / imprint.php / loyalty_system.php) ========== */
 
+/* shared styles for static pages (terms.php / privacy_policy.php / imprint.php / loyalty_system.php */
 .static_content {
     background-color: #131313;
     padding: 40px;
@@ -1606,56 +1480,27 @@ h2 {
     text-align: center;
 }
 
-/*PAGING*/
-.pagination {
-  text-align: center;
-  margin: 20px 0;
-}
-
-.pagination_button {
-  display: inline-block;
-  padding: 10px 15px;
-  margin: 5px;
-  text-decoration: none;
-  background: #007BFF;
-  color: white;
-  border-radius: 5px;
-  font-weight: bold;
-}
-
-.pagination_button:hover {
-  background: #0056b3;
-}
-
-.pagination_button.active {
-  background: #0056b3;
-  pointer-events: none;
-}
-
 /* ==========  FEEDBACK (feedback.php) ========== */
 
-/* 🚀 Feedback-Container */
 .feedback-container {
   max-width: 500px;
   margin: auto;
   margin-top: 100px;
   padding: 25px;
-  background: rgba(255, 255, 255, 0.15); /* Transparenter Effekt */
+  background: rgba(255, 255, 255, 0.15); 
   border-radius: 15px;
-  backdrop-filter: blur(10px); /* Glas-Effekt */
+  backdrop-filter: blur(10px); 
   box-shadow: 0px 10px 20px rgba(255, 255, 255, 0.2);
   text-align: center;
   animation: fadeIn 1s ease-in-out;
 }
 
-/* ✨ Überschrift */
 .feedback-container h2 {
   font-size: 26px;
   font-weight: bold;
   margin-bottom: 15px;
 }
 
-/* 📝 Eingabefelder */
 textarea {
   width: 100%;
   height: 120px;
@@ -1669,7 +1514,6 @@ textarea {
   outline: none;
 }
 
-/* 🟡 Sterne-Bewertung */
 .star-rating {
   display: flex;
   justify-content: center;
@@ -1690,7 +1534,6 @@ textarea {
   transform: scale(1.2);
 }
 
-/* ✅ Absenden-Button */
 .fb_submit_button {
   display: block;
   width: 100%;
@@ -1711,14 +1554,12 @@ textarea {
   box-shadow: 0px 10px 20px rgba(255, 215, 0, 0.5);
 }
 
-/* ⚠️ Fehleranzeige */
 .error {
   color: #ff4d4d;
   font-weight: bold;
   margin-bottom: 10px;
 }
 
-/* 📌 Footer fixieren */
 footer {
   margin-top: auto;
   background: #111;
@@ -1726,7 +1567,6 @@ footer {
   text-align: center;
 }
 
-/* 🌟 Animation für sanftes Einblenden */
 @keyframes fadeIn {
   from {
       opacity: 0;

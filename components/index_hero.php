@@ -1,3 +1,4 @@
+<!-- hero-video section in index.php -->
 <div class="video-container">
     <video id="heroVideo" autoplay muted playsinline></video>
     <div class="video-overlay">
@@ -9,6 +10,8 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const video = document.getElementById("heroVideo");
+
+        // array of video sources for looping playback
         const videos = [
             "../assets/videos/Hero_1.mp4",
             "../assets/videos/Hero_2.mp4",
@@ -17,6 +20,7 @@
 
         let currentVideo = 0;
 
+        // cycles through the videos
         function playNextVideo() {
             video.src = videos[currentVideo];
             video.load();
@@ -26,17 +30,5 @@
 
         video.addEventListener("ended", playNextVideo);
         playNextVideo();
-    });
-
-    document.addEventListener("DOMContentLoaded", function () {
-        const videoContainer = document.querySelector(".video-container");
-
-        window.addEventListener("scroll", function () {
-            let scrollTop = window.scrollY;
-            let maxScroll = window.innerHeight / 2; // Bis zur Hälfte des Screens soll das Video verblassen
-            let opacity = Math.max(0, 1 - scrollTop / maxScroll);
-
-            videoContainer.style.opacity = opacity;
-        });
     });
 </script>

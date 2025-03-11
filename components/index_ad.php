@@ -1,3 +1,4 @@
+<!-- ad section in index.php -->
 <div class="ad_section">
     <img src="../assets/images/loyalty_ad.jpg" alt="Willkommen bei SigmaCars">
     <div class="ad_text">
