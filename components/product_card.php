@@ -1,16 +1,17 @@
 <?php
-// 1️⃣ Session nur starten, wenn noch keine existiert
+// Start the session only if none exists yet
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
 require_once "../components/db_connect.php";
 
-// 2️⃣ Werte aus der URL abrufen
+// Get values from URL or set default dates if not provided
 $location = $_GET['location'] ?? '';
 $pickup_date = $_GET['pickup_date'] ?? date('Y-m-d', strtotime('+1 day'));
 $return_date = $_GET['return_date'] ?? date('Y-m-d', strtotime('+2 days'));
 
+// Get filter values from URL or set to null if not provided
 $doors = !empty($_GET['doors']) ? $_GET['doors'] : null;
 $trunk = !empty($_GET['trunk']) ? $_GET['trunk'] : null;
 $seats = !empty($_GET['seats']) ? $_GET['seats'] : null;
@@ -24,9 +25,7 @@ $drivetrain = !empty($_GET['drivetrain']) ? $_GET['drivetrain'] : null;
 $transmission = !empty($_GET['transmission']) ? $_GET['transmission'] : null;
 $order = $_GET['order'] ?? 'asc';
 
-
-
-// 3️⃣ Alle Fahrzeuge aus `car_rental_data` abrufen
+// Fetch all cars for the selected location
 $sql = "SELECT * FROM car_rental_data WHERE loc_name = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $location);
@@ -39,7 +38,7 @@ while ($row = $result->fetch_assoc()) {
 }
 $stmt->close();
 
-// 4️⃣ Alle Buchungen aus `bookings` abrufen
+// Fetch all bookings for the location that overlap with the selected rental period
 $sql = "SELECT car_id, type_id, pickup_date, return_date, car_location FROM bookings WHERE car_location = ? AND is_cancelled = 0
         AND (
             (? BETWEEN pickup_date AND return_date) OR
@@ -56,19 +55,18 @@ $bookings = [];
 $booked_cars = [];
 while ($row = $result->fetch_assoc()) {
     $bookings[] = $row;
-    $booked_cars[$row["car_id"]] = $row; // Speichert `car_id` für späteren Vergleich
+    $booked_cars[$row["car_id"]] = $row; // Store booked car IDs for availability check
 }
 $stmt->close();
 
-// 5️⃣ Berechnung: Verfügbare Fahrzeuge
+// Filter cars to only include those that are available (not booked)
 $available_cars = array_filter($cars, function ($car) use ($booked_cars) {
     return !isset($booked_cars[$car["car_id"]]); // Entfernt gebuchte Autos
 });
 
-// 6️⃣ Berechnung: Nicht verfügbare Fahrzeuge (Alle aus `bookings`)
+// Get list of unavailable cars (those booked)
 $unavailable_cars = array_intersect_key($cars, $booked_cars);
 
-// 7️⃣ Frames pro `type_id` & `location` erstellen
 $conn->close();
 ob_end_clean();
 ?>
@@ -81,7 +79,7 @@ ob_end_clean();
 </head>
 <body>
 <?php 
-
+// Group cars by key (type_id + location + price), and count how many cars are in each group
 foreach ($available_cars as $car) {
     $key = $car['type_id'] . '|' . $car['loc_name'] . '|' . $car['price']; // Eindeutiger Schlüssel
 
@@ -113,31 +111,32 @@ foreach ($available_cars as $car) {
 
 }
 
-// Anzahl der Fahrzeuge pro Seite
+// Pagination setup: number of vehicles per page
 $vehicles_per_page = 9;
 
-// Aktuelle Seite aus der URL holen (Standard: 1)
+// get current page from URL and set default
 $current_page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 
-// Berechnung des Offsets für die SQL-Abfrage
+// calculate offset for SQL-request
 $offset = ($current_page - 1) * $vehicles_per_page;
 
-// Gesamtanzahl der Fahrzeuge ermitteln
+// get total amount of cars
 $total_vehicles = count($grouped_cars);
 $total_pages = ceil($total_vehicles / $vehicles_per_page);
 
-// Preissortierung anwenden
+// Sort cars by price based on user selection
 if ($order === 'asc') {
     uasort($grouped_cars, function($a, $b) {
-        return $a['price'] <=> $b['price']; // Aufsteigend sortieren
+        return $a['price'] <=> $b['price']; // sort ascendend
     });
 } elseif ($order === 'desc') {
     uasort($grouped_cars, function($a, $b) {
-        return $b['price'] <=> $a['price']; // Absteigend sortieren
+        return $b['price'] <=> $a['price']; // Asort descendend
     });
 }
 
-// Fahrzeuge für die aktuelle Seite extrahieren
+
+// Get cars for the current page
 $displayed_cars = array_slice($grouped_cars, $offset, $vehicles_per_page, true);
 
 ?>
@@ -147,7 +146,7 @@ $displayed_cars = array_slice($grouped_cars, $offset, $vehicles_per_page, true);
 <?php endif; ?>
 
 <?php
-// Mapping-Array für Übersetzungen
+// Translation map for technical terms
 $translations = [
     "Combuster" => "Verbrenner",
     "Electric" => "Elektro",
@@ -155,13 +154,13 @@ $translations = [
     "manually" => "Schaltung",
 ];
 
-// Funktion für sicheres Mapping mit Fallback
+// Helper function to translate values or capitalize them if no translation exists
 function translate($value, $translations) {
-    return $translations[$value] ?? ucfirst($value); // Falls kein Mapping existiert, ersten Buchstaben groß schreiben
+    return $translations[$value] ?? ucfirst($value); // if no mapping exists write first letter caps
 }
 ?>
 
-<!-- Fahrzeugkarten -->
+<!-- Display product cards -->
 <div class="product_card_container">
     <?php $hasCars = false; ?>
     <?php if (!empty($displayed_cars)): ?>
@@ -212,7 +211,7 @@ function translate($value, $translations) {
         <p class="error_message">Keine Fahrzeuge mit den gewählten Filtern verfügbar.</p>
     <?php endif; ?>
 </div>
-<!-- Paging-Navigation -->
+<!-- Pagination controls -->
 <?php if ($total_pages > 1 && $hasCars): ?>
     <div class="pagination">
         <?php if ($current_page > 1): ?>

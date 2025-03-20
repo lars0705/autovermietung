@@ -3,11 +3,11 @@ session_start();
 require_once "../components/db_connect.php"; 
 include '../components/header.php';
 
-// Prüfen, ob der Benutzer angemeldet ist
+// Check if the user is logged in
 if (!isset($_SESSION["user_id"])) {
     header("Location: product_list.php?error=unavailable&pickup_date=" . urlencode($pickup_date) . "&return_date=" . urlencode($return_date) . "&location=" . urlencode($location));
     exit();
-    //Fehler: Sie müssen eingeloggt sein, um eine Buchung vorzunehmen
+    // Error: You must be logged in to make a booking
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (strtotime($pickup_date) >= strtotime($return_date)) {
         header("Location: product_list.php?error=unavailable&pickup_date=" . urlencode($pickup_date) . "&return_date=" . urlencode($return_date) . "&location=" . urlencode($location));
         exit();
-        //Fehler: Das Rückgabedatum muss nach dem Abholdatum liegen
+        // Error: Return date must be after pickup date
     }
 
     $pickup = new DateTime($pickup_date);
@@ -31,10 +31,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($days < 1) {
         header("Location: product_list.php?error=unavailable&pickup_date=" . urlencode($pickup_date) . "&return_date=" . urlencode($return_date) . "&location=" . urlencode($location));
         exit();
-        //Fehler: Ungültiger Mietzeitraum
+        // Error: Invalid rental period
     }
 
-    // Verfügbare `car_id` für die gegebene `type_id` suchen
+    // Find available `car_id` for the given `type_id`
     $stmt = $conn->prepare("
         SELECT car_id, price FROM car_rental_data 
         WHERE type_id = ? AND loc_name = ?
@@ -57,12 +57,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (!$car_id) {
         header("Location: product_list.php?error=unavailable&pickup_date=" . urlencode($pickup_date) . "&return_date=" . urlencode($return_date) . "&location=" . urlencode($location));
         exit();
-        //Fehler: Kein verfügbares Fahrzeug
+        // Error: No available vehicle
     }
 
     $total_price = $price_per_day * $days;
     
-    // **Loyalty-Punkte abrufen**
+    // Retrieve loyalty points
     $stmt = $conn->prepare("SELECT points FROM loyalty_program WHERE user_id = ?");
     $stmt->bind_param("i", $user_id);
     $stmt->execute();
@@ -74,21 +74,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $loyalty_discount = 0;
     $points_used = 0;
 
-    // **Punkte verwenden, falls gewünscht**
+    // Use loyalty points if selected
     if ($use_loyalty && $loyalty_points > 0) {
-        $max_discount = floor($loyalty_points / 10) * 10; // Punkte in 10er-Schritten
-        $allowed_discount = floor($total_price / 10) * 10; // Maximaler Rabatt in 10er-Schritten des Gesamtpreises
-        $loyalty_discount = min($max_discount, $allowed_discount); // Rabatt ist das Minimum aus beiden Werten
-        $points_used = $loyalty_discount; // Punkte entsprechend dem gewährten Rabatt
+        $max_discount = floor($loyalty_points / 10) * 10; // Points in steps of 10
+        $allowed_discount = floor($total_price / 10) * 10; // Max discount in steps of 10 of total price
+        $loyalty_discount = min($max_discount, $allowed_discount); // Final discount is the lower of the two
+        $points_used = $loyalty_discount; // Points used match the discount
         $total_price -= $loyalty_discount;
     }
     
 
 
-    // **Neue Punkte berechnen: 10 Punkte pro 100 € Umsatz**
+    // Calculate new points: 10 points per 100 € revenue
     $points_earned = floor($total_price / 100) * 10;
 
-    // **Buchung speichern**
+    // Save booking
     $booked_date = date("Y-m-d H:i:s");
 
     $stmt = $conn->prepare("
@@ -99,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt->execute();
     $stmt->close();
 
-    // **Treuepunkte aktualisieren**
+    // Update loyalty points
     $stmt = $conn->prepare("UPDATE loyalty_program SET points = points - ? + ? WHERE user_id = ?");
     $stmt->bind_param("iii", $points_used, $points_earned, $user_id);
     $stmt->execute();

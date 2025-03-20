@@ -2,7 +2,7 @@
 session_start();
 session_destroy();
 
-// Cookies löschen
+// delete Cookies
 setcookie("user_id", "", time() - 3600, "/");
 setcookie("username", "", time() - 3600, "/");
 

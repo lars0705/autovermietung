@@ -21,8 +21,8 @@
                 <h2>Treuepunkte sammeln</h2>
                 <p>Jede abgeschlossene Buchung bringt dir Treuepunkte:</p>
                 <ul>
-                    <li>Für jeweils <strong>100€ Buchungswert</strong> bekommst du <strong>1 Treuepunkt</strong>.</li>
-                    <li>Der Treuepunkte-Betrag wird immer abgerundet. Beispiel: Bei einer Buchung von <strong>259€</strong> erhältst du <strong>2 Treuepunkte</strong>.</li>
+                    <li>Für jeweils <strong>100€ Buchungswert</strong> bekommst du <strong>10 Treuepunkte</strong>.</li>
+                    <li>Der Treuepunkte-Betrag wird immer abgerundet. Beispiel: Bei einer Buchung von <strong>259€</strong> erhältst du <strong>25 Treuepunkte</strong>.</li>
                     <li>Treuepunkte werden deinem Konto gutgeschrieben, sobald die Buchung abgeschlossen ist.</li>
                 </ul>
             </section>
@@ -31,8 +31,8 @@
                 <h2>Treuepunkte einlösen</h2>
                 <p>Beim Bezahlen kannst du deine gesammelten Treuepunkte für Rabatte nutzen:</p>
                 <ul>
-                    <li><strong>Jeder Treuepunkt</strong> reduziert den Preis um genau <strong>10€</strong>.</li>
-                    <li>Beispiel: Bei einer Buchung für <strong>102,61€</strong> kannst du maximal <strong>10 Treuepunkte</strong> einlösen und zahlst dann nur noch <strong>2,61€</strong>.</li>
+                    <li><strong>Jede 10 Treuepunkte</strong> reduzieren den Preis um genau <strong>10€</strong>.</li>
+                    <li>Beispiel: Bei einer Buchung für <strong>102,61€</strong> kannst du maximal <strong>100 Treuepunkte</strong> einlösen und zahlst dann nur noch <strong>2,61€</strong>.</li>
                 </ul>
             </section>
 
