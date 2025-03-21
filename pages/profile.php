@@ -12,10 +12,10 @@ require_once "../components/db_connect.php";
 $user_id = $_SESSION["user_id"] ?? $_COOKIE["user_id"];
 
 // fetch user details from database
-$stmt = $conn->prepare("SELECT username, email, created_at FROM users WHERE user_id = ?");
+$stmt = $conn->prepare("SELECT username, email, created_at, firstname, lastname FROM users WHERE user_id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
-$stmt->bind_result($username, $email, $created_at);
+$stmt->bind_result($username, $email, $created_at, $firstname, $lastname);
 $stmt->fetch();
 $stmt->close();
 
@@ -59,7 +59,7 @@ $conn->close();
         <div class="profile-avatar">
             <?php echo strtoupper(substr($username, 0, 1)); ?>
         </div>
-        <h2>Willkommen, <?php echo htmlspecialchars($username); ?></h2>
+        <h2>Willkommen, <?php echo htmlspecialchars($firstname) . " " . htmlspecialchars($lastname); ?></h2>
         <div class="profile-info">
             <p><strong>Benutzername:</strong> <?php echo htmlspecialchars($username); ?></p>
             <p><strong>E-Mail:</strong> <?php echo htmlspecialchars($email); ?></p>

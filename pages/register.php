@@ -14,6 +14,8 @@ $return_url = isset($_GET['type_id']) ? "type_id=" . $_GET['type_id'] . "&car_lo
 // handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $conn->real_escape_string(trim($_POST["username"]));
+    $firstname = $conn->real_escape_string(trim($_POST["firstname"]));
+    $lastname = $conn->real_escape_string(trim($_POST["lastname"]));
     $email = $conn->real_escape_string(trim($_POST["email"]));
     $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
 
@@ -26,8 +28,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($stmt->num_rows == 0) {
 
         // insert new user into database
-        $stmt = $conn->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $username, $email, $password);
+        $stmt = $conn->prepare("INSERT INTO users (username, firstname, lastname, email, password) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $username, $firstname, $lastname, $email, $password);
 
         if ($stmt->execute()) {
             
@@ -72,6 +74,8 @@ $conn->close();
             <input type="hidden" name="return_url" value="<?php echo htmlspecialchars($return_url); ?>">
 
             <input type="text" name="username" placeholder="Benutzername" required>
+            <input type="text" name="firstname" placeholder="Vorname" required>
+            <input type="text" name="lastname" placeholder="Nachname" required>
             <input type="email" name="email" placeholder="E-Mail" required>
             <input type="password" name="password" placeholder="Passwort" required>
             
